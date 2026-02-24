@@ -1,0 +1,17 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1B2130"/>
+      <stop offset="1" stop-color="#2D3550"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="240" y1="160" x2="960" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5163FF" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#9AA8FF" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg)"/>
+  <rect x="240" y="160" width="720" height="380" rx="22" fill="url(#glass)" stroke="#CED7FF" stroke-opacity="0.56"/>
+  <text x="600" y="330" text-anchor="middle" fill="#EEF2FF" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="700">Proyecto</text>
+  <text x="600" y="390" text-anchor="middle" fill="#CED7F5" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">Sin imagen disponible</text>
+  <text x="600" y="442" text-anchor="middle" fill="#87F8A7" font-family="Fira Code, monospace" font-size="24">Terminal Glass</text>
+</svg>
