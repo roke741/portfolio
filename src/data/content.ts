@@ -29,7 +29,7 @@ export interface SkillCard {
 }
 
 export interface ProjectItem {
-  image: string;
+  image?: string;
   title: string;
   description: string;
   githubUrl?: string;
@@ -42,6 +42,22 @@ export interface ContactContent {
   messageLabel: string;
   messagePlaceholder: string;
   submitLabel: string;
+}
+
+export interface JourneyItem {
+  period: string;
+  title: string;
+  organization: string;
+  summary: string;
+  tags: string[];
+}
+
+export interface JourneyContent {
+  title: string;
+  experienceTitle: string;
+  educationTitle: string;
+  experience: JourneyItem[];
+  education: JourneyItem[];
 }
 
 export interface FooterContent {
@@ -70,6 +86,7 @@ export const header = {
     { label: 'Presentation', href: '#presentation' },
     { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
+    { label: 'Journey', href: '#journey' },
     { label: 'Contact', href: '#contact' }
   ] satisfies NavItem[]
 };
@@ -88,7 +105,50 @@ export const hero: HeroContent = {
 export const sectionTitles = {
   skills: 'Skills',
   projects: 'Projects',
+  journey: 'Journey',
   contact: 'Contact'
+};
+
+export const journey: JourneyContent = {
+  title: 'Journey',
+  experienceTitle: 'Experience',
+  educationTitle: 'Education',
+  experience: [
+    {
+      period: '2024 — Actualidad',
+      title: 'Desarrollador Full Stack Independiente',
+      organization: 'Proyectos freelance y personales',
+      summary:
+        'Desarrollo de soluciones web con enfoque en frontend moderno, APIs backend y automatización de procesos administrativos.',
+      tags: ['Astro', 'Angular', 'Spring Boot', 'Laravel', 'MySQL']
+    },
+    {
+      period: '2023 — 2024',
+      title: 'Desarrollo de productos académicos y MVPs',
+      organization: 'Proyectos colaborativos',
+      summary:
+        'Implementación de sistemas de ventas, herramientas de consulta de datos y prototipos funcionales orientados a negocio.',
+      tags: ['Java', 'TypeScript', 'Python', 'Bootstrap']
+    }
+  ],
+  education: [
+    {
+      period: 'Formación continua',
+      title: 'Especialización práctica en desarrollo web',
+      organization: 'Rutas técnicas y proyectos aplicados',
+      summary:
+        'Aprendizaje constante mediante construcción de productos reales, arquitectura de software y buenas prácticas de UX/UI.',
+      tags: ['Frontend', 'Backend', 'DevOps']
+    },
+    {
+      period: 'Base académica',
+      title: 'Fundamentos de ingeniería y algoritmos',
+      organization: 'Formación universitaria/técnica',
+      summary:
+        'Consolidación de lógica, estructuras de datos y diseño de soluciones para problemas reales.',
+      tags: ['Estructuras de Datos', 'Algoritmos', 'Arquitectura']
+    }
+  ]
 };
 
 export const skillColumns: SkillCard[][] = [
@@ -110,12 +170,31 @@ export const skillColumns: SkillCard[][] = [
   ]
 ];
 
-export const skillsImage = {
-  src: '/assets/img-skills.png',
-  alt: 'Tecnologías y habilidades'
-};
-
 export const projects: ProjectItem[] = [
+  {
+    title: 'Facturación Electrónica',
+    description:
+      'Integración y automatización de procesos de facturación electrónica con enfoque en cumplimiento SUNAT y trazabilidad operativa.',
+    githubUrl: 'https://github.com/roke741/laravel-sire-sunat'
+  },
+  {
+    title: 'Guías Electrónicas',
+    description:
+      'Módulo de gestión de guías electrónicas para control de despacho, validación documental y flujo administrativo.',
+    githubUrl: 'https://github.com/roke741/guias-sunat'
+  },
+  {
+    image: '/assets/my-cash-card.svg',
+    title: 'My Cash',
+    description: 'Aplicación mobile de finanzas personales para control de gastos, presupuestos y metas.',
+    githubUrl: 'https://github.com/roke741/my-cash'
+  },
+  {
+    image: '/assets/clone-egg-card.svg',
+    title: 'Clone Egg',
+    description: 'Réplica funcional de la plataforma Egg con enfoque en experiencia de usuario y flujo real.',
+    githubUrl: 'https://github.com/roke741/clone-egg'
+  },
   {
     image: '/assets/TiendaEcommerce-bootstrap5.png',
     title: 'Tienda Ecommerce Bootstrap 5',

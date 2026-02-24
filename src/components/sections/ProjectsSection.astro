@@ -14,7 +14,7 @@ const { title, projects } = Astro.props;
 <section id="projects">
   <div class="page-container section-shell section-stack">
     <SectionTitle text={title} />
-    <div class="mx-auto grid w-full max-w-[1240px] grid-cols-3 gap-6 max-md:max-w-[620px] max-md:grid-cols-1 max-md:box-border max-md:gap-5 max-md:px-2 max-md:py-4">
+    <div class="mx-auto grid w-full max-w-[1080px] grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 max-md:max-w-[620px] max-md:box-border max-md:gap-4 max-md:px-1 max-md:py-2">
       {projects.map((project) => (
         <ProjectCard project={project} />
       ))}

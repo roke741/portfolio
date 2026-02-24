@@ -3,20 +3,23 @@ import ContactSection from '../components/sections/ContactSection.astro';
 import FooterSection from '../components/sections/FooterSection.astro';
 import Header from '../components/sections/Header.astro';
 import HeroSection from '../components/sections/HeroSection.astro';
+import JourneySection from '../components/sections/JourneySection.astro';
 import ProjectsSection from '../components/sections/ProjectsSection.astro';
 import SkillsSection from '../components/sections/SkillsSection.astro';
 import Separator from '../components/ui/Separator.astro';
 import ThemeToggle from '../components/ui/ThemeToggle.astro';
-import { contact, footer, header, hero, projects, sectionTitles, seo, skillColumns, skillsImage } from '../data/content';
+import { contact, footer, header, hero, journey, projects, sectionTitles, seo, skillColumns } from '../data/content';
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout seo={seo}>
 	<Header brand={header.brand} navItems={header.navItems} />
 	<HeroSection hero={hero} />
-	<SkillsSection title={sectionTitles.skills} columns={skillColumns} imageSrc={skillsImage.src} imageAlt={skillsImage.alt} />
+	<SkillsSection title={sectionTitles.skills} columns={skillColumns} />
 	<Separator />
 	<ProjectsSection title={sectionTitles.projects} projects={projects} />
+	<Separator />
+	<JourneySection journey={journey} />
 	<Separator />
 	<ContactSection contact={contact} />
 	<Separator />

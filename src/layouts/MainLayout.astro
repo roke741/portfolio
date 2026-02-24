@@ -33,7 +33,7 @@ const { seo } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -42,7 +42,7 @@ const { seo } = Astro.props;
     />
     <title>{seo.title}</title>
   </head>
-  <body>
+  <body class="dark-mode">
     <slot />
   </body>
 </html>
