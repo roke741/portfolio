@@ -1,7 +1,22 @@
-<div class="shadow-button-theme" aria-hidden="true"></div>
-<button class="button-theme" type="button" id="theme-toggle" aria-label="Cambiar tema">
-  <i class="bi bi-moon-stars" id="theme-icon"></i>
-</button>
+<script is:inline src="/vendor/liquid-glass/displacement-utils.js"></script>
+<script is:inline src="/vendor/liquid-glass/glass-element.js"></script>
+
+<glass-element
+  class="liquid-toggle"
+  width="60"
+  height="60"
+  radius="10"
+  depth="7"
+  blur="0.6"
+  strength="50"
+  chromatic-aberration="1.1"
+  background-color="rgba(255,255,255,0.24)"
+  aria-hidden="true"
+>
+  <button type="button" id="theme-toggle" aria-label="Cambiar tema" class="liquid-toggle-btn">
+    <i class="bi bi-moon-stars" id="theme-icon"></i>
+  </button>
+</glass-element>
 
 <script>
   const body = document.body;
@@ -26,52 +41,47 @@
 </script>
 
 <style>
-  .button-theme {
+  .liquid-toggle {
     position: fixed;
-    bottom: 70px;
     left: 70px;
+    bottom: 70px;
+    z-index: 100;
+    --glass-padding: 0px;
+  }
+
+  .liquid-toggle-btn {
     width: 60px;
     height: 60px;
     border: none;
-    background: rgba(255, 255, 255, 0.14);
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
+    border-radius: 20px;
+    background: transparent;
     color: var(--text-color);
     font-size: 30px;
-    transition: 0.5s all;
     cursor: pointer;
-    z-index: 100;
+    display: grid;
+    place-items: center;
+    transition: transform 0.2s ease;
   }
 
-  .button-theme:hover {
-    transform: translateY(-0.25rem);
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+  .liquid-toggle-btn:hover {
+    transform: translateY(-2px);
   }
 
-  .button-theme:hover:active {
-    transform: scale(0.95);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  .liquid-toggle-btn:active {
+    transform: scale(0.96);
   }
 
-  .shadow-button-theme {
-    position: fixed;
-    bottom: 64px;
-    left: 75px;
-    width: 55px;
-    height: 55px;
-    border: 3px solid #5163ff;
-    z-index: 99;
-  }
-
-  @media screen and (max-width: 768px) {
-    .button-theme {
-      bottom: 24px;
-      left: 24px;
+  @media (max-width: 768px) {
+    .liquid-toggle {
+      left: 20px;
+      bottom: 20px;
     }
 
-    .shadow-button-theme {
-      bottom: 18px;
-      left: 29px;
+    .liquid-toggle-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 17px;
+      font-size: 24px;
     }
   }
 </style>

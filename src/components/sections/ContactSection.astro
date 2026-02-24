@@ -10,141 +10,47 @@ const { contact } = Astro.props;
 ---
 
 <section id="contact">
-  <div class="container-contact">
+  <div class="page-container section-shell section-stack w-full">
     <SectionTitle text={contact.title} />
-    <div class="form-contact">
+    <div class="glass-panel-soft elevated-panel mx-auto max-w-[1200px] p-6 max-md:p-4">
       <div class="decorator"><span class="arrowp2"></span><span class="arrowp1"></span></div>
-      <form action="#" method="post">
-        <div class="data-user">
-          <div class="info-user">
+      <form action="#" method="post" class="mx-4 my-2 max-md:mx-1.5 max-md:my-1">
+        <div class="flex gap-6 max-md:block">
+          <div class="flex w-1/4 flex-col max-md:mb-5 max-md:w-full">
             <label for="name">{contact.nameLabel}</label>
-            <input id="name" name="name" type="text" />
+            <input
+              id="name"
+              name="name"
+              type="text"
+              class="soft-input h-11 px-4"
+            />
             <label for="email">{contact.emailLabel}</label>
-            <input id="email" name="email" type="email" />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              class="soft-input h-11 px-4"
+            />
           </div>
-          <div class="msj-user">
+          <div class="flex w-3/4 flex-col max-md:h-[200px] max-md:w-full">
             <label for="message">{contact.messageLabel}</label>
-            <textarea id="message" name="message" placeholder={contact.messagePlaceholder}></textarea>
+            <textarea
+              id="message"
+              name="message"
+              placeholder={contact.messagePlaceholder}
+              class="soft-input h-full w-full resize-none px-4 py-2 text-base"
+            ></textarea>
           </div>
         </div>
-        <div class="btn-send">
-          <button type="submit"><span>#</span>{contact.submitLabel}</button>
+        <div class="frame-accent cta-frame">
+          <button
+            type="submit"
+            class="terminal-action terminal-action-soft frame-offset border-none bg-white/40 px-[22px] py-3 text-[20px] max-md:px-[18px] max-md:py-2 max-md:text-[17px]"
+          ><span class="mr-0.5 text-accent">#</span>{contact.submitLabel}</button
+          >
         </div>
       </form>
       <div class="decorator1"><span class="arrowp1"></span><span class="arrowp2"></span></div>
     </div>
   </div>
 </section>
-
-<style>
-  .container-contact {
-    width: 100%;
-  }
-
-  .form-contact {
-    max-width: 1200px;
-    margin: auto;
-    background: #ffffff24;
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
-    padding: 25px;
-    box-shadow: 0 0 10px #0000001f;
-  }
-
-  .form-contact form {
-    margin: 10px 20px;
-  }
-
-  .form-contact form input {
-    background-color: #bbbbbb62;
-    height: 40px;
-    border: none;
-    color: var(--text-color);
-    outline: none;
-    padding: 0 20px;
-  }
-
-  .data-user {
-    display: flex;
-    gap: 25px;
-  }
-
-  .info-user {
-    display: flex;
-    flex-direction: column;
-    width: 25%;
-  }
-
-  .msj-user {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-  }
-
-  .msj-user textarea {
-    height: 100%;
-    width: 100%;
-    resize: none;
-    outline: none;
-    border: none;
-    color: var(--text-color);
-    background-color: #bbbbbb62;
-    padding: 5px 20px;
-    box-sizing: border-box;
-    font-size: 16px;
-  }
-
-  .btn-send {
-    border: 3px solid #3feb44;
-    margin: 13px auto;
-    position: relative;
-    top: 10px;
-    width: max-content;
-  }
-
-  .btn-send button {
-    background: rgba(255, 255, 255, 0.384);
-    backdrop-filter: blur(7px);
-    border: none;
-    padding: 12px 22px;
-    position: relative;
-    left: -8px;
-    top: -8px;
-    color: var(--text-color);
-    font-weight: bold;
-    font-size: 20px;
-    transition: 0.5s all;
-    cursor: pointer;
-  }
-
-  .btn-send button span {
-    color: #3feb44;
-    margin-right: 2px;
-  }
-
-  .btn-send button:hover {
-    transform: translateY(-0.25rem);
-    box-shadow: 0 3px 15px #00000033;
-  }
-
-  .btn-send button:hover:active {
-    transform: scale(0.95);
-    box-shadow: 3px 2px 22px 1px #0000003d;
-  }
-
-  @media screen and (max-width: 768px) {
-    .data-user {
-      display: block;
-    }
-
-    .info-user {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-
-    .msj-user {
-      width: 100%;
-      height: 200px;
-    }
-  }
-</style>

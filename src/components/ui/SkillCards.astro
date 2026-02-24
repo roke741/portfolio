@@ -8,94 +8,19 @@ interface Props {
 const { columns } = Astro.props;
 ---
 
-<div class="container-cards-skills">
+<div class="flex justify-center gap-6 max-[845px]:flex-col max-[845px]:items-center">
   {columns.map((cardColumn) => (
-    <div class="container-card">
+    <div>
       {cardColumn.map((card) => (
-        <div class="card-skills">
-          <div class="card-skills-title"><span>/</span>{card.title}</div>
-          <div class="card-skills-body">
-            <div class="card-decorator-start"><span class="decorator2"></span><span class="decorator1"></span></div>
-            <div class="card-skills-content">{card.content}</div>
-            <div class="card-decorator-end"><span class="decorator2"></span><span class="decorator1"></span></div>
+        <div class="glass-panel-card glass-card mb-6 w-[260px] max-[845px]:w-full max-[845px]:max-w-[320px]">
+          <div class="glass-card-divider glass-card-title card-title-block text-[30px] max-[1245px]:text-2xl"><span>/</span>{card.title}</div>
+          <div class="card-body-block flex flex-col">
+            <div class="flex items-start justify-start"><span class="h-1 w-[65px] bg-primary"></span><span class="absolute h-[60px] w-1 bg-primary"></span></div>
+            <div class="glass-card-body px-3 py-2 text-lg max-[1245px]:text-base max-[845px]:text-[15px]">{card.content}</div>
+            <div class="flex items-end justify-end"><span class="h-1 w-[65px] bg-primary"></span><span class="absolute h-[60px] w-1 bg-primary"></span></div>
           </div>
         </div>
       ))}
     </div>
   ))}
 </div>
-
-<style>
-  .container-cards-skills {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .card-skills {
-    width: 260px;
-    border: 3px solid var(--border-color);
-    margin-bottom: 20px;
-  }
-
-  .card-skills-title {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    color: #5163ff;
-    border-bottom: 3px solid var(--border-color);
-  }
-
-  .card-skills-body {
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-skills-content {
-    padding: 5px 13px;
-    font-size: 18px;
-  }
-
-  .card-decorator-start {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-
-  .card-decorator-end {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
-
-  .decorator1 {
-    height: 60px;
-    width: 4px;
-    background-color: #5163ff;
-    position: absolute;
-  }
-
-  .decorator2 {
-    height: 4px;
-    width: 65px;
-    background-color: #5163ff;
-  }
-
-  @media screen and (max-width: 845px) {
-    .container-cards-skills {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  @media screen and (max-width: 1245px) {
-    .card-skills-title {
-      font-size: 24px;
-    }
-
-    .card-skills-content {
-      font-size: 16px;
-    }
-  }
-</style>

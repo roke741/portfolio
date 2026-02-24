@@ -8,19 +8,34 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<article class="card-projects">
-  <div class="card-project-img">
-    <img src={project.image} alt={project.title} loading="lazy" decoding="async" />
+<article class="glass-panel-card glass-card">
+  <div>
+    <img
+      src={project.image}
+      alt={project.title}
+      loading="lazy"
+      decoding="async"
+      class="glass-card-divider block w-full"
+    />
   </div>
-  <div class="card-project-body">
-    <div class="card-project-title">{project.title}</div>
-    <div class="card-project-content">
+  <div>
+    <div
+      class="glass-card-divider glass-card-title card-title-block overflow-hidden text-[22px] text-ellipsis max-md:text-[19px]"
+    >
+      {project.title}
+    </div>
+    <div class="card-body-block">
       <div class="decorator"><span class="arrowp2"></span><span class="arrowp1"></span></div>
-      <div class="card-project-text">{project.description}</div>
+      <div class="glass-card-body min-h-[72px] overflow-hidden px-3 py-2 text-base text-ellipsis max-md:text-[15px]">{project.description}</div>
       {project.githubUrl && (
-        <div class="card-project-button">
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-            <span>#</span>GitHub
+        <div class="frame-accent cta-frame">
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="terminal-action terminal-action-default frame-offset bg-white/40 px-[22px] py-3 text-[20px] max-md:px-[18px] max-md:py-2 max-md:text-[17px]"
+          >
+            <span class="mr-0.5 text-accent">#</span>GitHub
           </a>
         </div>
       )}
@@ -28,75 +43,3 @@ const { project } = Astro.props;
     </div>
   </div>
 </article>
-
-<style>
-  .card-projects {
-    border: 3px solid var(--border-color);
-  }
-
-  .card-project-img img {
-    width: 100%;
-    border-bottom: 3px solid var(--border-color);
-  }
-
-  .card-project-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: #5163ff;
-    border-bottom: 3px solid var(--border-color);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
-    padding: 6px;
-  }
-
-  .card-project-content {
-    padding: 8px;
-  }
-
-  .card-project-text {
-    padding: 8px 12px;
-    font-size: 16px;
-    min-height: 65px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .card-project-button {
-    border: 3px solid #3feb44;
-    margin: 13px auto;
-    position: relative;
-    top: 10px;
-    width: max-content;
-  }
-
-  .card-project-button a {
-    display: inline-block;
-    background: #ffffff62;
-    backdrop-filter: blur(7px);
-    padding: 12px 22px;
-    position: relative;
-    left: -8px;
-    top: -8px;
-    color: var(--text-color);
-    font-weight: bold;
-    font-size: 20px;
-    transition: 0.5s all;
-    cursor: pointer;
-  }
-
-  .card-project-button a span {
-    color: #3feb44;
-    margin-right: 2px;
-  }
-
-  .card-project-button a:hover {
-    transform: translateY(-0.25rem);
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-  }
-
-  .card-project-button a:hover:active {
-    transform: scale(0.95);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
-</style>

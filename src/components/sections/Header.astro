@@ -10,18 +10,22 @@ const { brand, navItems } = Astro.props;
 ---
 
 <header>
-  <div class="header-main">
-    <div class="header-name">
-      <div>
-        <h2><a href="#">{brand}</a></h2>
+  <div class="page-container mt-4 flex justify-around pt-8 max-[845px]:mt-2 max-[845px]:pt-5">
+    <div class="frame-primary h-full">
+      <div class="frame-offset glass-panel-soft px-6 py-2 max-[1245px]:px-5 max-[1245px]:py-1">
+        <h2 class="m-0"><a href="#">{brand}</a></h2>
       </div>
     </div>
-    <div class="header-nav">
-      <nav>
-        <ul>
+    <div class="frame-primary inline-block h-full place-self-center max-[845px]:hidden">
+      <nav class="frame-offset glass-panel-soft px-6 py-2">
+        <ul class="m-0 flex list-none gap-4 p-0 text-[21px] max-[1245px]:text-[17px]">
           {navItems.map((item) => (
             <li>
-              <a href={item.href}><span>#</span>{item.label}</a>
+              <a
+                href={item.href}
+                class="relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-0 after:bg-primary after:transition-[width] after:duration-300 after:ease-in-out after:content-[''] hover:after:w-full"
+              ><span class="mr-0.5 font-bold text-primary">#</span>{item.label}</a
+              >
             </li>
           ))}
         </ul>
@@ -29,101 +33,3 @@ const { brand, navItems } = Astro.props;
     </div>
   </div>
 </header>
-
-<style>
-  header {
-    width: 100%;
-  }
-
-  .header-main {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px;
-    padding-top: 40px;
-  }
-
-  .header-name {
-    border: 3px solid #5163ff;
-    height: 100%;
-  }
-
-  .header-name div {
-    background: #ffffff24;
-    backdrop-filter: blur(7px);
-    padding: 8px 25px;
-    position: relative;
-    left: -8px;
-    top: -8px;
-  }
-
-  .header-nav {
-    border: 3px solid #5163ff;
-    place-self: center;
-    height: 100%;
-    display: inline-block;
-  }
-
-  .header-nav nav {
-    background: #ffffff24;
-    backdrop-filter: blur(7px);
-    padding: 8px 25px;
-    position: relative;
-    left: -8px;
-    top: -8px;
-  }
-
-  .header-nav nav ul {
-    font-size: 21px;
-    display: flex;
-    gap: 15px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .header-nav nav ul li a {
-    position: relative;
-  }
-
-  .header-nav nav ul li a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 3px;
-    background-color: #5163ff;
-    transition: width 0.3s ease-in-out;
-  }
-
-  .header-nav nav ul li a:hover::after {
-    width: 100%;
-  }
-
-  .header-nav nav ul li a span {
-    color: #5163ff;
-    font-weight: bold;
-    margin-right: 2px;
-  }
-
-  @media screen and (max-width: 845px) {
-    .header-nav {
-      display: none;
-    }
-
-    .header-main {
-      padding-top: 25px;
-      margin: 10px;
-    }
-  }
-
-  @media screen and (max-width: 1245px) {
-    .header-name div {
-      padding: 2px 20px;
-    }
-
-    .header-nav nav ul {
-      font-size: 17px;
-    }
-  }
-</style>

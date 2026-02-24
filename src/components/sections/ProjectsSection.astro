@@ -12,39 +12,12 @@ const { title, projects } = Astro.props;
 ---
 
 <section id="projects">
-  <div class="container-projects">
+  <div class="page-container section-shell section-stack">
     <SectionTitle text={title} />
-    <div class="container-cards-projects">
+    <div class="mx-auto grid w-full max-w-[1240px] grid-cols-3 gap-6 max-md:max-w-[620px] max-md:grid-cols-1 max-md:box-border max-md:gap-5 max-md:px-2 max-md:py-4">
       {projects.map((project) => (
         <ProjectCard project={project} />
       ))}
     </div>
   </div>
 </section>
-
-<style>
-  .container-projects {
-    max-width: 1400px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .container-cards-projects {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    width: 100%;
-    max-width: 1300px;
-    margin: auto;
-  }
-
-  @media screen and (max-width: 768px) {
-    .container-cards-projects {
-      grid-template-columns: 1fr;
-      padding: 40px;
-      max-width: 620px;
-      box-sizing: border-box;
-    }
-  }
-</style>
