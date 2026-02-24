@@ -1,0 +1,89 @@
+---
+import type { FooterContent } from '../../data/content';
+
+interface Props {
+  footer: FooterContent;
+}
+
+const { footer } = Astro.props;
+---
+
+<footer>
+  <div class="container-footer">
+    <div class="footer-top">
+      <div class="footer-section">
+        {footer.name}<br />
+        {footer.roles.map((role) => (
+          <>
+            {role}
+            <br />
+          </>
+        ))}
+      </div>
+      <div class="footer-section">
+        Correo: <br />
+        <a href={`mailto:${footer.email}`}>{footer.email}</a>
+      </div>
+      <div class="footer-section">
+        <div class="footer-icons">
+          {footer.socialLinks.map((social) => (
+            <a href={social.href} aria-label={social.label} target="_blank" rel="noopener noreferrer">
+              <i class={`bi ${social.icon}`}></i>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="footer-bottom">
+      <div>
+        {footer.signature}<br />
+        {footer.copyright}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    width: 100%;
+  }
+
+  .container-footer {
+    margin: 15px;
+    text-align: center;
+    background: #ffffff24;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    font-size: 18px;
+    box-shadow: 0 0 10px #0000001f;
+  }
+
+  .container-footer hr {
+    background-color: #5163ff;
+    border: none;
+    height: 4px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
+    gap: 25px;
+  }
+
+  .footer-icons i {
+    font-size: 34px;
+    padding: 0 10px;
+  }
+
+  .footer-bottom {
+    padding: 20px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

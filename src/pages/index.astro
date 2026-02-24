@@ -1,11 +1,25 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import ContactSection from '../components/sections/ContactSection.astro';
+import FooterSection from '../components/sections/FooterSection.astro';
+import Header from '../components/sections/Header.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import ProjectsSection from '../components/sections/ProjectsSection.astro';
+import SkillsSection from '../components/sections/SkillsSection.astro';
+import Separator from '../components/ui/Separator.astro';
+import ThemeToggle from '../components/ui/ThemeToggle.astro';
+import { contact, footer, header, hero, projects, sectionTitles, seo, skillColumns, skillsImage } from '../data/content';
+import MainLayout from '../layouts/MainLayout.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MainLayout seo={seo}>
+	<Header brand={header.brand} navItems={header.navItems} />
+	<HeroSection hero={hero} />
+	<SkillsSection title={sectionTitles.skills} columns={skillColumns} imageSrc={skillsImage.src} imageAlt={skillsImage.alt} />
+	<Separator />
+	<ProjectsSection title={sectionTitles.projects} projects={projects} />
+	<Separator />
+	<ContactSection contact={contact} />
+	<Separator />
+	<FooterSection footer={footer} />
+	<ThemeToggle />
+</MainLayout>

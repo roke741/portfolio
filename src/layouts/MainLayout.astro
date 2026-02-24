@@ -1,0 +1,42 @@
+---
+import type { SeoMetadata } from '../data/content';
+import '../styles/global.css';
+
+interface Props {
+  seo: SeoMetadata;
+}
+
+const { seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={seo.description} />
+    <meta name="author" content={seo.author} />
+    <meta name="keywords" content={seo.keywords.join(', ')} />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:site_name" content={seo.siteName} />
+    <meta property="og:locale" content={seo.locale} />
+    <meta property="og:url" content={seo.canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <link rel="canonical" href={seo.canonical} />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <title>{seo.title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,150 @@
+---
+import type { ContactContent } from '../../data/content';
+import SectionTitle from '../ui/SectionTitle.astro';
+
+interface Props {
+  contact: ContactContent;
+}
+
+const { contact } = Astro.props;
+---
+
+<section id="contact">
+  <div class="container-contact">
+    <SectionTitle text={contact.title} />
+    <div class="form-contact">
+      <div class="decorator"><span class="arrowp2"></span><span class="arrowp1"></span></div>
+      <form action="#" method="post">
+        <div class="data-user">
+          <div class="info-user">
+            <label for="name">{contact.nameLabel}</label>
+            <input id="name" name="name" type="text" />
+            <label for="email">{contact.emailLabel}</label>
+            <input id="email" name="email" type="email" />
+          </div>
+          <div class="msj-user">
+            <label for="message">{contact.messageLabel}</label>
+            <textarea id="message" name="message" placeholder={contact.messagePlaceholder}></textarea>
+          </div>
+        </div>
+        <div class="btn-send">
+          <button type="submit"><span>#</span>{contact.submitLabel}</button>
+        </div>
+      </form>
+      <div class="decorator1"><span class="arrowp1"></span><span class="arrowp2"></span></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .container-contact {
+    width: 100%;
+  }
+
+  .form-contact {
+    max-width: 1200px;
+    margin: auto;
+    background: #ffffff24;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    padding: 25px;
+    box-shadow: 0 0 10px #0000001f;
+  }
+
+  .form-contact form {
+    margin: 10px 20px;
+  }
+
+  .form-contact form input {
+    background-color: #bbbbbb62;
+    height: 40px;
+    border: none;
+    color: var(--text-color);
+    outline: none;
+    padding: 0 20px;
+  }
+
+  .data-user {
+    display: flex;
+    gap: 25px;
+  }
+
+  .info-user {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+  }
+
+  .msj-user {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+  }
+
+  .msj-user textarea {
+    height: 100%;
+    width: 100%;
+    resize: none;
+    outline: none;
+    border: none;
+    color: var(--text-color);
+    background-color: #bbbbbb62;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  .btn-send {
+    border: 3px solid #3feb44;
+    margin: 13px auto;
+    position: relative;
+    top: 10px;
+    width: max-content;
+  }
+
+  .btn-send button {
+    background: rgba(255, 255, 255, 0.384);
+    backdrop-filter: blur(7px);
+    border: none;
+    padding: 12px 22px;
+    position: relative;
+    left: -8px;
+    top: -8px;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.5s all;
+    cursor: pointer;
+  }
+
+  .btn-send button span {
+    color: #3feb44;
+    margin-right: 2px;
+  }
+
+  .btn-send button:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 3px 15px #00000033;
+  }
+
+  .btn-send button:hover:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px #0000003d;
+  }
+
+  @media screen and (max-width: 768px) {
+    .data-user {
+      display: block;
+    }
+
+    .info-user {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .msj-user {
+      width: 100%;
+      height: 200px;
+    }
+  }
+</style>

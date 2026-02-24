@@ -1,46 +1,25 @@
-# Astro Starter Kit: Basics
+# Portafolio Web en Astro
 
-```sh
-npm create astro@latest -- --template basics
-```
+Migración desde Angular 15 a Astro con renderizado estático, componentes reutilizables y contenido centralizado.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Scripts
 
-## 🚀 Project Structure
+- `npm run dev`: entorno local en `http://localhost:4321`
+- `npm run build`: genera sitio estático en `dist/`
+- `npm run preview`: vista previa del build
 
-Inside of your Astro project, you'll see the following folders and files:
+## Estructura
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+- `src/layouts/MainLayout.astro`: layout principal con metadatos SEO centralizados
+- `src/data/content.ts`: textos, navegación, skills, proyectos, contacto y footer
+- `src/components/sections`: secciones de la landing
+- `src/components/ui`: componentes reutilizables de apoyo
+- `src/pages/index.astro`: composición de la página única
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Principios aplicados
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Sin Angular, RxJS ni Zone.js
+- Sin routing adicional ni SSR
+- JavaScript mínimo (solo toggle de tema)
+- Contenido tipado y desacoplado de la vista
+- Optimizado para generación estática

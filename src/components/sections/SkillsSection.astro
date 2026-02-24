@@ -1,0 +1,61 @@
+---
+import type { SkillCard } from '../../data/content';
+import SkillCards from '../ui/SkillCards.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
+
+interface Props {
+  title: string;
+  columns: SkillCard[][];
+  imageSrc: string;
+  imageAlt: string;
+}
+
+const { title, columns, imageSrc, imageAlt } = Astro.props;
+---
+
+<section id="skills">
+  <div class="container-skills">
+    <SectionTitle text={title} />
+    <div class="section">
+      <SkillCards columns={columns} />
+      <div class="skills-img">
+        <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .container-skills {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section {
+    display: flex;
+    gap: 30px;
+    padding: 25px;
+  }
+
+  .skills-img img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media screen and (max-width: 845px) {
+    .section {
+      display: block;
+    }
+
+    .skills-img {
+      max-width: 650px;
+    }
+
+    .skills-img img {
+      padding: 35px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+import type { ProjectItem } from '../../data/content';
+import ProjectCard from '../ui/ProjectCard.astro';
+import SectionTitle from '../ui/SectionTitle.astro';
+
+interface Props {
+  title: string;
+  projects: ProjectItem[];
+}
+
+const { title, projects } = Astro.props;
+---
+
+<section id="projects">
+  <div class="container-projects">
+    <SectionTitle text={title} />
+    <div class="container-cards-projects">
+      {projects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .container-projects {
+    max-width: 1400px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .container-cards-projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1300px;
+    margin: auto;
+  }
+
+  @media screen and (max-width: 768px) {
+    .container-cards-projects {
+      grid-template-columns: 1fr;
+      padding: 40px;
+      max-width: 620px;
+      box-sizing: border-box;
+    }
+  }
+</style>

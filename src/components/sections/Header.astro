@@ -1,0 +1,129 @@
+---
+import type { NavItem } from '../../data/content';
+
+interface Props {
+  brand: string;
+  navItems: NavItem[];
+}
+
+const { brand, navItems } = Astro.props;
+---
+
+<header>
+  <div class="header-main">
+    <div class="header-name">
+      <div>
+        <h2><a href="#">{brand}</a></h2>
+      </div>
+    </div>
+    <div class="header-nav">
+      <nav>
+        <ul>
+          {navItems.map((item) => (
+            <li>
+              <a href={item.href}><span>#</span>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  header {
+    width: 100%;
+  }
+
+  .header-main {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+    padding-top: 40px;
+  }
+
+  .header-name {
+    border: 3px solid #5163ff;
+    height: 100%;
+  }
+
+  .header-name div {
+    background: #ffffff24;
+    backdrop-filter: blur(7px);
+    padding: 8px 25px;
+    position: relative;
+    left: -8px;
+    top: -8px;
+  }
+
+  .header-nav {
+    border: 3px solid #5163ff;
+    place-self: center;
+    height: 100%;
+    display: inline-block;
+  }
+
+  .header-nav nav {
+    background: #ffffff24;
+    backdrop-filter: blur(7px);
+    padding: 8px 25px;
+    position: relative;
+    left: -8px;
+    top: -8px;
+  }
+
+  .header-nav nav ul {
+    font-size: 21px;
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .header-nav nav ul li a {
+    position: relative;
+  }
+
+  .header-nav nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background-color: #5163ff;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .header-nav nav ul li a:hover::after {
+    width: 100%;
+  }
+
+  .header-nav nav ul li a span {
+    color: #5163ff;
+    font-weight: bold;
+    margin-right: 2px;
+  }
+
+  @media screen and (max-width: 845px) {
+    .header-nav {
+      display: none;
+    }
+
+    .header-main {
+      padding-top: 25px;
+      margin: 10px;
+    }
+  }
+
+  @media screen and (max-width: 1245px) {
+    .header-name div {
+      padding: 2px 20px;
+    }
+
+    .header-nav nav ul {
+      font-size: 17px;
+    }
+  }
+</style>
