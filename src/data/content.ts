@@ -70,12 +70,14 @@ export interface FooterContent {
 }
 
 export const seo: SeoMetadata = {
-  title: 'Jhordie Roque | Portafolio',
+  title: 'Jhordie Roque | Desarrollador Full Stack',
   description:
-    'Portafolio de Jhordie Roque, desarrollador Full Stack enfocado en frontend, backend y soluciones web modernas.',
+    'Portafolio de Jhordie Roque. Desarrollo aplicaciones web y APIs escalables con foco en experiencia de usuario, rendimiento y valor de negocio.',
   siteName: 'Portafolio Jhordie Roque',
+  // SUGERENCIA: actualiza 'canonical' con tu dominio real antes de publicar.
+  // TODO: reemplaza con tu dominio real antes de publicar
   canonical: 'https://example.com',
-  keywords: ['Portafolio', 'Frontend', 'Backend', 'Full Stack', 'Angular', 'Astro'],
+  keywords: ['Portafolio', 'Desarrollador Full Stack', 'Frontend', 'Backend', 'Laravel', 'NextJS', 'Astro', 'NuxtJS', 'Spring Boot'],
   author: 'Jhordie Roque',
   locale: 'es_PE'
 };
@@ -83,69 +85,87 @@ export const seo: SeoMetadata = {
 export const header = {
   brand: 'Jhordie',
   navItems: [
-    { label: 'Presentation', href: '#presentation' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Journey', href: '#journey' },
-    { label: 'Contact', href: '#contact' }
+    { label: 'Inicio', href: '#presentation' },
+    { label: 'Habilidades', href: '#skills' },
+    { label: 'Proyectos', href: '#projects' },
+    { label: 'Trayectoria', href: '#journey' },
+    { label: 'Contacto', href: '#contact' }
   ] satisfies NavItem[]
 };
 
 export const hero: HeroContent = {
-  greeting: 'Hola mi nombre es',
+  greeting: 'Hola, soy',
   name: 'Jhordie Roque',
   summary:
-    'Soy un desarrollador junior apasionado por la tecnología y la programación. Me encanta aprender nuevas habilidades y crear soluciones innovadoras. Estoy entusiasmado por continuar mi crecimiento en el campo y utilizar mis conocimientos para resolver problemas complejos. Como desarrollador, siempre estoy buscando nuevos desafíos y oportunidades para aprender y mejorar.',
+    'Desarrollador Full Stack orientado a resultados. Diseño y construyo productos web completos — desde la interfaz hasta la API — con foco en rendimiento, escalabilidad y código que otros puedan mantener.',
   ctaLabel: 'Descargar CV',
+  // TODO: reemplaza '#' con la URL real de tu CV (Google Drive, Notion, PDF, etc.)
   ctaHref: '#',
   imageSrc: '/assets/img-principal.png',
   imageAlt: 'Ilustración principal del portafolio'
 };
 
 export const sectionTitles = {
-  skills: 'Skills',
-  projects: 'Projects',
-  journey: 'Journey',
-  contact: 'Contact'
+  skills: 'Habilidades',
+  projects: 'Proyectos',
+  journey: 'Trayectoria',
+  contact: 'Contacto'
 };
 
 export const journey: JourneyContent = {
-  title: 'Journey',
-  experienceTitle: 'Experience',
-  educationTitle: 'Education',
+  title: 'Trayectoria',
+  experienceTitle: 'Experiencia',
+  educationTitle: 'Formación',
   experience: [
     {
       period: '2024 — Actualidad',
-      title: 'Desarrollador Full Stack Independiente',
-      organization: 'Proyectos freelance y personales',
+      title: 'Desarrollador Full Stack',
+      organization: 'Compuusa',
+      // SUGERENCIA: agrega tecnologías clave (ej. 'NextJS · Laravel · PostgreSQL') y menciona impacto medible si lo tienes.
       summary:
-        'Desarrollo de soluciones web con enfoque en frontend moderno, APIs backend y automatización de procesos administrativos.',
-      tags: ['Astro', 'Angular', 'Spring Boot', 'Laravel', 'MySQL']
+        'Diseño e implementación de un ERP, incluyendo interfaces de usuario, APIs y automatizaciones para optimizar procesos administrativos y comerciales.',
+      tags: ['NextJS', 'Laravel', 'PostgreSQL', 'Docker', 'Java']
     },
     {
       period: '2023 — 2024',
-      title: 'Desarrollo de productos académicos y MVPs',
-      organization: 'Proyectos colaborativos',
+      title: 'Desarrollo de productos académicos',
+      organization: 'B4nvest',
       summary:
-        'Implementación de sistemas de ventas, herramientas de consulta de datos y prototipos funcionales orientados a negocio.',
-      tags: ['Java', 'TypeScript', 'Python', 'Bootstrap']
+        'Desarrollo de un sistema de suscripciones y plataforma educativa con visualizaciones de datos financieros avanzadas y dashboards interactivos.',
+      tags: ['NuxtJs', 'TypeScript', 'Laravel', 'MySQL']
+    },
+    {
+      period: '2022 — 2023',
+      title: 'Desarrollador Freelance',
+      organization: 'Freelance',
+      summary:
+        'Ejecución de proyectos web end-to-end para clientes independientes: arquitectura, desarrollo, integraciones y entrega. Trabajo con stacks variados según la necesidad de cada producto.',
+      tags: ['NextJS', 'Tailwind CSS', 'JavaScript', 'ReactJS', 'NodeJS', 'Python', 'Java']
     }
   ],
   education: [
     {
-      period: 'Formación continua',
-      title: 'Especialización práctica en desarrollo web',
-      organization: 'Rutas técnicas y proyectos aplicados',
+      period: 'Base académica',
+      title: 'Ingeniería de Sistemas e Informática',
+      organization: 'Universidad Tecnológica del Perú',
       summary:
-        'Aprendizaje constante mediante construcción de productos reales, arquitectura de software y buenas prácticas de UX/UI.',
+        'Formación académica en ingeniería de sistemas e informática con énfasis en desarrollo de software, arquitectura de sistemas y fundamentos teóricos.',  
+      tags: ['Ingeniería de Sistemas', 'Desarrollo de Software', 'Arquitectura de Sistemas']
+    },
+    {
+      period: 'Formación continua',
+      title: 'Especialización en desarrollo web',
+      organization: 'Certus',
+      summary:
+        'Aprendizaje continuo mediante construcción de productos reales, arquitectura de software y aplicación de buenas prácticas de UX/UI.',
       tags: ['Frontend', 'Backend', 'DevOps']
     },
     {
       period: 'Base académica',
-      title: 'Fundamentos de ingeniería y algoritmos',
-      organization: 'Formación universitaria/técnica',
+      title: 'Computación e Informática',
+      organization: 'Honorio Delgado Espinoza',
       summary:
-        'Consolidación de lógica, estructuras de datos y diseño de soluciones para problemas reales.',
+        'Fortalecimiento de lógica de programación, estructuras de datos y diseño de soluciones para problemas reales.',
       tags: ['Estructuras de Datos', 'Algoritmos', 'Arquitectura']
     }
   ]
@@ -153,20 +173,22 @@ export const journey: JourneyContent = {
 
 export const skillColumns: SkillCard[][] = [
   [
-    { title: 'Languajes', content: 'Python JavaScript NodeJs Java PHP HTML CSS' },
-    { title: 'Databases', content: 'MySQL PostgreSQL MongoDB' },
-    { title: 'DevOps', content: 'Linux Docker Kubernetes Jenkins' }
+    { title: 'Lenguajes', content: 'PHP · Python · Typescript · Javascript · Java · SQL' },
+    { title: 'Bases de datos', content: 'PostgreSQL · MySQL · MongoDB' },
+    { title: 'DevOps', content: 'Linux · Docker · VPS · GitHub Actions' }
   ],
   [
     {
-      title: 'Tools',
+      title: 'Herramientas',
       content:
-        'VSCode IntelliJ PyCharm NetBeans Git GitHub Figma Adobe XD Adobe Photoshop Adobe Illustrator Postman'
+        'VS Code · IntelliJ · Cursor · Git · GitHub · Postman · Figma · LLM'
     },
     {
       title: 'Frameworks',
-      content: 'Bootstrap 5 JQuery Angular 15 React Spring Boot 3 Scrapy'
+      content: 'Laravel · React · NextJS · Astro · Spring Boot · NuxtJS'
     }
+    // SUGERENCIA: considera separar en Frontend (React · NextJS · Astro · NuxtJS)
+    // y Backend (Laravel · Spring Boot) para mostrar más detalle de tu stack.
   ]
 ];
 
@@ -174,78 +196,79 @@ export const projects: ProjectItem[] = [
   {
     title: 'Facturación Electrónica',
     description:
-      'Integración y automatización de procesos de facturación electrónica con enfoque en cumplimiento SUNAT y trazabilidad operativa.',
+      'Sistema para emisión y validación de comprobantes electrónicos, orientado a cumplimiento SUNAT, trazabilidad y reducción de trabajo manual.',
     githubUrl: 'https://github.com/roke741/laravel-sire-sunat'
   },
   {
     title: 'Guías Electrónicas',
     description:
-      'Módulo de gestión de guías electrónicas para control de despacho, validación documental y flujo administrativo.',
+      'Módulo para gestión de guías de remisión electrónicas con control de despacho, validación documental y flujo administrativo centralizado.',
     githubUrl: 'https://github.com/roke741/guias-sunat'
   },
   {
     image: '/assets/my-cash-card.svg',
     title: 'My Cash',
-    description: 'Aplicación mobile de finanzas personales para control de gastos, presupuestos y metas.',
+    description: 'Aplicación móvil de finanzas personales para registro de gastos, control de presupuestos y seguimiento de metas de ahorro.',
     githubUrl: 'https://github.com/roke741/my-cash'
   },
   {
     image: '/assets/clone-egg-card.svg',
     title: 'Clone Egg',
-    description: 'Réplica funcional de la plataforma Egg con enfoque en experiencia de usuario y flujo real.',
+    description: 'Réplica funcional de plataforma educativa centrada en flujo real de usuario, navegación clara y consistencia visual.',
     githubUrl: 'https://github.com/roke741/clone-egg'
   },
   {
     image: '/assets/TiendaEcommerce-bootstrap5.png',
     title: 'Tienda Ecommerce Bootstrap 5',
-    description: 'Pagina Maquete Ecommerce, realizada con Bootstrap 5.',
+    description: 'Maquetación de e-commerce responsive con Bootstrap 5, enfocada en catálogo, detalle de producto y experiencia de compra.',
     githubUrl: 'https://github.com/roke741/ecommerce-bootstrap5'
   },
   {
     image: '/assets/peruzon.png',
     title: 'Peruzon',
-    description: 'Sistema de facturacion e inventario, realizado con: Bootstrap5, Js, PHP, JQuery y MySQL.',
+    description: 'Sistema de facturación e inventario con gestión de productos, ventas y stock para operación comercial diaria.',
     githubUrl: 'https://github.com/roke741/Peruzon'
   },
   {
     image: '/assets/bot_r.png',
     title: 'BOT_R (Script)',
-    description: 'Buscar informacion como nombres y dni, realizado con Python3 y librerias de web scraping',
+    description: 'Script de automatización con Python para extracción y consulta de información pública mediante técnicas de web scraping.',
     githubUrl: 'https://github.com/roke741/BOT_R'
   },
   {
     image: '/assets/Sneakers.png',
     title: 'Sneakers',
-    description: 'E-commerce relacionado a la venta de zapatillas por temporada.',
+    description: 'E-commerce orientado a venta de zapatillas por temporada, con catálogo dinámico y foco en experiencia de usuario.',
     githubUrl: 'https://github.com/jorgeayaladev/Sneakers'
   },
   {
     image: '/assets/Factugo.png',
     title: 'FactuGo',
-    description: 'Sistema de ventas y facturacion, desarrollado con Java y MySQL.',
+    description: 'Sistema de ventas y facturación desarrollado en Java y MySQL para gestión comercial de punta a punta.',
     githubUrl: 'https://github.com/roke741/FACTUGO'
   },
   {
     image: '/assets/Telco.png',
     title: 'Telco Telefonia',
     description:
-      'Pagina web de servicio de telefonia, desarrollado con Angular 15, Spring Boot, MySQL, PostgreSQL, MongoDB'
+      'Plataforma web para servicios de telefonía desarrollada con Angular y Spring Boot, integrada con bases de datos relacionales y NoSQL.'
   }
 ];
 
 export const contact: ContactContent = {
-  title: 'Contact',
-  nameLabel: 'Nombres',
-  emailLabel: 'Correo',
+  title: 'Contacto',
+  nameLabel: 'Nombre completo',
+  emailLabel: 'Correo electrónico',
   messageLabel: 'Mensaje',
-  messagePlaceholder: 'Ingresa tu mensaje',
+  messagePlaceholder: 'Cuéntame brevemente sobre tu proyecto o necesidad',
   submitLabel: 'Enviar'
 };
 
 export const footer: FooterContent = {
   name: 'Jhordie Roque',
-  roles: ['Frontend Developer', 'Backend Developer', 'FullStack Developer'],
+  roles: ['Desarrollador Frontend', 'Desarrollador Backend', 'Desarrollador Full Stack'],
   email: 'jordieroque741@gmail.com',
+  // SUGERENCIA: actualiza los href '#' con tus URLs reales. Elimina las redes que no uses activamente.
   socialLinks: [
     { label: 'Facebook', href: '#', icon: 'bi-facebook' },
     { label: 'GitHub', href: 'https://github.com/roke741', icon: 'bi-github' },
@@ -254,6 +277,6 @@ export const footer: FooterContent = {
     { label: 'Twitter', href: '#', icon: 'bi-twitter' },
     { label: 'Instagram', href: '#', icon: 'bi-instagram' }
   ],
-  signature: 'Design ♥️ by Jhordie Roque',
-  copyright: 'Copyright ©️ Jhordie Roque 2023. All Rights Reserved'
+  signature: 'Diseñado y desarrollado por Jhordie Roque',
+  copyright: '© Jhordie Roque 2026. Todos los derechos reservados.'
 };

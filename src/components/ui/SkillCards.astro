@@ -12,11 +12,11 @@ const { columns } = Astro.props;
   {columns.map((cardColumn) => (
     <div>
       {cardColumn.map((card) => (
-        <div class="glass-surface glass-card mb-6 w-[260px] max-[845px]:w-full max-[845px]:max-w-[320px]">
-          <div class="glass-card-divider glass-card-title card-title-block text-[30px] max-[1245px]:text-2xl"><span>/</span>{card.title}</div>
+        <div class="glass-surface glass-card mb-6 w-[210px] max-[845px]:w-full max-[845px]:max-w-[260px]">
+          <div class="glass-card-divider glass-card-title card-title-block text-xl max-[1245px]:text-lg"><span>/</span>{card.title}</div>
           <div class="card-body-block flex flex-col">
             <div class="flex items-start justify-start"><span class="h-1 w-[65px] bg-primary"></span><span class="absolute h-[60px] w-1 bg-primary"></span></div>
-            <div class="glass-card-body px-3 py-2 text-lg max-[1245px]:text-base max-[845px]:text-[15px]">{card.content}</div>
+            <div class="glass-card-body px-3 py-2 text-sm max-[845px]:text-[13px]">{card.content}</div>
             <div class="flex items-end justify-end"><span class="h-1 w-[65px] bg-primary"></span><span class="absolute h-[60px] w-1 bg-primary"></span></div>
           </div>
         </div>

@@ -16,12 +16,11 @@ const { title, columns } = Astro.props;
     <SectionTitle text={title} />
     <div class="flex w-full items-center justify-center gap-8 p-4 max-[1100px]:gap-6 max-[845px]:flex-col max-[845px]:p-2">
       <SkillCards columns={columns} />
-      <aside id="techSphere" class="tech-sphere" aria-label="Esfera 3D de tecnologías">
+      <aside id="techSphere" class="tech-sphere shrink-0" aria-label="Esfera 3D de tecnologías">
         <div id="techSphereCanvas" class="tech-sphere__canvas"></div>
         <p class="tech-sphere__hint">
           <span class="tech-sphere__dot"></span> Arrastra para rotar &nbsp;
           <span class="tech-sphere__dot"></span> Scroll para zoom &nbsp;
-          <span class="tech-sphere__dot"></span> Click para explotar
         </p>
       </aside>
     </div>
@@ -33,17 +32,17 @@ const { title, columns } = Astro.props;
 
   /* ── Configuración ─────────────────────────────────────────────── */
   const TECH_ICONS = [
-    'python', 'javascript', 'typescript', 'java', 'php', 'angular',
-    'react', 'spring', 'nodejs', 'mysql', 'postgresql', 'mongodb',
-    'docker', 'git',
+    'python', 'javascript', 'typescript', 'java', 'php',
+    'laravel', 'react', 'nextjs', 'astro', 'spring', 'nuxt',
+    'nodejs', 'postgresql', 'mongodb', 'docker', 'git',
   ];
   const ICON_BASE   = '/assets/tech/';
   const SPHERE_SEG  = 48;
   const ICON_RADIUS = 1.38;
-  const ICON_SCALE  = 0.30;
-  const CAM_Z_INIT  = 3.6;
-  const CAM_Z_MIN   = 2.0;
-  const CAM_Z_MAX   = 5.5;
+  const ICON_SCALE  = 0.38;
+  const CAM_Z_INIT  = 3.0;
+  const CAM_Z_MIN   = 2.8;
+  const CAM_Z_MAX   = 3.3;
 
   /* ── Helpers ───────────────────────────────────────────────────── */
 
@@ -122,7 +121,7 @@ const { title, columns } = Astro.props;
 
     /* Scene */
     const scene    = new THREE.Scene();
-    const camera   = new THREE.PerspectiveCamera(55, W / H, 0.1, 100);
+    const camera   = new THREE.PerspectiveCamera(65, W / H, 0.5, 100);
     camera.position.z = CAM_Z_INIT;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -135,21 +134,45 @@ const { title, columns } = Astro.props;
     scene.add(root);
 
     /* Luces */
-    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-    const key = new THREE.DirectionalLight(0x8ea0ff, 1.2);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const key = new THREE.DirectionalLight(0x8ea0ff, 1.8);
     key.position.set(2, 3, 3);
     scene.add(key);
+    const fill = new THREE.DirectionalLight(0x3feb44, 0.5);
+    fill.position.set(-3, -1, -2);
+    scene.add(fill);
 
-    /* ── Wireframe sphere ── */
-    const sphereGeo = new THREE.IcosahedronGeometry(1, 3);
-    const wireMat   = new THREE.MeshBasicMaterial({
-      color: 0x5163ff, wireframe: true, transparent: true, opacity: 0.18,
+    /* ── Núcleo sólido ── */
+    const coreMat = new THREE.MeshPhongMaterial({
+      color: 0x0d1628,
+      emissive: 0x141f3f,
+      shininess: 140,
+      transparent: true,
+      opacity: 0.94,
     });
-    const wireMesh  = new THREE.Mesh(sphereGeo, wireMat);
-    root.add(wireMesh);
+    const coreMesh = new THREE.Mesh(new THREE.SphereGeometry(0.96, 48, 48), coreMat);
+    root.add(coreMesh);
+
+    /* ── Anillos de giróscopo ── */
+    const ringGeo = new THREE.TorusGeometry(1.10, 0.008, 6, 120);
+
+    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0x5163ff, transparent: true, opacity: 0.90 });
+    const ring1 = new THREE.Mesh(ringGeo, ringMat1);
+    root.add(ring1);
+
+    const ringMat2 = new THREE.MeshBasicMaterial({ color: 0x8ea0ff, transparent: true, opacity: 0.68 });
+    const ring2 = new THREE.Mesh(ringGeo.clone(), ringMat2);
+    ring2.rotation.x = Math.PI / 2.5;
+    root.add(ring2);
+
+    const ringMat3 = new THREE.MeshBasicMaterial({ color: 0x3feb44, transparent: true, opacity: 0.42 });
+    const ring3 = new THREE.Mesh(ringGeo.clone(), ringMat3);
+    ring3.rotation.x = -Math.PI / 3;
+    ring3.rotation.z = Math.PI / 5;
+    root.add(ring3);
 
     /* ── Puntos en la superficie ── */
-    const dotCount = 600;
+    const dotCount = 900;
     const dotPos   = new Float32Array(dotCount * 3);
     for (let i = 0; i < dotCount; i++) {
       const φ = Math.acos(2 * Math.random() - 1);
@@ -161,14 +184,9 @@ const { title, columns } = Astro.props;
     const dotGeo = new THREE.BufferGeometry();
     dotGeo.setAttribute('position', new THREE.BufferAttribute(dotPos, 3));
     root.add(new THREE.Points(dotGeo, new THREE.PointsMaterial({
-      color: 0x5163ff, size: 0.012, transparent: true, opacity: 0.45, sizeAttenuation: true,
+      color: 0x7b8fff, size: 0.020, transparent: true, opacity: 0.72, sizeAttenuation: true,
     })));
 
-    /* ── Halo exterior ── */
-    root.add(new THREE.Mesh(
-      new THREE.IcosahedronGeometry(1.12, 2),
-      new THREE.MeshBasicMaterial({ color: 0x5163ff, transparent: true, opacity: 0.06, side: THREE.BackSide })
-    ));
 
     /* ── Íconos de tecnologías (sprites) ── */
     const iconGroup   = new THREE.Group();
@@ -215,7 +233,7 @@ const { title, columns } = Astro.props;
       const lineGeo = new THREE.BufferGeometry();
       lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePoints, 3));
       iconGroup.add(new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({
-        color: 0x5163ff, transparent: true, opacity: 0.12,
+        color: 0x5163ff, transparent: true, opacity: 0.35,
       })));
     }
 
@@ -243,14 +261,9 @@ const { title, columns } = Astro.props;
     });
     container.addEventListener('pointerup', () => { isDragging = false; });
 
-    /* ── Explosión al click ── */
-    let exploding = false, explodeT = 0;
-    container.addEventListener('click', (e) => {
-      if (Math.abs(dragRotX) < 0.02 && Math.abs(dragRotY) < 0.02 || !isDragging) {
-        exploding = true;
-        explodeT = 0;
-      }
-    });
+    /* ── Pulso de anillos al click ── */
+    let pulseT = -1;
+    container.addEventListener('click', () => { pulseT = 0; });
 
     /* ── Scroll zoom ── */
     container.addEventListener('wheel', (e) => {
@@ -283,30 +296,23 @@ const { title, columns } = Astro.props;
       root.rotation.y = dragRotY + targetRotY + t * 0.12;
       root.rotation.x = dragRotX + targetRotX;
 
-      // Breathing
-      if (!reducedMotion && !exploding) {
-        const b = 1 + Math.sin(t * 0.7) * 0.02;
-        wireMesh.scale.setScalar(b);
-      }
+      // Precesión de anillos (efecto giróscopo)
+      ring1.rotation.z += 0.005;
+      ring2.rotation.y += 0.004;
+      ring3.rotation.x += 0.003;
 
-      // Explosión de íconos
-      if (exploding) {
-        explodeT += 0.035;
-        const ease = Math.sin(Math.min(explodeT, Math.PI));
-        for (let i = 0; i < iconSprites.length; i++) {
-          const o = iconOrigins[i];
-          const d = scatterDirs[i];
-          iconSprites[i].position.set(
-            o.x + d.x * ease * 1.2,
-            o.y + d.y * ease * 1.2,
-            o.z + d.z * ease * 1.2,
-          );
-        }
-        if (explodeT >= Math.PI) {
-          exploding = false;
-          for (let i = 0; i < iconSprites.length; i++) {
-            iconSprites[i].position.copy(iconOrigins[i]);
-          }
+      // Pulso de brillo al click (solo opacidad, sin movimiento)
+      if (pulseT >= 0) {
+        pulseT += 0.04;
+        const boost = Math.sin(Math.min(pulseT, Math.PI)) * 0.55;
+        ringMat1.opacity = Math.min(1, 0.90 + boost);
+        ringMat2.opacity = Math.min(1, 0.68 + boost * 0.8);
+        ringMat3.opacity = Math.min(1, 0.42 + boost * 0.6);
+        if (pulseT >= Math.PI) {
+          pulseT = -1;
+          ringMat1.opacity = 0.90;
+          ringMat2.opacity = 0.68;
+          ringMat3.opacity = 0.42;
         }
       }
 

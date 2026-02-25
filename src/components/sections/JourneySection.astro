@@ -22,7 +22,7 @@ const { journey } = Astro.props;
         <div class="space-y-4">
           {journey.experience.map((item) => (
             <article class="glass-surface p-4 md:p-5">
-              <div class="mb-2 inline-flex rounded-full border border-primary/50 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary">
+              <div class="mb-2 inline-flex rounded-lg border border-primary/50 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary">
                 {item.period}
               </div>
               <h3 class="m-0 text-[18px] md:text-[20px]">{item.title}</h3>
@@ -46,7 +46,7 @@ const { journey } = Astro.props;
         <div class="space-y-4">
           {journey.education.map((item) => (
             <article class="glass-surface p-4 md:p-5">
-              <div class="mb-2 inline-flex rounded-full border border-primary/50 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary">
+              <div class="mb-2 inline-flex rounded-lg border border-primary/50 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wide text-primary">
                 {item.period}
               </div>
               <h3 class="m-0 text-[18px] md:text-[20px]">{item.title}</h3>

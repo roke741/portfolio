@@ -134,6 +134,7 @@ textarea {
   .glass-panel-soft {
     position: relative;
     overflow: hidden;
+    border-radius: 1rem;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     box-shadow: var(--glass-shadow), var(--glass-inner), 0 0 0 1px rgba(255, 255, 255, 0.08);
@@ -155,6 +156,7 @@ textarea {
   .glass-panel-card {
     position: relative;
     overflow: hidden;
+    border-radius: 1rem;
     background: var(--glass-bg);
     border: none;
     box-shadow: 0 16px 36px rgba(12, 20, 34, 0.16);
@@ -170,7 +172,7 @@ textarea {
   }
 
   .frame-primary {
-    @apply border-[3px] border-primary;
+    @apply border-[3px] border-primary rounded-2xl;
     box-shadow: 0 0 0 1px rgba(81, 99, 255, 0.18), 0 0 14px rgba(81, 99, 255, 0.16);
   }
 
@@ -351,7 +353,8 @@ textarea {
 /* ── Esfera 3D de tecnologías ── */
 .tech-sphere {
   width: 100%;
-  max-width: 480px;
+  max-width: 580px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -361,12 +364,13 @@ textarea {
 .tech-sphere__canvas {
   width: 100%;
   aspect-ratio: 1;
-  max-width: 460px;
-  min-height: 340px;
-  border-radius: 16px;
-  overflow: hidden;
+  max-width: 600px;
+  min-height: 480px;
   cursor: grab;
-  background: radial-gradient(ellipse at center, rgba(81, 99, 255, 0.05) 0%, transparent 65%);
+  background: transparent;
+  filter:
+    drop-shadow(0 0 18px rgba(140, 155, 255, 0.28))
+    drop-shadow(0 0 60px rgba(140, 155, 255, 0.10));
 }
 
 .tech-sphere__canvas:active {
@@ -383,7 +387,7 @@ textarea {
   font-family: var(--font-code);
   font-size: 0.58rem;
   letter-spacing: 0.12em;
-  color: rgba(224, 224, 255, 0.22);
+  color: rgba(224, 224, 255, 0.655);
   text-transform: uppercase;
   text-align: center;
   line-height: 1.9;
@@ -392,19 +396,13 @@ textarea {
 
 .tech-sphere__dot {
   display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
+  width: 10px;
+  height: 10px;
   background: var(--color-primary, #5163ff);
   margin-right: 4px;
   vertical-align: middle;
-  animation: tech-sphere-blink 2s ease-in-out infinite;
 }
 
-@keyframes tech-sphere-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.15; }
-}
 
 section {
   animation: section-enter 0.55s ease both;
@@ -461,11 +459,11 @@ section {
   }
 
   .tech-sphere {
-    max-width: 360px;
+    max-width: 420px;
   }
 
   .tech-sphere__canvas {
-    min-height: 280px;
+    min-height: 340px;
   }
 }
 
