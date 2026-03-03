@@ -32,17 +32,16 @@ const { seo } = Astro.props;
     <link rel="canonical" href={seo.canonical} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossorigin="anonymous" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
     <title>{seo.title}</title>
+    <script is:inline src="/vendor/liquid-glass/displacement-utils.js"></script>
+    <script is:inline src="/vendor/liquid-glass/glass-element.js"></script>
   </head>
-  <body class="dark-mode">
+  <body>
     <slot />
   </body>
 </html>
