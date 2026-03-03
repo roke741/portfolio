@@ -14,18 +14,20 @@ export interface NavItem {
 }
 
 export interface HeroContent {
-  greeting: string;
-  name: string;
-  summary: string;
-  ctaLabel: string;
-  ctaHref: string;
-  imageSrc: string;
-  imageAlt: string;
+  headingLine1: string;
+  headingLine2: string;
+  subtitle: string;
+  ctaPrimary: { label: string; href: string };
+  ctaSecondary: { label: string; href: string };
+  dashboardImage: string;
+  dashboardImageAlt: string;
+  videoSrc: string;
 }
 
 export interface SkillCard {
   title: string;
   content: string;
+  icon: string;
 }
 
 export interface ProjectItem {
@@ -94,15 +96,16 @@ export const header = {
 };
 
 export const hero: HeroContent = {
-  greeting: 'Hola, soy',
-  name: 'Jhordie Roque',
-  summary:
-    'Desarrollador Full Stack orientado a resultados. Diseño y construyo productos web completos — desde la interfaz hasta la API — con foco en rendimiento, escalabilidad y código que otros puedan mantener.',
-  ctaLabel: 'Descargar CV',
+  headingLine1: 'Hola, soy Jhordie',
+  headingLine2: 'Desarrollador Full Stack',
+  subtitle:
+    'Orientado a resultados. Diseño y construyo productos web completos — desde la interfaz hasta la API — con foco en rendimiento, escalabilidad y código que otros puedan mantener.',
+  ctaPrimary: { label: 'Ver proyectos', href: '#projects' },
   // TODO: reemplaza '#' con la URL real de tu CV (Google Drive, Notion, PDF, etc.)
-  ctaHref: '#',
-  imageSrc: '/assets/img-principal.png',
-  imageAlt: 'Ilustración principal del portafolio'
+  ctaSecondary: { label: 'Descargar CV', href: '#' },
+  dashboardImage: '/assets/img-principal.png',
+  dashboardImageAlt: 'Dashboard preview del portafolio',
+  videoSrc: '/assets/space_nebula_loop_animation.mp4'
 };
 
 export const sectionTitles = {
@@ -173,22 +176,13 @@ export const journey: JourneyContent = {
 
 export const skillColumns: SkillCard[][] = [
   [
-    { title: 'Lenguajes', content: 'PHP · Python · Typescript · Javascript · Java · SQL' },
-    { title: 'Bases de datos', content: 'PostgreSQL · MySQL · MongoDB' },
-    { title: 'DevOps', content: 'Linux · Docker · VPS · GitHub Actions' }
+    { title: 'Lenguajes', content: 'PHP · Python · Typescript · Javascript · Java · SQL', icon: '⟨/⟩' },
+    { title: 'Bases de datos', content: 'PostgreSQL · MySQL · MongoDB', icon: '◉' },
+    { title: 'DevOps', content: 'Linux · Docker · VPS · GitHub Actions', icon: '⚙' }
   ],
   [
-    {
-      title: 'Herramientas',
-      content:
-        'VS Code · IntelliJ · Cursor · Git · GitHub · Postman · Figma · LLM'
-    },
-    {
-      title: 'Frameworks',
-      content: 'Laravel · React · NextJS · Astro · Spring Boot · NuxtJS'
-    }
-    // SUGERENCIA: considera separar en Frontend (React · NextJS · Astro · NuxtJS)
-    // y Backend (Laravel · Spring Boot) para mostrar más detalle de tu stack.
+    { title: 'Herramientas', content: 'VS Code · IntelliJ · Cursor · Git · GitHub · Postman · Figma · LLM', icon: '◈' },
+    { title: 'Frameworks', content: 'Laravel · React · NextJS · Astro · Spring Boot · NuxtJS', icon: '△' }
   ]
 ];
 
@@ -216,12 +210,6 @@ export const projects: ProjectItem[] = [
     title: 'Clone Egg',
     description: 'Réplica funcional de plataforma educativa centrada en flujo real de usuario, navegación clara y consistencia visual.',
     githubUrl: 'https://github.com/roke741/clone-egg'
-  },
-  {
-    image: '/assets/TiendaEcommerce-bootstrap5.png',
-    title: 'Tienda Ecommerce Bootstrap 5',
-    description: 'Maquetación de e-commerce responsive con Bootstrap 5, enfocada en catálogo, detalle de producto y experiencia de compra.',
-    githubUrl: 'https://github.com/roke741/ecommerce-bootstrap5'
   },
   {
     image: '/assets/peruzon.png',
