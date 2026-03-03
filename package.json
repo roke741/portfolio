@@ -9,8 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@lucide/astro": "^0.576.0",
+    "@splinetool/loader": "^1.12.61",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
+    "clsx": "^2.1.1",
+    "motion": "^12.34.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.1",
     "three": "^0.183.1"
   }
