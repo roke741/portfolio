@@ -1,0 +1,43 @@
+<glass-element
+  class="fixed bottom-[70px] left-[70px] z-[100] [--glass-padding:0px] max-md:bottom-5 max-md:left-5"
+  width="60"
+  height="60"
+  radius="10"
+  depth="7"
+  blur="0.6"
+  strength="50"
+  chromatic-aberration="1.1"
+  background-color="rgba(255,255,255,0.24)"
+  aria-hidden="true"
+>
+  <button
+    type="button"
+    id="theme-toggle"
+    aria-label="Cambiar tema"
+    class="grid h-[60px] w-[60px] place-items-center rounded-[20px] border-0 bg-transparent text-[30px] text-[var(--text-color)] transition-[transform,filter] duration-200 hover:-translate-y-0.5 hover:scale-[1.01] hover:brightness-105 active:scale-95 motion-reduce:transition-none motion-reduce:hover:transform-none motion-reduce:hover:filter-none motion-reduce:active:transform-none max-md:h-[52px] max-md:w-[52px] max-md:rounded-[17px] max-md:text-2xl"
+  >
+    <span id="theme-icon" aria-hidden="true">☾</span>
+  </button>
+</glass-element>
+
+<script>
+  const body = document.body;
+  const button = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+
+  const setTheme = (isDark: boolean) => {
+    body.classList.toggle('dark-mode', isDark);
+    if (icon) {
+      icon.textContent = isDark ? '☀' : '☾';
+    }
+    localStorage.setItem('darkModeEnabled', JSON.stringify(isDark));
+  };
+
+  const isDark = JSON.parse(localStorage.getItem('darkModeEnabled') ?? 'true');
+  setTheme(isDark);
+
+  button?.addEventListener('click', () => {
+    const current = body.classList.contains('dark-mode');
+    setTheme(!current);
+  });
+</script>

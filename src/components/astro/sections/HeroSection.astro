@@ -1,0 +1,115 @@
+---
+import { Button as MovingBorderButton } from "@/components/react/ui/moving-border";
+import type { HeroContent } from "@/data/content";
+
+interface Props {
+  hero: HeroContent;
+}
+
+const { hero } = Astro.props;
+---
+
+<section
+  class="relative flex min-h-screen w-full flex-col overflow-hidden bg-space-950"
+  id="presentation"
+>
+  <!-- Background Video -->
+  <video
+    class="pointer-events-none absolute top-1/2 left-1/2 z-0 h-auto min-h-full min-w-full w-auto -translate-x-1/2 -translate-y-[48%] scale-[1.08] object-cover object-[center_55%] opacity-55 will-change-transform max-md:scale-[1.1] motion-reduce:hidden"
+    autoplay
+    loop
+    muted
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+    data-hero-video
+  >
+    <source src={hero.videoSrc} type="video/mp4" />
+  </video>
+
+  <!-- Dark overlay for text contrast -->
+  <div
+    class="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.03)_15%,rgba(0,0,0,0.04)_45%,rgba(0,0,0,0.2)_75%,rgba(0,0,0,0.55)_100%)] motion-reduce:bg-[rgba(0,0,0,0.1)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Bottom fade transition into next section -->
+  <div
+    class="pointer-events-none absolute right-0 bottom-0 left-0 z-20 h-52 sm:h-64 md:h-80 lg:h-96 bg-[linear-gradient(to_bottom,transparent_0%,rgba(4,10,24,0.3)_15%,rgba(4,10,24,0.55)_30%,rgba(4,10,24,0.78)_50%,rgba(4,10,24,0.92)_70%,#040a18_85%,#040a18_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Content Layer -->
+  <div
+    class="relative z-30 flex min-h-screen w-full flex-1 flex-col items-center justify-center pt-20 pb-20 md:pt-28 md:pb-32 lg:pt-32 lg:pb-36 max-md:min-h-auto"
+  >
+    <div
+      class="mx-auto flex w-full max-w-195 flex-col items-center gap-5 px-6 text-center md:gap-7 lg:gap-8 max-md:px-5"
+    >
+      <!-- <span class="inline-flex items-center gap-2.5 rounded-[50px] border border-[rgba(123,142,200,0.12)] bg-[rgba(123,142,200,0.06)] px-5 py-2 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap text-[rgba(255,255,255,0.6)] backdrop-blur-md max-md:px-4 max-md:py-1.5 max-md:text-xs">
+        <span class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent shadow-[0_0_6px_rgba(52,199,89,0.25)]"></span>
+        Desarrollando un app grandiosa
+      </span> -->
+
+      <h1
+        class="m-0 text-4xl leading-[1.1] tracking-[-0.5px] text-[rgba(255,255,255,0.92)] sm:text-5xl md:tracking-[-1.5px] lg:text-7xl lg:tracking-[-2.5px]"
+      >
+        <span class="block font-['Inter',system-ui,sans-serif] font-medium"
+          >{hero.headingLine1}</span
+        >
+        <span
+          class="block font-['Instrument_Serif',Georgia,serif] text-[rgba(255,255,255,0.75)] italic"
+          >{hero.headingLine2}</span
+        >
+      </h1>
+
+      <p
+        class="m-0 max-w-130 font-['Manrope',system-ui,sans-serif] text-sm leading-[1.8] text-[rgba(255,255,255,0.4)] md:text-base max-md:max-w-full"
+      >
+        {hero.subtitle}
+      </p>
+
+      <div
+        class="mt-2 flex flex-row items-center gap-4 md:mt-3 lg:mt-5 max-md:w-full max-md:flex-col max-md:gap-3"
+      >
+        <a
+          href={hero.ctaPrimary.href}
+          class="btn-primary h-12 px-6 no-underline max-md:w-40 max-md:justify-center"
+        >
+          {hero.ctaPrimary.label}
+        </a>
+        <MovingBorderButton
+          client:load
+          as="a"
+          href={hero.ctaSecondary.href}
+          borderRadius="12px"
+          duration={3000}
+          containerClassName="h-12"
+          className="bg-white dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+        >
+          {hero.ctaSecondary.label}
+        </MovingBorderButton>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+  if (video) {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = (e: MediaQueryList | MediaQueryListEvent) => {
+      if (e.matches) {
+        video.pause();
+        video.style.display = "none";
+      } else {
+        video.style.display = "";
+        video.play().catch(() => {});
+      }
+    };
+    apply(mq);
+    mq.addEventListener("change", apply);
+  }
+</script>

@@ -1,0 +1,88 @@
+---
+import type { ContactContent } from "@/data/content";
+import SectionTitle from "@/components/astro/ui/SectionTitle.astro";
+import { Send } from '@lucide/astro';
+
+interface Props {
+  contact: ContactContent;
+}
+
+const { contact } = Astro.props;
+---
+
+<section id="contact">
+  <div class="page-container section-shell section-stack">
+    <SectionTitle text={contact.title} />
+    <div class="mx-auto flex w-full max-w-245 justify-center">
+      <div
+        class="w-full rounded-3xl border border-primary/25 bg-[linear-gradient(160deg,rgba(10,18,40,0.98),rgba(8,16,36,0.94))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_30px_65px_rgba(2,8,24,0.55)] backdrop-blur-md md:p-9"
+      >
+        <form action="#" method="post" class="w-full">
+          <div
+            class="grid w-full grid-cols-1 gap-6 md:grid-cols-[1fr_1.12fr] md:gap-7"
+          >
+            <div class="flex flex-col gap-5 md:pt-0.5">
+              <div class="flex flex-col gap-2.5">
+                <label
+                  for="name"
+                  class="text-[0.96rem] font-medium tracking-[0.01em] text-[rgba(232,234,240,0.84)]"
+                  >{contact.nameLabel}</label
+                >
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  class="input-shell h-12 px-4"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <div class="flex flex-col gap-2.5">
+                <label
+                  for="email"
+                  class="text-[0.96rem] font-medium tracking-[0.01em] text-[rgba(232,234,240,0.84)]"
+                  >{contact.emailLabel}</label
+                >
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="input-shell h-12 px-4"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+            </div>
+            <div class="flex flex-col gap-2.5">
+              <label
+                for="message"
+                class="text-[0.96rem] font-medium tracking-[0.01em] text-[rgba(232,234,240,0.84)]"
+                >{contact.messageLabel}</label
+              >
+              <textarea
+                id="message"
+                name="message"
+                placeholder={contact.messagePlaceholder}
+                class="input-shell min-h-43 flex-1 resize-none px-4 py-3.5 md:min-h-40"
+                required></textarea>
+            </div>
+          </div>
+          <div
+            class="mt-7 flex items-center justify-between gap-4 max-md:flex-col max-md:items-stretch"
+          >
+            <p class="text-xs text-white/45 max-md:text-center">
+              Respuesta en 24h hábiles.
+            </p>
+            <button
+              type="submit"
+              class="btn-primary min-h-12 min-w-47.5 px-8 py-3 max-md:w-full"
+            >
+              <Send size={16} stroke-width={2} aria-hidden="true" />
+              {contact.submitLabel}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

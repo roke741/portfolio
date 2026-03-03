@@ -1,0 +1,93 @@
+---
+import type { JourneyContent } from "@/data/content";
+import { Meteors } from "@/components/react/ui/meteors";
+import SectionTitle from "@/components/astro/ui/SectionTitle.astro";
+
+interface Props {
+  journey: JourneyContent;
+}
+
+const { journey } = Astro.props;
+---
+
+<section id="journey">
+  <div class="page-container section-shell section-stack">
+    <SectionTitle text={journey.title} />
+
+    <div
+      class="grid w-full max-w-270 grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6"
+    >
+      <div class="space-y-4">
+        <div class="mb-1 flex items-center gap-3">
+          <span class="h-0.5 w-10 bg-primary"></span>
+          <h3 class="m-0 text-xl md:text-2xl">{journey.experienceTitle}</h3>
+        </div>
+        <div class="space-y-4">
+          {
+            journey.experience.map((item) => (
+              <article class="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 px-5 py-7 text-left shadow-xl transition-transform duration-200 hover:-translate-y-px md:px-6 md:py-8">
+                <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
+                <div class="relative z-10">
+                  <div class="chip mb-2 px-3 py-1 font-semibold tracking-wide">
+                    {item.period}
+                  </div>
+                  <h3 class="m-0 text-[18px] md:text-[20px]">{item.title}</h3>
+                  <p class="m-0 text-sm font-semibold text-accent">
+                    {item.organization}
+                  </p>
+                  <p class="mt-2 text-sm leading-6 text-white/45 md:text-[15px]">
+                    {item.summary}
+                  </p>
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <span class="chip border-white/20 bg-white/5 text-white/65">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <Meteors client:load number={12} />
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="mb-1 flex items-center gap-3">
+          <span class="h-0.5 w-10 bg-accent"></span>
+          <h3 class="m-0 text-xl md:text-2xl">{journey.educationTitle}</h3>
+        </div>
+        <div class="space-y-4">
+          {
+            journey.education.map((item) => (
+              <article class="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 px-5 py-7 text-left shadow-xl transition-transform duration-200 hover:-translate-y-px md:px-6 md:py-8">
+                <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
+                <div class="relative z-10">
+                  <div class="chip mb-2 px-3 py-1 font-semibold tracking-wide">
+                    {item.period}
+                  </div>
+                  <h3 class="m-0 text-[18px] md:text-[20px]">{item.title}</h3>
+                  <p class="m-0 text-sm font-semibold text-accent">
+                    {item.organization}
+                  </p>
+                  <p class="mt-2 text-sm leading-6 text-white/45 md:text-[15px]">
+                    {item.summary}
+                  </p>
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <span class="chip border-white/20 bg-white/5 text-white/65">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <Meteors client:load number={12} />
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

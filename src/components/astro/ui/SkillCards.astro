@@ -1,0 +1,17 @@
+---
+import type { SkillCard } from '@/data/content';
+import SkillPatternCard from '@/components/astro/ui/SkillPatternCard.astro';
+
+interface Props {
+  columns: SkillCard[][];
+}
+
+const { columns } = Astro.props;
+const allCards = columns.flat();
+---
+
+<div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-5 xl:gap-4">
+  {allCards.map((card) => (
+    <SkillPatternCard feature={{ title: card.title, description: card.content, icon: card.icon }} />
+  ))}
+</div>

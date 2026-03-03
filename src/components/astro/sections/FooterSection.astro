@@ -1,0 +1,110 @@
+---
+import type { FooterContent } from "@/data/content";
+import { Meteors } from "@/components/react/ui/meteors";
+import {
+  Facebook,
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  Twitter,
+} from '@lucide/astro';
+
+interface Props {
+  footer: FooterContent;
+}
+
+const { footer } = Astro.props;
+
+const socialIconMap: Record<string, any> = {
+  facebook: Facebook,
+  github: Github,
+  linkedin: Linkedin,
+  discord: MessageCircle,
+  twitter: Twitter,
+  instagram: Instagram,
+};
+---
+
+<footer class="border-t border-primary/10">
+  <div class="page-container section-shell">
+    <div class="mx-auto flex w-full max-w-270 flex-col gap-8">
+      <div
+        class="relative grid grid-cols-1 gap-7 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 p-6 shadow-xl md:grid-cols-[1.2fr_1fr_1fr] md:gap-10 md:p-8"
+      >
+        <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
+
+        <div class="relative z-10 flex flex-col gap-2">
+          <h3 class="m-0 text-xl font-bold tracking-tight text-foreground">
+            {footer.name}
+          </h3>
+          <div class="flex flex-col gap-0.5">
+            {
+              footer.roles.map((role) => (
+                <span class="text-sm text-white/50">{role}</span>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="relative z-10 flex flex-col gap-2">
+          <p
+            class="m-0 text-xs font-semibold uppercase tracking-wider text-white/35"
+          >
+            Correo
+          </p>
+          <a
+            href={`mailto:${footer.email}`}
+            class="btn-soft w-fit"
+          >
+            <Mail size={16} stroke-width={2} aria-hidden="true" />
+            {footer.email}
+          </a
+          >
+        </div>
+
+        <div class="relative z-10 flex flex-col gap-2">
+          <p
+            class="m-0 text-xs font-semibold uppercase tracking-wider text-white/35"
+          >
+            Social
+          </p>
+          <div class="flex flex-wrap gap-3">
+            {
+              footer.socialLinks.map((social) => {
+                const Icon = socialIconMap[social.label.toLowerCase()] ?? MessageCircle;
+                return (
+                  <a
+                    href={social.href}
+                    aria-label={social.label}
+                    title={social.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-icon"
+                  >
+                    <Icon size={18} stroke-width={2} aria-hidden="true" />
+                  </a>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <Meteors client:load number={12} />
+      </div>
+
+      <div
+        class="h-px bg-linear-to-r from-transparent via-white/10 to-transparent"
+      >
+      </div>
+
+      <div
+        class="flex flex-col items-center justify-between gap-2 text-center md:flex-row md:gap-4 md:text-left"
+      >
+        <p class="m-0 text-[13px] text-white/35">{footer.signature}</p>
+        <p class="m-0 text-[13px] text-white/35">{footer.copyright}</p>
+      </div>
+    </div>
+  </div>
+</footer>

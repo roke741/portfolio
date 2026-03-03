@@ -1,0 +1,38 @@
+---
+import type { SkillCard } from "@/data/content";
+import SkillCards from "@/components/astro/ui/SkillCards.astro";
+import SectionTitle from "@/components/astro/ui/SectionTitle.astro";
+
+interface Props {
+  title: string;
+  columns: SkillCard[][];
+}
+
+const { title, columns } = Astro.props;
+---
+
+<section id="skills" class="relative overflow-hidden">
+  <div class="page-container section-shell section-stack relative z-10">
+    <SectionTitle text={title} />
+    <!-- <aside class="flex w-full flex-col items-center gap-3" aria-label="Modelo 3D">
+      <div class="h-[26rem] w-full max-w-[64rem] overflow-hidden md:h-[36rem]">
+        <spline-viewer
+          class="block h-full w-full bg-transparent"
+          url="https://prod.spline.design/MvRCS7fYtIif8uET/scene.splinecode"
+        ></spline-viewer>
+      </div>
+      <p class="m-0 text-center text-xs tracking-[0.05em] text-white/35 uppercase">
+        <span class="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-primary/80 align-middle"></span>
+        Modelo 3D interactivo
+      </p>
+    </aside> -->
+
+    <!-- Skill cards below sphere -->
+    <SkillCards columns={columns} />
+  </div>
+</section>
+
+<!-- <script
+  type="module"
+  src="https://unpkg.com/@splinetool/viewer@1.10.59/build/spline-viewer.js"
+</script> -->

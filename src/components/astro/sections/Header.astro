@@ -1,0 +1,222 @@
+---
+import type { NavItem } from "@/data/content";
+
+interface Props {
+  brand: string;
+  navItems: NavItem[];
+}
+
+const { brand, navItems } = Astro.props;
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 transition-all duration-300 md:px-6 md:pt-6"
+  data-nav-root
+>
+  <div class="hidden items-center gap-5 md:flex">
+    <div class="relative z-10 flex h-5 w-20 items-center px-2">
+      <a
+        href="#"
+        class="shrink-0 text-lg font-bold text-white transition-colors duration-300 hover:text-slate-300"
+        aria-label={`${brand} — Inicio`}
+      >
+        {brand}
+      </a>
+    </div>
+
+    <nav class="flex items-center gap-2" aria-label="Navegación principal">
+      <ul class="m-0 flex list-none items-center gap-4 p-0" role="list">
+        {
+          navItems.map((item) => (
+            <li>
+              <glass-element
+                height="10"
+                radius="999"
+                blur="1"
+                depth="4"
+                strength="60"
+                chromatic-aberration="3"
+                background-color="rgba(6, 10, 24, 0.2)"
+                auto-size
+              >
+                <a
+                  href={item.href}
+                  class="h-2 inline-flex items-center justify-center rounded-full text-xs font-semibold transition-all duration-300 hover:-translate-y-px hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                >
+                  {item.label}
+                </a>
+              </glass-element>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="relative w-full md:hidden">
+    <div class="flex w-full items-center justify-between gap-3">
+      <glass-element
+        height="10"
+        radius="999"
+        blur="1"
+        depth="5"
+        strength="60"
+        chromatic-aberration="3"
+        background-color="rgba(6, 10, 24, 0.2)"
+        auto-size
+      >
+        <div class="relative z-10 flex h-6 items-center px-4">
+          <a
+            href="#"
+            class="shrink-0 text-lg font-bold text-white transition-colors duration-300 hover:text-slate-300"
+            aria-label={`${brand} — Inicio`}
+          >
+            {brand}
+          </a>
+        </div>
+      </glass-element>
+
+      <glass-element
+        height="10"
+        radius="10"
+        blur="1"
+        depth="5"
+        strength="60"
+        chromatic-aberration="3"
+        background-color="rgba(6, 10, 24, 0.2)"
+        auto-size
+      >
+        <div
+          class="relative z-10 flex h-6 w-6 items-center justify-center px-2"
+        >
+          <button
+            class="flex h-9 w-9 flex-col items-center justify-center gap-1 rounded-lg border-0 bg-transparent p-1.5"
+            type="button"
+            aria-label="Abrir menú de navegación"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            data-nav-hamburger
+          >
+            <span
+              class="block h-0.5 w-5 origin-center rounded-sm bg-white transition-all duration-300"
+              data-line="1"></span>
+            <span
+              class="block h-0.5 w-5 origin-center rounded-sm bg-white transition-all duration-300"
+              data-line="2"></span>
+            <span
+              class="block h-0.5 w-5 origin-center rounded-sm bg-white transition-all duration-300"
+              data-line="3"></span>
+          </button>
+        </div>
+      </glass-element>
+    </div>
+
+    <div
+      class="invisible absolute top-full right-10 z-50 mt-3 w-24 origin-top-right rounded-2xl opacity-0 -translate-y-2 scale-95 transition-all duration-300"
+      id="mobile-menu"
+      aria-hidden="true"
+      data-nav-mobile
+    >
+      <glass-element
+        style="z-index: 10; --glass-padding: 0px;"
+        width="360"
+        height="240"
+        radius="16"
+        blur="1"
+        depth="5"
+        strength="60"
+        chromatic-aberration="3"
+        background-color="rgba(6, 10, 24, 0.2)"
+        auto-size
+      >
+        <div class="flex flex-col gap-2 px-4 py-4">
+          <ul class="m-0 flex list-none flex-col gap-1 p-0" role="list">
+            {
+              navItems.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors duration-200 hover:bg-slate-800 hover:text-white"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </glass-element>
+    </div>
+  </div>
+</header>
+
+<script>
+  const hamburger = document.querySelector<HTMLElement>("[data-nav-hamburger]");
+  const mobileMenu = document.querySelector<HTMLElement>("[data-nav-mobile]");
+  const nav = document.querySelector<HTMLElement>("[data-nav-root]");
+  const line1 = hamburger?.querySelector<HTMLElement>('[data-line="1"]');
+  const line2 = hamburger?.querySelector<HTMLElement>('[data-line="2"]');
+  const line3 = hamburger?.querySelector<HTMLElement>('[data-line="3"]');
+
+  // Sticky navbar scroll detection
+  if (nav) {
+    const onScroll = () => {
+      if (window.scrollY > 60) {
+        nav.classList.add("pt-2.5");
+      } else {
+        nav.classList.remove("pt-2.5");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener("click", () => {
+      const expanded = hamburger.getAttribute("aria-expanded") === "true";
+      hamburger.setAttribute("aria-expanded", String(!expanded));
+
+      line1?.classList.toggle("translate-y-1.5");
+      line1?.classList.toggle("rotate-45");
+      line2?.classList.toggle("opacity-0");
+      line2?.classList.toggle("scale-x-0");
+      line3?.classList.toggle("-translate-y-1.5");
+      line3?.classList.toggle("-rotate-45");
+
+      mobileMenu.classList.toggle("visible");
+      mobileMenu.classList.toggle("opacity-100");
+      mobileMenu.classList.toggle("translate-y-0");
+      mobileMenu.classList.toggle("scale-100");
+      mobileMenu.classList.toggle("invisible");
+      mobileMenu.classList.toggle("opacity-0");
+      mobileMenu.classList.toggle("-translate-y-2");
+      mobileMenu.classList.toggle("scale-95");
+
+      mobileMenu.setAttribute("aria-hidden", String(expanded));
+    });
+
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburger.setAttribute("aria-expanded", "false");
+
+        line1?.classList.remove("translate-y-1.5", "rotate-45");
+        line2?.classList.remove("opacity-0", "scale-x-0");
+        line3?.classList.remove("-translate-y-1.5", "-rotate-45");
+
+        mobileMenu.classList.remove(
+          "visible",
+          "opacity-100",
+          "translate-y-0",
+          "scale-100",
+        );
+        mobileMenu.classList.add(
+          "invisible",
+          "opacity-0",
+          "-translate-y-2",
+          "scale-95",
+        );
+        mobileMenu.setAttribute("aria-hidden", "true");
+      });
+    });
+  }
+</script>

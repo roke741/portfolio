@@ -1,0 +1,43 @@
+---
+import type { ProjectItem } from '@/data/content';
+import { Meteors } from '@/components/react/ui/meteors';
+import { Github } from '@lucide/astro';
+
+interface Props {
+  project: ProjectItem;
+  className?: string;
+}
+
+const { project, className = '' } = Astro.props;
+const coverImage = project.image ?? '/assets/project-placeholder.svg';
+---
+
+<article class={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 shadow-xl transition-transform duration-200 hover:-translate-y-px ${className}`}>
+  <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
+  <div class="relative z-10 overflow-hidden rounded-t-2xl">
+    <img
+      src={coverImage}
+      alt={project.title}
+      loading="lazy"
+      decoding="async"
+      onerror="this.onerror=null;this.src='/assets/project-placeholder.svg';"
+      class="block h-40 w-full object-cover transition-transform duration-300 md:h-45 group-hover:scale-[1.03]"
+    />
+  </div>
+  <div class="relative z-10 flex flex-1 flex-col gap-2.5 p-4 md:p-5">
+    <h3 class="m-0 text-[17px] font-semibold tracking-tight text-foreground">{project.title}</h3>
+    <p class="m-0 flex-1 text-sm leading-[1.65] text-white/60">{project.description}</p>
+    {project.githubUrl && (
+      <a
+        href={project.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-soft mt-1 w-fit"
+      >
+        <Github size={16} stroke-width={2} aria-hidden="true" />
+        Ver en GitHub
+      </a>
+    )}
+  </div>
+  <Meteors client:load number={10} />
+</article>

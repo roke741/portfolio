@@ -1,0 +1,13 @@
+---
+interface Props {
+  text: string;
+  subtitle?: string;
+}
+
+const { text, subtitle } = Astro.props;
+---
+
+<div class="text-center">
+  <h2 class="m-0 text-[clamp(32px,5vw,52px)] font-bold leading-[1.15] tracking-tight text-foreground [&>span]:text-primary">{text}</h2>
+  {subtitle && <p class="mx-auto mt-4 max-w-140 text-[clamp(15px,2vw,18px)] text-white/45">{subtitle}</p>}
+</div>

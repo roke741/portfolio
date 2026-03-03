@@ -1,0 +1,67 @@
+---
+interface SkillFeature {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface Props {
+  feature: SkillFeature;
+}
+
+const { feature } = Astro.props;
+
+// Lógica para los cuadritos aleatorios del fondo
+const size = 20;
+const patternId = `pattern-${Math.random().toString(36).slice(2, 11)}`;
+
+// Generamos los cuadrados aleatorios en el servidor
+const squares: Array<[number, number]> = Array.from({ length: 5 }).map(() => [
+  Math.floor(Math.random() * 4) + 7,
+  Math.floor(Math.random() * 6) + 1,
+]);
+---
+
+<div class="group relative overflow-hidden rounded-3xl border border-[rgba(123,142,200,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.055)_0%,rgba(7,12,27,0.78)_60%,rgba(4,10,24,0.92)_100%)] p-6 transition-[border-color,transform] duration-300 hover:-translate-y-px hover:border-[rgba(123,142,200,0.22)]">
+  <div class="pointer-events-none absolute top-0 left-1/2 ml-[-80px] mt-[-8px] h-full w-full [mask-image:linear-gradient(white,transparent)] [-webkit-mask-image:linear-gradient(white,transparent)]" aria-hidden="true">
+    <div class="absolute inset-0 bg-linear-to-r from-[rgba(113,113,122,0.12)] via-[rgba(123,142,200,0.16)] to-[rgba(113,113,122,0.12)] [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] [-webkit-mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
+      <svg
+        aria-hidden="true"
+        class="absolute inset-0 h-full w-full fill-white/8 stroke-white/8 mix-blend-overlay"
+      >
+        <defs>
+          <pattern
+            id={patternId}
+            width={size}
+            height={size}
+            patternUnits="userSpaceOnUse"
+            x="-12"
+            y="4"
+          >
+            <path d={`M.5 ${size}V.5H${size}`} fill="none" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" stroke-width="0" fill={`url(#${patternId})`} />
+        <svg x="-12" y="4" class="overflow-visible">
+          {squares.map(([x, y]) => (
+            <rect
+              stroke-width="0"
+              width={size + 1}
+              height={size + 1}
+              x={x * size}
+              y={y * size}
+            />
+          ))}
+        </svg>
+      </svg>
+    </div>
+  </div>
+
+  <p class="relative z-[2] m-0 inline-flex items-center gap-2.5 text-[15px] font-bold text-white/90">
+    {feature.icon && <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-primary/15 text-[13px] text-primary">{feature.icon}</span>}
+    <span>{feature.title}</span>
+  </p>
+  <p class="relative z-[2] mt-3.5 mb-0 text-sm leading-[1.65] font-medium text-white/58">
+    {feature.description}
+  </p>
+</div>
