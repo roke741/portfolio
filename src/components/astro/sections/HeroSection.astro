@@ -1,5 +1,6 @@
 ---
 import { Button as MovingBorderButton } from "@/components/react/ui/moving-border";
+import HeroRoles from "@/components/react/ui/HeroRoles";
 import type { HeroContent } from "@/data/content";
 
 interface Props {
@@ -13,9 +14,10 @@ const { hero } = Astro.props;
   class="relative flex min-h-screen w-full flex-col overflow-hidden bg-space-950"
   id="presentation"
 >
-  <!-- Background Video -->
+  <!-- Background Video (parallax via JS) -->
   <video
-    class="pointer-events-none absolute top-1/2 left-1/2 z-0 h-auto min-h-full min-w-full w-auto -translate-x-1/2 -translate-y-[48%] scale-[1.08] object-cover object-[center_55%] opacity-55 will-change-transform max-md:scale-[1.1] motion-reduce:hidden"
+    class="pointer-events-none absolute top-1/2 left-1/2 z-0 h-auto min-h-full min-w-full w-auto object-cover object-[center_55%] opacity-55 will-change-transform max-md:scale-[1.1] motion-reduce:hidden"
+    style="transform: translate(-50%, -48%) scale(1.08);"
     autoplay
     loop
     muted
@@ -29,17 +31,15 @@ const { hero } = Astro.props;
 
   <!-- Dark overlay for text contrast -->
   <div
-    class="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.03)_15%,rgba(0,0,0,0.04)_45%,rgba(0,0,0,0.2)_75%,rgba(0,0,0,0.55)_100%)] motion-reduce:bg-[rgba(0,0,0,0.1)]"
+    class="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.22)_0%,rgba(0,0,0,0.06)_15%,rgba(0,0,0,0.06)_45%,rgba(0,0,0,0.28)_75%,rgba(0,0,0,0.62)_100%)]"
     aria-hidden="true"
-  >
-  </div>
+  ></div>
 
   <!-- Bottom fade transition into next section -->
   <div
     class="pointer-events-none absolute right-0 bottom-0 left-0 z-20 h-52 sm:h-64 md:h-80 lg:h-96 bg-[linear-gradient(to_bottom,transparent_0%,rgba(4,10,24,0.3)_15%,rgba(4,10,24,0.55)_30%,rgba(4,10,24,0.78)_50%,rgba(4,10,24,0.92)_70%,#040a18_85%,#040a18_100%)]"
     aria-hidden="true"
-  >
-  </div>
+  ></div>
 
   <!-- Content Layer -->
   <div
@@ -48,31 +48,46 @@ const { hero } = Astro.props;
     <div
       class="mx-auto flex w-full max-w-195 flex-col items-center gap-5 px-6 text-center md:gap-7 lg:gap-8 max-md:px-5"
     >
-      <!-- <span class="inline-flex items-center gap-2.5 rounded-[50px] border border-[rgba(123,142,200,0.12)] bg-[rgba(123,142,200,0.06)] px-5 py-2 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap text-[rgba(255,255,255,0.6)] backdrop-blur-md max-md:px-4 max-md:py-1.5 max-md:text-xs">
+      <!-- Eyebrow label -->
+      <span
+        data-hero-el="eyebrow"
+        class="inline-flex items-center gap-2.5 rounded-[50px] border border-[rgba(123,142,200,0.12)] bg-[rgba(123,142,200,0.06)] px-5 py-2 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap text-[rgba(255,255,255,0.6)] backdrop-blur-md max-md:px-4 max-md:py-1.5 max-md:text-xs"
+        style="opacity:0;"
+      >
         <span class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent shadow-[0_0_6px_rgba(52,199,89,0.25)]"></span>
-        Desarrollando un app grandiosa
-      </span> -->
+        Disponible para nuevos proyectos
+      </span>
 
+      <!-- Headline with blur-reveal and rotating role -->
       <h1
+        data-hero-el="title"
         class="m-0 text-4xl leading-[1.1] tracking-[-0.5px] text-[rgba(255,255,255,0.92)] sm:text-5xl md:tracking-[-1.5px] lg:text-7xl lg:tracking-[-2.5px]"
+        style="opacity:0;"
       >
         <span class="block font-['Inter',system-ui,sans-serif] font-medium"
           >{hero.headingLine1}</span
         >
         <span
-          class="block font-['Instrument_Serif',Georgia,serif] text-[rgba(255,255,255,0.75)] italic"
-          >{hero.headingLine2}</span
+          class="block font-['Instrument_Serif',Georgia,serif] text-[rgba(255,255,255,0.75)] italic min-h-[1.15em]"
         >
+          <HeroRoles client:load />
+        </span>
       </h1>
 
+      <!-- Subtitle -->
       <p
+        data-hero-el="subtitle"
         class="m-0 max-w-130 font-['Manrope',system-ui,sans-serif] text-sm leading-[1.8] text-[rgba(255,255,255,0.4)] md:text-base max-md:max-w-full"
+        style="opacity:0;"
       >
         {hero.subtitle}
       </p>
 
+      <!-- CTA buttons -->
       <div
+        data-hero-el="cta"
         class="mt-2 flex flex-row items-center gap-4 md:mt-3 lg:mt-5 max-md:w-full max-md:flex-col max-md:gap-3"
+        style="opacity:0;"
       >
         <a
           href={hero.ctaPrimary.href}
@@ -94,13 +109,31 @@ const { hero } = Astro.props;
       </div>
     </div>
   </div>
+
+  <!-- Scroll Indicator -->
+  <div
+    class="hero-scroll-indicator absolute bottom-8 left-1/2 z-30 -translate-x-1/2 flex flex-col items-center gap-2 max-md:hidden"
+    aria-hidden="true"
+  >
+    <span class="text-[10px] uppercase tracking-[0.2em] text-white/30 font-medium">Scroll</span>
+    <div class="relative h-12 w-px overflow-hidden rounded-full bg-white/10">
+      <div class="hero-scroll-line absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-transparent via-[rgba(123,142,200,0.9)] to-transparent"></div>
+    </div>
+  </div>
 </section>
 
 <script>
+  import gsap from 'gsap';
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  // ── Video: playback control + parallax ──────────────────────────────────
   const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
   if (video) {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = (e: MediaQueryList | MediaQueryListEvent) => {
+    const applyMotion = (e: MediaQueryList | MediaQueryListEvent) => {
       if (e.matches) {
         video.pause();
         video.style.display = "none";
@@ -109,7 +142,59 @@ const { hero } = Astro.props;
         video.play().catch(() => {});
       }
     };
-    apply(mq);
-    mq.addEventListener("change", apply);
+    applyMotion(mq);
+    mq.addEventListener("change", applyMotion);
+
+    if (!prefersReducedMotion) {
+      window.addEventListener(
+        "scroll",
+        () => {
+          const rate = window.scrollY * 0.22;
+          video.style.transform = `translate(-50%, calc(-48% + ${rate}px)) scale(1.08)`;
+        },
+        { passive: true }
+      );
+    }
+  }
+
+  // ── Cinematic entrance animation ────────────────────────────────────────
+  if (!prefersReducedMotion) {
+    const eyebrow = document.querySelector<HTMLElement>('[data-hero-el="eyebrow"]');
+    const title   = document.querySelector<HTMLElement>('[data-hero-el="title"]');
+    const subtitle= document.querySelector<HTMLElement>('[data-hero-el="subtitle"]');
+    const cta     = document.querySelector<HTMLElement>('[data-hero-el="cta"]');
+
+    // Title gets a blur-reveal treatment
+    if (title) gsap.set(title, { filter: 'blur(10px)', y: 32 });
+    if (eyebrow)  gsap.set(eyebrow, { y: 28 });
+    if (subtitle) gsap.set(subtitle, { y: 26 });
+    if (cta)      gsap.set(cta, { y: 22 });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    if (eyebrow)  tl.to(eyebrow,  { opacity: 1, y: 0, duration: 0.75 }, 0.25);
+    if (title)    tl.to(title,    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1 }, 0.5);
+    if (subtitle) tl.to(subtitle, { opacity: 1, y: 0, duration: 0.8 }, 0.95);
+    if (cta)      tl.to(cta,      { opacity: 1, y: 0, duration: 0.7 }, 1.25);
+  } else {
+    // Show everything immediately for reduced-motion users
+    document
+      .querySelectorAll<HTMLElement>('[data-hero-el]')
+      .forEach((el) => (el.style.opacity = '1'));
+  }
+
+  // ── Scroll indicator loop ────────────────────────────────────────────────
+  const scrollLine = document.querySelector<HTMLElement>('.hero-scroll-line');
+  if (scrollLine && !prefersReducedMotion) {
+    gsap.fromTo(
+      scrollLine,
+      { y: '-100%' },
+      {
+        y: '200%',
+        duration: 1.5,
+        ease: 'sine.inOut',
+        repeat: -1,
+        repeatDelay: 0.1,
+      }
+    );
   }
 </script>

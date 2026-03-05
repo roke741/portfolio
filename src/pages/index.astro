@@ -27,7 +27,12 @@ import MainLayout from '../layouts/MainLayout.astro';
 			<Separator />
 			<JourneySection journey={journey} />
 			<Separator />
-			<ContactSection contact={contact} />
+			<ContactSection
+				contact={contact}
+				email={footer.email}
+				githubUrl={footer.socialLinks.find(l => l.label === 'GitHub')?.href}
+				linkedinUrl={footer.socialLinks.find(l => l.label === 'LinkedIn')?.href}
+			/>
 			<TextRokeDevEffect client:load />
 			<FooterSection footer={footer} />
 		</div>

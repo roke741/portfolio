@@ -1,43 +1,121 @@
 ---
 import type { ProjectItem } from '@/data/content';
-import { Meteors } from '@/components/react/ui/meteors';
-import { Github } from '@lucide/astro';
 
 interface Props {
   project: ProjectItem;
-  className?: string;
+  index?: number;
+  colSpanClass?: string;
+  heightClass?: string;
 }
 
-const { project, className = '' } = Astro.props;
-const coverImage = project.image ?? '/assets/project-placeholder.svg';
+const {
+  project,
+  index = 0,
+  colSpanClass = 'md:col-span-6',
+  heightClass = 'h-[300px] md:h-[380px]',
+} = Astro.props;
+
+const coverImage = project.image ?? null;
+const hasImage = !!coverImage;
 ---
 
-<article class={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 shadow-xl transition-transform duration-200 hover:-translate-y-px ${className}`}>
-  <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
-  <div class="relative z-10 overflow-hidden rounded-t-2xl">
+<article
+  data-project-card
+  data-index={index}
+  class={`group relative overflow-hidden rounded-3xl border border-white/10 ${heightClass} ${colSpanClass}`}
+  style="will-change: transform;"
+>
+  <!-- Layer 1: Full-bleed background image or styled gradient placeholder -->
+  {hasImage ? (
     <img
       src={coverImage}
       alt={project.title}
       loading="lazy"
       decoding="async"
       onerror="this.onerror=null;this.src='/assets/project-placeholder.svg';"
-      class="block h-40 w-full object-cover transition-transform duration-300 md:h-45 group-hover:scale-[1.03]"
+      class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.06]"
     />
-  </div>
-  <div class="relative z-10 flex flex-1 flex-col gap-2.5 p-4 md:p-5">
-    <h3 class="m-0 text-[17px] font-semibold tracking-tight text-foreground">{project.title}</h3>
-    <p class="m-0 flex-1 text-sm leading-[1.65] text-white/60">{project.description}</p>
-    {project.githubUrl && (
-      <a
-        href={project.githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-soft mt-1 w-fit"
+  ) : (
+    <div class="absolute inset-0 bg-[var(--bg-surface)]">
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(135deg, rgba(123,142,200,0.14) 0%, rgba(16,26,53,0.82) 42%, rgba(4,10,24,0.98) 100%);"
+      ></div>
+      <div
+        class="absolute inset-0 opacity-25"
+        style="background: radial-gradient(ellipse at 28% 38%, rgba(123,142,200,0.42) 0%, transparent 52%), radial-gradient(ellipse at 76% 66%, rgba(52,199,89,0.18) 0%, transparent 48%);"
+      ></div>
+      <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-mono text-7xl font-bold text-white opacity-[0.06]" aria-hidden="true"
+        >⟨/⟩</span
       >
-        <Github size={16} stroke-width={2} aria-hidden="true" />
-        Ver en GitHub
-      </a>
-    )}
+    </div>
+  )}
+
+  <!-- Layer 2: Halftone texture overlay -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    style="background-image: radial-gradient(circle, rgba(200,215,240,0.55) 1px, transparent 1px); background-size: 4px 4px; opacity: 0.08; mix-blend-mode: overlay;"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Layer 3: Gradient hover accent (slides in from left) -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+    style="background: linear-gradient(120deg, transparent 0%, rgba(123,142,200,0.18) 48%, transparent 100%);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Layer 4: Permanent bottom darkness gradient -->
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-[65%]"
+    style="background: linear-gradient(to top, rgba(4,10,24,0.97) 0%, rgba(4,10,24,0.72) 38%, transparent 100%);"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Layer 5: Dark scrim on hover -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[rgba(4,10,24,0.3)] opacity-0 transition-opacity duration-400 group-hover:opacity-100"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Content overlay -->
+  <div class="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-1 p-5 md:p-6">
+    <!-- Title: subtle upward shift on hover -->
+    <h3
+      class="m-0 text-[16px] font-semibold tracking-tight text-white/90 transition-transform duration-300 ease-out group-hover:-translate-y-0.5 md:text-[18px]"
+    >
+      {project.title}
+    </h3>
+
+    <!-- Description: fade + slide in on hover -->
+    <p
+      class="m-0 line-clamp-2 translate-y-1 text-[12px] leading-[1.65] text-white/50 opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 md:text-[13px]"
+    >
+      {project.description}
+    </p>
+
+    <!-- Pill row: slides up with slight delay -->
+    <div
+      class="mt-2 flex translate-y-2 flex-wrap items-center gap-2 opacity-0 transition-[opacity,transform] duration-300 ease-out [transition-delay:55ms] group-hover:translate-y-0 group-hover:opacity-100"
+    >
+      {project.githubUrl && (
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/8 px-3 py-1 text-[11px] font-semibold text-white/75 backdrop-blur-sm transition-[border-color,color] duration-200 hover:border-primary/45 hover:text-white"
+        >
+          GitHub
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </a>
+      )}
+      <span
+        class="inline-flex items-center rounded-full border border-primary/25 bg-[rgba(123,142,200,0.1)] px-3 py-1 text-[11px] font-medium text-primary/70 backdrop-blur-sm"
+      >
+        View — {project.title}
+      </span>
+    </div>
   </div>
-  <Meteors client:load number={10} />
 </article>

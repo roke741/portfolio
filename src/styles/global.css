@@ -141,10 +141,7 @@ section:not(.hero)::before {
 }
 
 /* ── Animations ── */
-section {
-  animation: section-enter 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
+/* section-enter is now handled per-section by GSAP ScrollTrigger */
 @keyframes section-enter {
   from {
     opacity: 0;
@@ -208,4 +205,43 @@ section {
   animation-name: meteor;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+}
+
+/* ── Hero: scroll indicator ── */
+.hero-scroll-line {
+  will-change: transform;
+}
+
+/* ── Contact ambient gradient animation ── */
+.contact-ambient {
+  will-change: opacity;
+}
+
+/* ── GPU hints for scroll-animated elements ── */
+[data-project-card],
+[data-skill-card],
+[data-journey-entry],
+[data-journey-line],
+[data-contact-el] {
+  will-change: transform, opacity;
+}
+
+/* ── Reduced-motion: disable all GSAP-managed transforms ── */
+@media (prefers-reduced-motion: reduce) {
+  [data-hero-el],
+  [data-project-card],
+  [data-skill-card],
+  [data-journey-entry],
+  [data-journey-title],
+  .journey-col-heading,
+  .hero-scroll-indicator,
+  [data-contact-el] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  [data-journey-line] {
+    transform: scaleY(1) !important;
+  }
 }

@@ -22,7 +22,10 @@ const squares: Array<[number, number]> = Array.from({ length: 5 }).map(() => [
 ]);
 ---
 
-<div class="group relative overflow-hidden rounded-3xl border border-[rgba(123,142,200,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.055)_0%,rgba(7,12,27,0.78)_60%,rgba(4,10,24,0.92)_100%)] p-6 transition-[border-color,transform] duration-300 hover:-translate-y-px hover:border-[rgba(123,142,200,0.22)]">
+<div
+  data-skill-card
+  class="group relative overflow-hidden rounded-3xl border border-[rgba(123,142,200,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.055)_0%,rgba(7,12,27,0.78)_60%,rgba(4,10,24,0.92)_100%)] p-6 transition-[border-color,box-shadow,transform] duration-300 hover:scale-[1.03] hover:border-[rgba(123,142,200,0.28)] hover:shadow-[0_16px_40px_rgba(4,10,24,0.55)]"
+>
   <div class="pointer-events-none absolute top-0 left-1/2 ml-[-80px] mt-[-8px] h-full w-full [mask-image:linear-gradient(white,transparent)] [-webkit-mask-image:linear-gradient(white,transparent)]" aria-hidden="true">
     <div class="absolute inset-0 bg-linear-to-r from-[rgba(113,113,122,0.12)] via-[rgba(123,142,200,0.16)] to-[rgba(113,113,122,0.12)] [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] [-webkit-mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
       <svg

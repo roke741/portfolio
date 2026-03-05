@@ -200,13 +200,11 @@ export const projects: ProjectItem[] = [
     githubUrl: 'https://github.com/roke741/guias-sunat'
   },
   {
-    image: '/assets/my-cash-card.svg',
     title: 'My Cash',
     description: 'Aplicación móvil de finanzas personales para registro de gastos, control de presupuestos y seguimiento de metas de ahorro.',
     githubUrl: 'https://github.com/roke741/my-cash'
   },
   {
-    image: '/assets/clone-egg-card.svg',
     title: 'Clone Egg',
     description: 'Réplica funcional de plataforma educativa centrada en flujo real de usuario, navegación clara y consistencia visual.',
     githubUrl: 'https://github.com/roke741/clone-egg'

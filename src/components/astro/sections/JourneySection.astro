@@ -10,84 +10,417 @@ interface Props {
 const { journey } = Astro.props;
 ---
 
-<section id="journey">
-  <div class="page-container section-shell section-stack">
-    <SectionTitle text={journey.title} />
+<section id="journey" class="relative overflow-hidden" data-journey-section>
 
+  <!-- ── Parallax ambient blobs ──────────────────────────────────────── -->
+  <div
+    class="journey-parallax pointer-events-none absolute inset-0 z-0"
+    aria-hidden="true"
+  >
     <div
-      class="grid w-full max-w-270 grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6"
-    >
-      <div class="space-y-4">
-        <div class="mb-1 flex items-center gap-3">
-          <span class="h-0.5 w-10 bg-primary"></span>
-          <h3 class="m-0 text-xl md:text-2xl">{journey.experienceTitle}</h3>
+      class="journey-blob journey-blob-1 absolute -top-24 left-[8%] h-80 w-80 rounded-full blur-3xl"
+      style="background: radial-gradient(circle, rgba(123,142,200,0.07) 0%, transparent 68%);"
+    ></div>
+    <div
+      class="journey-blob journey-blob-2 absolute top-[35%] right-[4%] h-96 w-96 rounded-full blur-3xl"
+      style="background: radial-gradient(circle, rgba(52,199,89,0.05) 0%, transparent 68%);"
+    ></div>
+    <div
+      class="journey-blob journey-blob-3 absolute bottom-8 left-[22%] h-72 w-72 rounded-full blur-3xl"
+      style="background: radial-gradient(circle, rgba(100,80,180,0.06) 0%, transparent 68%);"
+    ></div>
+  </div>
+
+  <div class="page-container section-shell section-stack relative z-10">
+
+    <!-- Section header: animated in first -->
+    <div data-journey-title style="opacity:0; transform:translateY(22px);">
+      <SectionTitle text={journey.title} />
+    </div>
+
+    <div class="grid w-full max-w-270 grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+
+      <!-- ═══════════════ Experience column ═══════════════ -->
+      <div class="journey-col" data-journey-col>
+
+        <div
+          class="journey-col-heading mb-5 flex items-center gap-3"
+          style="opacity:0; transform:translateY(16px);"
+        >
+          <span class="h-[2px] w-10 shrink-0 rounded-full bg-primary/70"></span>
+          <h3 class="m-0 text-xl font-semibold tracking-tight md:text-2xl">
+            {journey.experienceTitle}
+          </h3>
         </div>
-        <div class="space-y-4">
-          {
-            journey.experience.map((item) => (
-              <article class="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 px-5 py-7 text-left shadow-xl transition-transform duration-200 hover:-translate-y-px md:px-6 md:py-8">
-                <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
+
+        <!-- Timeline track -->
+        <div class="journey-track relative pl-8">
+
+          <!-- Scrub-fill vertical line -->
+          <div
+            class="journey-v-line absolute left-[7px] top-2 bottom-2 w-[2px] origin-top rounded-full"
+            data-journey-line
+            style="background: linear-gradient(to bottom, rgba(123,142,200,0.75) 0%, rgba(123,142,200,0.35) 55%, rgba(123,142,200,0.08) 100%); transform: scaleY(0);"
+          ></div>
+
+          {journey.experience.map((item, i) => (
+            <div
+              class="journey-entry group relative pb-8 last:pb-0"
+              data-journey-entry
+              data-entry-side="left"
+              data-entry-index={String(i)}
+              style="opacity:0; transform:translateX(-40px);"
+            >
+
+              <!-- Dot + animated ring -->
+              <div
+                class="journey-dot absolute left-0 top-[28px] z-10 flex h-[14px] w-[14px] -translate-x-[7px] items-center justify-center rounded-full border-2 border-primary"
+                style="background: var(--bg-surface); box-shadow: 0 0 0 0 rgba(123,142,200,0);"
+              >
+                <span class="h-[5px] w-[5px] rounded-full bg-primary/90"></span>
+                <!-- Pulse ring: CSS animation starts after GSAP reveals the dot -->
+                <span class="journey-dot-ring absolute inset-[-4px] rounded-full border border-primary/0"></span>
+              </div>
+
+              <!-- Glass card -->
+              <article
+                class="journey-card relative w-full overflow-hidden rounded-2xl px-5 py-6 text-left md:px-6 md:py-7"
+                style="background: rgba(123,142,200,0.04); border: 1px solid rgba(123,142,200,0.1); box-shadow: 0 16px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);"
+                data-journey-card
+              >
+                <!-- Inner ambient glow -->
+                <div
+                  class="pointer-events-none absolute inset-0 scale-90 rounded-full opacity-50 blur-3xl"
+                  style="background: radial-gradient(ellipse at 30% 50%, rgba(123,142,200,0.12), transparent 65%);"
+                  aria-hidden="true"
+                ></div>
+
                 <div class="relative z-10">
-                  <div class="chip mb-2 px-3 py-1 font-semibold tracking-wide">
-                    {item.period}
+                  <!-- Period capsule -->
+                  <div class="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/22 bg-primary/8 px-3 py-1">
+                    <span class="h-[5px] w-[5px] rounded-full bg-primary/55"></span>
+                    <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.11em] text-primary/65">
+                      {item.period}
+                    </span>
                   </div>
-                  <h3 class="m-0 text-[18px] md:text-[20px]">{item.title}</h3>
-                  <p class="m-0 text-sm font-semibold text-accent">
+
+                  <h3 class="m-0 text-[17px] font-semibold leading-snug text-white/90 transition-colors duration-300 group-hover:text-white md:text-[19px]">
+                    {item.title}
+                  </h3>
+                  <p class="m-0 mt-0.5 text-sm font-semibold text-accent">
                     {item.organization}
                   </p>
-                  <p class="mt-2 text-sm leading-6 text-white/45 md:text-[15px]">
+                  <p class="mt-2.5 text-sm leading-[1.75] text-white/42 md:text-[14.5px]">
                     {item.summary}
                   </p>
-                  <div class="mt-3 flex flex-wrap gap-2">
+                  <div class="mt-3.5 flex flex-wrap gap-2">
                     {item.tags.map((tag) => (
-                      <span class="chip border-white/20 bg-white/5 text-white/65">
+                      <span class="chip border-white/12 bg-white/5 text-white/52 transition-[border-color,color] duration-200 hover:border-primary/32 hover:text-white/75">
                         #{tag}
                       </span>
                     ))}
                   </div>
                 </div>
-                <Meteors client:load number={12} />
+
+                <Meteors client:load number={8} />
               </article>
-            ))
-          }
+
+            </div>
+          ))}
         </div>
       </div>
 
-      <div class="space-y-4">
-        <div class="mb-1 flex items-center gap-3">
-          <span class="h-0.5 w-10 bg-accent"></span>
-          <h3 class="m-0 text-xl md:text-2xl">{journey.educationTitle}</h3>
+      <!-- ═══════════════ Education column ═══════════════ -->
+      <div class="journey-col" data-journey-col>
+
+        <div
+          class="journey-col-heading mb-5 flex items-center gap-3"
+          style="opacity:0; transform:translateY(16px);"
+        >
+          <span class="h-[2px] w-10 shrink-0 rounded-full bg-accent/70"></span>
+          <h3 class="m-0 text-xl font-semibold tracking-tight md:text-2xl">
+            {journey.educationTitle}
+          </h3>
         </div>
-        <div class="space-y-4">
-          {
-            journey.education.map((item) => (
-              <article class="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 px-5 py-7 text-left shadow-xl transition-transform duration-200 hover:-translate-y-px md:px-6 md:py-8">
-                <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
+
+        <!-- Timeline track -->
+        <div class="journey-track relative pl-8">
+
+          <!-- Scrub-fill vertical line (accent) -->
+          <div
+            class="journey-v-line absolute left-[7px] top-2 bottom-2 w-[2px] origin-top rounded-full"
+            data-journey-line
+            style="background: linear-gradient(to bottom, rgba(52,199,89,0.75) 0%, rgba(52,199,89,0.35) 55%, rgba(52,199,89,0.08) 100%); transform: scaleY(0);"
+          ></div>
+
+          {journey.education.map((item, i) => (
+            <div
+              class="journey-entry group relative pb-8 last:pb-0"
+              data-journey-entry
+              data-entry-side="right"
+              data-entry-index={String(i)}
+              style="opacity:0; transform:translateX(40px);"
+            >
+
+              <!-- Dot + animated ring -->
+              <div
+                class="journey-dot absolute left-0 top-[28px] z-10 flex h-[14px] w-[14px] -translate-x-[7px] items-center justify-center rounded-full border-2 border-accent"
+                style="background: var(--bg-surface); box-shadow: 0 0 0 0 rgba(52,199,89,0);"
+              >
+                <span class="h-[5px] w-[5px] rounded-full bg-accent/90"></span>
+                <span class="journey-dot-ring journey-dot-ring--edu absolute inset-[-4px] rounded-full border border-accent/0"></span>
+              </div>
+
+              <!-- Glass card -->
+              <article
+                class="journey-card relative w-full overflow-hidden rounded-2xl px-5 py-6 text-left md:px-6 md:py-7"
+                style="background: rgba(52,199,89,0.03); border: 1px solid rgba(52,199,89,0.1); box-shadow: 0 16px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);"
+                data-journey-card
+              >
+                <div
+                  class="pointer-events-none absolute inset-0 scale-90 rounded-full opacity-40 blur-3xl"
+                  style="background: radial-gradient(ellipse at 70% 50%, rgba(52,199,89,0.1), transparent 65%);"
+                  aria-hidden="true"
+                ></div>
+
                 <div class="relative z-10">
-                  <div class="chip mb-2 px-3 py-1 font-semibold tracking-wide">
-                    {item.period}
+                  <!-- Period capsule -->
+                  <div class="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/22 bg-accent/8 px-3 py-1">
+                    <span class="h-[5px] w-[5px] rounded-full bg-accent/55"></span>
+                    <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.11em] text-accent/65">
+                      {item.period}
+                    </span>
                   </div>
-                  <h3 class="m-0 text-[18px] md:text-[20px]">{item.title}</h3>
-                  <p class="m-0 text-sm font-semibold text-accent">
+
+                  <h3 class="m-0 text-[17px] font-semibold leading-snug text-white/90 transition-colors duration-300 group-hover:text-white md:text-[19px]">
+                    {item.title}
+                  </h3>
+                  <p class="m-0 mt-0.5 text-sm font-semibold text-accent">
                     {item.organization}
                   </p>
-                  <p class="mt-2 text-sm leading-6 text-white/45 md:text-[15px]">
+                  <p class="mt-2.5 text-sm leading-[1.75] text-white/42 md:text-[14.5px]">
                     {item.summary}
                   </p>
-                  <div class="mt-3 flex flex-wrap gap-2">
+                  <div class="mt-3.5 flex flex-wrap gap-2">
                     {item.tags.map((tag) => (
-                      <span class="chip border-white/20 bg-white/5 text-white/65">
+                      <span class="chip border-white/12 bg-white/5 text-white/52 transition-[border-color,color] duration-200 hover:border-accent/32 hover:text-white/75">
                         #{tag}
                       </span>
                     ))}
                   </div>
                 </div>
-                <Meteors client:load number={12} />
+
+                <Meteors client:load number={8} />
               </article>
-            ))
-          }
+
+            </div>
+          ))}
         </div>
       </div>
+
     </div>
   </div>
 </section>
+
+<style>
+  /* ── Dot pulse ring: runs only after GSAP adds .is-visible ─────────── */
+  @keyframes dot-ring-pulse {
+    0%   { transform: scale(1);   opacity: 0.7; border-color: rgba(123,142,200,0.55); }
+    70%  { transform: scale(2.1); opacity: 0;   border-color: rgba(123,142,200,0.15); }
+    100% { transform: scale(1);   opacity: 0;   border-color: rgba(123,142,200,0); }
+  }
+  @keyframes dot-ring-pulse-edu {
+    0%   { transform: scale(1);   opacity: 0.7; border-color: rgba(52,199,89,0.55); }
+    70%  { transform: scale(2.1); opacity: 0;   border-color: rgba(52,199,89,0.15); }
+    100% { transform: scale(1);   opacity: 0;   border-color: rgba(52,199,89,0); }
+  }
+
+  .journey-dot-ring.is-pulsing {
+    animation: dot-ring-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+  .journey-dot-ring--edu.is-pulsing {
+    animation: dot-ring-pulse-edu 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    animation-delay: 0.3s;
+  }
+
+  /* ── Journey card hover glow border handled via GSAP, smooth trans ─── */
+  .journey-card {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* ── Parallax blobs ─────────────────────────────────────────────────── */
+  .journey-blob {
+    will-change: transform;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+
+  if (prefersReducedMotion) {
+    // Show everything immediately
+    document
+      .querySelectorAll<HTMLElement>('[data-journey-title], .journey-col-heading, [data-journey-entry]')
+      .forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    document.querySelectorAll<HTMLElement>('[data-journey-line]').forEach((l) => {
+      l.style.transform = 'scaleY(1)';
+    });
+    // Start dot rings right away
+    document.querySelectorAll<HTMLElement>('.journey-dot-ring').forEach((r) => {
+      r.classList.add('is-pulsing');
+    });
+  } else {
+
+    // ── 1. Section title entrance ──────────────────────────────────────
+    const titleEl = document.querySelector<HTMLElement>('[data-journey-title]');
+    if (titleEl) {
+      gsap.to(titleEl, {
+        scrollTrigger: { trigger: '#journey', start: 'top 78%' },
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power3.out',
+        clearProps: 'will-change',
+      });
+    }
+
+    // ── 2. Column headings: stagger after title ────────────────────────
+    document.querySelectorAll<HTMLElement>('.journey-col-heading').forEach((h, i) => {
+      gsap.to(h, {
+        scrollTrigger: { trigger: '#journey', start: 'top 72%' },
+        opacity: 1,
+        y: 0,
+        duration: 0.72,
+        delay: 0.22 + i * 0.12,
+        ease: 'power2.out',
+        clearProps: 'will-change',
+      });
+    });
+
+    // ── 3. Vertical lines: scrub scaleY ───────────────────────────────
+    document.querySelectorAll<HTMLElement>('[data-journey-line]').forEach((line) => {
+      const track = line.closest<HTMLElement>('.journey-track');
+      if (!track) return;
+      gsap.to(line, {
+        scrollTrigger: {
+          trigger: track,
+          start: 'top 75%',
+          end: 'bottom 25%',
+          scrub: 1.4,
+        },
+        scaleY: 1,
+        transformOrigin: 'top center',
+        ease: 'none',
+      });
+    });
+
+    // ── 4. Entry cards: alternating translateX + opacity ──────────────
+    document.querySelectorAll<HTMLElement>('[data-journey-entry]').forEach((entry) => {
+      const side  = entry.dataset.entrySide ?? 'left';
+      const idx   = parseInt(entry.dataset.entryIndex ?? '0', 10);
+      const xFrom = side === 'right' ? 40 : -40;
+
+      gsap.to(entry, {
+        scrollTrigger: {
+          trigger: entry,
+          start: 'top 88%',
+        },
+        opacity: 1,
+        x: 0,
+        duration: 0.75,
+        delay: idx * 0.12,
+        ease: 'power3.out',
+        clearProps: 'will-change',
+        onComplete() {
+          // Start dot ring pulsing once the card is visible
+          entry
+            .querySelectorAll<HTMLElement>('.journey-dot-ring')
+            .forEach((ring) => ring.classList.add('is-pulsing'));
+        },
+      });
+    });
+
+    // ── 5. Dot markers: pop in ─────────────────────────────────────────
+    document.querySelectorAll<HTMLElement>('.journey-dot').forEach((dot, i) => {
+      const entry = dot.closest<HTMLElement>('[data-journey-entry]');
+      const idx   = parseInt(entry?.dataset.entryIndex ?? '0', 10);
+      gsap.from(dot, {
+        scrollTrigger: {
+          trigger: dot.closest('[data-journey-entry]'),
+          start: 'top 90%',
+        },
+        scale: 0,
+        opacity: 0,
+        duration: 0.38,
+        delay: idx * 0.12 + 0.1,
+        ease: 'back.out(2.2)',
+        clearProps: 'all',
+      });
+    });
+
+    // ── 6. Card hover: magnetic lift + glow ───────────────────────────
+    document.querySelectorAll<HTMLElement>('[data-journey-card]').forEach((card) => {
+      const isPrimary = card.style.background.includes('123,142,200');
+      const glowColor = isPrimary
+        ? '0 20px 48px rgba(4,10,24,0.55), 0 0 24px rgba(123,142,200,0.14), inset 0 1px 0 rgba(255,255,255,0.06)'
+        : '0 20px 48px rgba(4,10,24,0.55), 0 0 24px rgba(52,199,89,0.10), inset 0 1px 0 rgba(255,255,255,0.06)';
+      const borderHover = isPrimary
+        ? 'rgba(123,142,200,0.28)'
+        : 'rgba(52,199,89,0.28)';
+      const borderIdle = card.style.borderColor || (isPrimary ? 'rgba(123,142,200,0.10)' : 'rgba(52,199,89,0.10)');
+
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, {
+          y: -5,
+          boxShadow: glowColor,
+          borderColor: borderHover,
+          duration: 0.28,
+          ease: 'power2.out',
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          y: 0,
+          boxShadow: '0 16px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04)',
+          borderColor: borderIdle,
+          duration: 0.38,
+          ease: 'power2.inOut',
+        });
+      });
+    });
+
+    // ── 7. Parallax blobs on scroll ────────────────────────────────────
+    const blob1 = document.querySelector<HTMLElement>('.journey-blob-1');
+    const blob2 = document.querySelector<HTMLElement>('.journey-blob-2');
+    const blob3 = document.querySelector<HTMLElement>('.journey-blob-3');
+    const section = document.querySelector<HTMLElement>('#journey');
+
+    if (blob1 && blob2 && blob3 && section) {
+      [
+        { el: blob1, rate: -0.12 },
+        { el: blob2, rate:  0.08 },
+        { el: blob3, rate: -0.07 },
+      ].forEach(({ el, rate }) => {
+        gsap.to(el, {
+          scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 2,
+          },
+          y: () => section.offsetHeight * rate,
+          ease: 'none',
+        });
+      });
+    }
+  }
+</script>
