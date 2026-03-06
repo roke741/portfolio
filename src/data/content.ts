@@ -76,9 +76,7 @@ export const seo: SeoMetadata = {
   description:
     'Portafolio de Jhordie Roque. Desarrollo aplicaciones web y APIs escalables con foco en experiencia de usuario, rendimiento y valor de negocio.',
   siteName: 'Portafolio Jhordie Roque',
-  // SUGERENCIA: actualiza 'canonical' con tu dominio real antes de publicar.
-  // TODO: reemplaza con tu dominio real antes de publicar
-  canonical: 'https://example.com',
+  canonical: 'https://jhordie.me',
   keywords: ['Portafolio', 'Desarrollador Full Stack', 'Frontend', 'Backend', 'Laravel', 'NextJS', 'Astro', 'NuxtJS', 'Spring Boot'],
   author: 'Jhordie Roque',
   locale: 'es_PE'
@@ -252,9 +250,8 @@ export const contact: ContactContent = {
 
 export const footer: FooterContent = {
   name: 'Jhordie Roque',
-  roles: ['Desarrollador Frontend', 'Desarrollador Backend', 'Desarrollador Full Stack'],
+  roles: ['Desarrollador Full Stack'],
   email: 'jordieroque741@gmail.com',
-  // SUGERENCIA: actualiza los href '#' con tus URLs reales. Elimina las redes que no uses activamente.
   socialLinks: [
     { label: 'Facebook', href: '#', icon: 'bi-facebook' },
     { label: 'GitHub', href: 'https://github.com/roke741', icon: 'bi-github' },

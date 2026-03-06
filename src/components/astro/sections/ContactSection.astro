@@ -134,19 +134,12 @@ const mailtoHref = email ? `mailto:${email}` : null;
           </div>
 
           <!-- Footer row -->
-          <div class="mt-7 flex items-center justify-between gap-4 max-md:flex-col max-md:items-stretch">
-            <p class="text-xs text-white/38 max-md:text-center">Respuesta en 24h hábiles.</p>
-
+          <div class="mt-7 flex items-center justify-center gap-4 max-md:flex-col max-md:items-stretch">
             <button
               id="contact-submit"
               type="submit"
               class="contact-btn btn-primary group relative min-h-12 min-w-47.5 overflow-hidden px-8 py-3 max-md:w-full"
             >
-              <!-- Gradient glow layer -->
-              <span
-                class="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/30 via-primary/10 to-accent/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                aria-hidden="true"
-              ></span>
               <!-- Default label -->
               <span id="contact-btn-default" class="relative flex items-center justify-center gap-2">
                 <Send size={16} stroke-width={2} aria-hidden="true" />
@@ -154,7 +147,7 @@ const mailtoHref = email ? `mailto:${email}` : null;
               </span>
               <!-- Loading label -->
               <span id="contact-btn-loading" class="relative hidden items-center justify-center gap-2">
-                <span class="contact-spinner h-[15px] w-[15px] shrink-0 rounded-full border-2 border-white/25 border-t-white"></span>
+                <span class="contact-spinner h-3.75 w-3.75 shrink-0 rounded-full border-2 border-white/25 border-t-white"></span>
                 Enviando…
               </span>
             </button>
