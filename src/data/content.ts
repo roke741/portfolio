@@ -6,6 +6,10 @@ export interface SeoMetadata {
   keywords: string[];
   author: string;
   locale: string;
+  ogImage: string;
+  ogImageAlt: string;
+  twitterHandle?: string;
+  sameAs?: string[];
 }
 
 export interface NavItem {
@@ -79,7 +83,14 @@ export const seo: SeoMetadata = {
   canonical: 'https://jhordie.me',
   keywords: ['Portafolio', 'Desarrollador Full Stack', 'Frontend', 'Backend', 'Laravel', 'NextJS', 'Astro', 'NuxtJS', 'Spring Boot'],
   author: 'Jhordie Roque',
-  locale: 'es_PE'
+  locale: 'es_PE',
+  ogImage: '/assets/img-principal.png',
+  ogImageAlt: 'Vista principal del portafolio de Jhordie Roque',
+  twitterHandle: '@roke741',
+  sameAs: [
+    'https://github.com/roke741',
+    'https://www.linkedin.com/in/jhordie-roque'
+  ]
 };
 
 export const header = {
@@ -99,8 +110,7 @@ export const hero: HeroContent = {
   subtitle:
     'Orientado a resultados. Diseño y construyo productos web completos — desde la interfaz hasta la API — con foco en rendimiento, escalabilidad y código que otros puedan mantener.',
   ctaPrimary: { label: 'Ver proyectos', href: '#projects' },
-  // TODO: reemplaza '#' con la URL real de tu CV (Google Drive, Notion, PDF, etc.)
-  ctaSecondary: { label: 'Descargar CV', href: '#' },
+  ctaSecondary: { label: 'Descargar CV', href: '/assets/CV-JORDIE-ROQUE-PROGRAMADOR-2026.pdf' },
   dashboardImage: '/assets/img-principal.png',
   dashboardImageAlt: 'Dashboard preview del portafolio',
   videoSrc: '/assets/space_nebula_loop_animation.mp4'
@@ -122,7 +132,6 @@ export const journey: JourneyContent = {
       period: '2024 — Actualidad',
       title: 'Desarrollador Full Stack',
       organization: 'Compuusa',
-      // SUGERENCIA: agrega tecnologías clave (ej. 'NextJS · Laravel · PostgreSQL') y menciona impacto medible si lo tienes.
       summary:
         'Diseño e implementación de un ERP, incluyendo interfaces de usuario, APIs y automatizaciones para optimizar procesos administrativos y comerciales.',
       tags: ['NextJS', 'Laravel', 'PostgreSQL', 'Docker', 'Java']
@@ -253,12 +262,11 @@ export const footer: FooterContent = {
   roles: ['Desarrollador Full Stack'],
   email: 'jordieroque741@gmail.com',
   socialLinks: [
-    { label: 'Facebook', href: '#', icon: 'bi-facebook' },
+    { label: 'Facebook', href: 'https://www.facebook.com/jhordie.roke', icon: 'bi-facebook' },
     { label: 'GitHub', href: 'https://github.com/roke741', icon: 'bi-github' },
-    { label: 'LinkedIn', href: '#', icon: 'bi-linkedin' },
-    { label: 'Discord', href: '#', icon: 'bi-discord' },
-    { label: 'Twitter', href: '#', icon: 'bi-twitter' },
-    { label: 'Instagram', href: '#', icon: 'bi-instagram' }
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/jordie-roke', icon: 'bi-linkedin' },
+    { label: 'X', href: 'https://x.com/JhordieRoque', icon: 'bi-twitter' },
+    { label: 'Instagram', href: 'https://www.instagram.com/jhordie_roque/', icon: 'bi-instagram' }
   ],
   signature: 'Diseñado y desarrollado por Jhordie Roque',
   copyright: '© Jhordie Roque 2026. Todos los derechos reservados.'

@@ -152,6 +152,8 @@ const mailtoHref = email ? `mailto:${email}` : null;
               </span>
             </button>
           </div>
+
+          <p id="contact-error" class="mt-3 text-center text-sm text-rose-300/90" aria-live="polite"></p>
         </form>
       </div>
     </div>
@@ -353,11 +355,21 @@ const mailtoHref = email ? `mailto:${email}` : null;
   const defEl     = document.getElementById('contact-btn-default')  as HTMLElement | null;
   const loadEl    = document.getElementById('contact-btn-loading')  as HTMLElement | null;
   const successEl = document.getElementById('contact-success')      as HTMLElement | null;
+  const errorEl   = document.getElementById('contact-error')        as HTMLElement | null;
 
-  if (form && submit && defEl && loadEl && successEl) {
+  if (form && submit && defEl && loadEl && successEl && errorEl) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const formData = new FormData(form);
+      const payload = {
+        name: String(formData.get('name') ?? '').trim(),
+        email: String(formData.get('email') ?? '').trim(),
+        message: String(formData.get('message') ?? '').trim(),
+      };
+
+      errorEl.textContent = '';
 
       // → Loading
       submit.disabled = true;
@@ -365,8 +377,30 @@ const mailtoHref = email ? `mailto:${email}` : null;
       loadEl.classList.remove('hidden');
       loadEl.classList.add('flex');
 
-      // Simulated async send — swap with real fetch() when backend is ready
-      await new Promise((r) => setTimeout(r, 1500));
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = (await response.json()) as { success?: boolean; message?: string };
+        if (!response.ok || !data.success) {
+          throw new Error(data.message ?? 'No se pudo enviar el mensaje.');
+        }
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : 'No se pudo enviar el mensaje.';
+
+        submit.disabled = false;
+        defEl.classList.remove('hidden');
+        loadEl.classList.add('hidden');
+        loadEl.classList.remove('flex');
+        errorEl.textContent = message;
+        return;
+      }
 
       // → Success overlay
       successEl.style.pointerEvents = 'auto';
@@ -391,6 +425,7 @@ const mailtoHref = email ? `mailto:${email}` : null;
           loadEl.classList.remove('flex');
           successEl.style.opacity = '0';
           successEl.style.pointerEvents = 'none';
+          errorEl.textContent = '';
         };
         if (!prefersReducedMotion) {
           gsap.to(successEl, { opacity: 0, duration: 0.4, ease: 'power1.in', onComplete: reset });

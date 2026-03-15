@@ -7,10 +7,39 @@ interface Props {
 }
 
 const { seo } = Astro.props;
+const canonicalUrl = new URL(seo.canonical);
+const ogImageUrl = new URL(seo.ogImage, canonicalUrl).toString();
+const htmlLang = seo.locale.split(/[-_]/)[0] ?? 'es';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${seo.canonical}#website`,
+      url: seo.canonical,
+      name: seo.siteName,
+      description: seo.description,
+      inLanguage: htmlLang,
+      publisher: {
+        '@id': `${seo.canonical}#person`
+      }
+    },
+    {
+      '@type': 'Person',
+      '@id': `${seo.canonical}#person`,
+      name: seo.author,
+      url: seo.canonical,
+      jobTitle: 'Desarrollador Full Stack',
+      image: ogImageUrl,
+      sameAs: seo.sameAs ?? []
+    }
+  ]
+};
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -19,17 +48,25 @@ const { seo } = Astro.props;
     <meta name="description" content={seo.description} />
     <meta name="author" content={seo.author} />
     <meta name="keywords" content={seo.keywords.join(', ')} />
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="theme-color" content="#040a18" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={seo.title} />
     <meta property="og:description" content={seo.description} />
     <meta property="og:site_name" content={seo.siteName} />
     <meta property="og:locale" content={seo.locale} />
     <meta property="og:url" content={seo.canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={seo.ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={seo.title} />
     <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    {seo.twitterHandle && <meta name="twitter:creator" content={seo.twitterHandle} />}
     <link rel="canonical" href={seo.canonical} />
+    <link rel="alternate" href={seo.canonical} hreflang={htmlLang} />
+    <link rel="alternate" href={seo.canonical} hreflang="x-default" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossorigin="anonymous" />
@@ -38,6 +75,7 @@ const { seo } = Astro.props;
       rel="stylesheet"
     />
     <title>{seo.title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
     <script is:inline src="/vendor/liquid-glass/displacement-utils.js"></script>
     <script is:inline src="/vendor/liquid-glass/glass-element.js"></script>
   </head>
