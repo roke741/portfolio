@@ -96,11 +96,12 @@ export const seo: SeoMetadata = {
 export const header = {
   brand: 'Jhordie',
   navItems: [
-    { label: 'Inicio', href: '#presentation' },
-    { label: 'Habilidades', href: '#skills' },
-    { label: 'Proyectos', href: '#projects' },
-    { label: 'Trayectoria', href: '#journey' },
-    { label: 'Contacto', href: '#contact' }
+    { label: 'Inicio', href: '/#presentation' },
+    { label: 'Habilidades', href: '/#skills' },
+    { label: 'Proyectos', href: '/#projects' },
+    { label: 'Trayectoria', href: '/#journey' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Contacto', href: '/#contact' }
   ] satisfies NavItem[]
 };
 
