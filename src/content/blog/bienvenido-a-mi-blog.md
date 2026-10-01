@@ -1,5 +1,5 @@
 ---
-title: "Mi Primer Blog: Bienvenido a mi espacio"
+title: "Bienvenido a mi Blog: Mi primer artículo"
 description: "Estrenando este rincón personal y técnico donde compartiré experiencias, retos de proyectos reales y aprendizajes en desarrollo web."
 pubDate: 2026-10-01
 tags: ["bienvenida", "desarrollo-web", "personal", "astro"]
