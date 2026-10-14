@@ -1,5 +1,4 @@
 ---
-import { Button as MovingBorderButton } from "@/components/react/ui/moving-border";
 import HeroRoles from "@/components/react/ui/HeroRoles";
 import type { HeroContent } from "@/data/content";
 
@@ -46,29 +45,28 @@ const { hero } = Astro.props;
     class="relative z-30 flex min-h-screen w-full flex-1 flex-col items-center justify-center pt-20 pb-20 md:pt-28 md:pb-32 lg:pt-32 lg:pb-36 max-md:min-h-auto"
   >
     <div
+      data-hero-content
       class="mx-auto flex w-full max-w-195 flex-col items-center gap-5 px-6 text-center md:gap-7 lg:gap-8 max-md:px-5"
     >
       <!-- Eyebrow label -->
       <span
         data-hero-el="eyebrow"
-        class="inline-flex items-center gap-2.5 rounded-[50px] border border-[rgba(123,142,200,0.12)] bg-[rgba(123,142,200,0.06)] px-5 py-2 text-[13px] font-medium tracking-[0.02em] whitespace-nowrap text-[rgba(255,255,255,0.6)] backdrop-blur-md max-md:px-4 max-md:py-1.5 max-md:text-xs"
-        style="opacity:0;"
+        class="chip gap-2 px-4 py-1.5 text-[13px] whitespace-nowrap text-white/75"
       >
-        <span class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent shadow-[0_0_6px_rgba(52,199,89,0.25)]"></span>
+        <span class="size-1.5 shrink-0 rounded-full bg-accent"></span>
         Disponible para nuevos proyectos
       </span>
 
       <!-- Headline with blur-reveal and rotating role -->
       <h1
         data-hero-el="title"
-        class="m-0 text-4xl leading-[1.1] tracking-[-0.5px] text-[rgba(255,255,255,0.92)] sm:text-5xl md:tracking-[-1.5px] lg:text-7xl lg:tracking-[-2.5px]"
-        style="opacity:0;"
+        class="m-0 text-[clamp(40px,7vw,84px)] leading-[1.04] tracking-[-0.04em] text-foreground"
       >
-        <span class="block font-['Inter',system-ui,sans-serif] font-medium"
+        <span class="block font-semibold"
           >{hero.headingLine1}</span
         >
         <span
-          class="block font-['Instrument_Serif',Georgia,serif] text-[rgba(255,255,255,0.75)] italic min-h-[1.15em]"
+          class="t-accent block min-h-[1.15em] text-white/80"
         >
           <HeroRoles client:load />
         </span>
@@ -77,8 +75,7 @@ const { hero } = Astro.props;
       <!-- Subtitle -->
       <p
         data-hero-el="subtitle"
-        class="m-0 max-w-130 font-['Manrope',system-ui,sans-serif] text-sm leading-[1.8] text-[rgba(255,255,255,0.4)] md:text-base max-md:max-w-full"
-        style="opacity:0;"
+        class="t-lead mx-auto text-center"
       >
         {hero.subtitle}
       </p>
@@ -86,27 +83,14 @@ const { hero } = Astro.props;
       <!-- CTA buttons -->
       <div
         data-hero-el="cta"
-        class="mt-2 flex flex-row items-center gap-4 md:mt-3 lg:mt-5 max-md:w-full max-md:flex-col max-md:gap-3"
-        style="opacity:0;"
+        class="mt-2 flex flex-row items-center gap-4 md:mt-3 lg:mt-5 max-md:w-full max-md:max-w-xs max-md:flex-col max-md:gap-3"
       >
-        <a
-          href={hero.ctaPrimary.href}
-          class="btn-primary h-12 px-6 no-underline max-md:w-40 max-md:justify-center"
-        >
+        <a href={hero.ctaPrimary.href} class="btn-primary max-md:w-full">
           {hero.ctaPrimary.label}
         </a>
-        <MovingBorderButton
-          client:load
-          as="a"
-          href={hero.ctaSecondary.href}
-          borderRadius="12px"
-          duration={3000}
-          containerClassName="h-12"
-          target="_blank"
-          className="bg-white dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800"
-        >
+        <a href={hero.ctaSecondary.href} target="_blank" rel="noopener" class="btn-secondary max-md:w-full">
           {hero.ctaSecondary.label}
-        </MovingBorderButton>
+        </a>
       </div>
     </div>
   </div>
@@ -116,8 +100,7 @@ const { hero } = Astro.props;
     class="hero-scroll-indicator absolute bottom-8 left-1/2 z-30 -translate-x-1/2 flex flex-col items-center gap-2 max-md:hidden"
     aria-hidden="true"
   >
-    <span class="text-[10px] uppercase tracking-[0.2em] text-white/30 font-medium">Scroll</span>
-    <div class="relative h-12 w-px overflow-hidden rounded-full bg-white/10">
+        <div class="relative h-12 w-px overflow-hidden rounded-full bg-white/10">
       <div class="hero-scroll-line absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-transparent via-[rgba(123,142,200,0.9)] to-transparent"></div>
     </div>
   </div>
@@ -125,12 +108,16 @@ const { hero } = Astro.props;
 
 <script>
   import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  // Avisa al failsafe de MainLayout de que las animaciones de entrada sí corren.
+  (window as any).__animReady = true;
 
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  // ── Video: playback control + parallax ──────────────────────────────────
+  // ── Video: playback control ──────────────────────────────────
   const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
   if (video) {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -145,16 +132,34 @@ const { hero } = Astro.props;
     };
     applyMotion(mq);
     mq.addEventListener("change", applyMotion);
+  }
 
-    if (!prefersReducedMotion) {
-      window.addEventListener(
-        "scroll",
-        () => {
-          const rate = window.scrollY * 0.22;
-          video.style.transform = `translate(-50%, calc(-48% + ${rate}px)) scale(1.08)`;
-        },
-        { passive: true }
+  // ── Salida al hacer scroll: la nebulosa se acerca y se apaga, el titular se aleja ──
+  const heroSection = document.querySelector<HTMLElement>('#presentation');
+  const heroContent = document.querySelector<HTMLElement>('[data-hero-content]');
+  if (heroSection && !prefersReducedMotion) {
+    const exit = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroSection,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.5,
+        // El vídeo no se reproduce mientras la portada está fuera de pantalla.
+        onLeave: () => video?.pause(),
+        onEnterBack: () => video?.play().catch(() => {}),
+      },
+      defaults: { ease: 'none' },
+    });
+    if (video) {
+      exit.fromTo(
+        video,
+        { x: 0, y: 0, xPercent: -50, yPercent: -48, scale: 1.08, opacity: 0.55 },
+        { x: 0, y: 0, xPercent: -50, yPercent: -40, scale: 1.32, opacity: 0.15 },
+        0
       );
+    }
+    if (heroContent) {
+      exit.to(heroContent, { y: -90, opacity: 0, filter: 'blur(8px)', ease: 'power1.in' }, 0);
     }
   }
 
@@ -171,11 +176,12 @@ const { hero } = Astro.props;
     if (subtitle) gsap.set(subtitle, { y: 26 });
     if (cta)      gsap.set(cta, { y: 22 });
 
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    if (eyebrow)  tl.to(eyebrow,  { opacity: 1, y: 0, duration: 0.75 }, 0.25);
-    if (title)    tl.to(title,    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1 }, 0.5);
-    if (subtitle) tl.to(subtitle, { opacity: 1, y: 0, duration: 0.8 }, 0.95);
-    if (cta)      tl.to(cta,      { opacity: 1, y: 0, duration: 0.7 }, 1.25);
+    // Entrada corta: el titular aparece casi de inmediato para no retrasar el LCP.
+    const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    if (title)    tl.to(title,    { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9 }, 0);
+    if (eyebrow)  tl.to(eyebrow,  { opacity: 1, y: 0, duration: 0.7 }, 0.1);
+    if (subtitle) tl.to(subtitle, { opacity: 1, y: 0, duration: 0.7 }, 0.25);
+    if (cta)      tl.to(cta,      { opacity: 1, y: 0, duration: 0.7 }, 0.4);
   } else {
     // Show everything immediately for reduced-motion users
     document

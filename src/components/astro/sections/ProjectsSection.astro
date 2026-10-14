@@ -1,6 +1,6 @@
 ---
 import type { ProjectItem } from '@/data/content';
-import ProjectCard from '@/components/astro/ui/ProjectCard.astro';
+import DocSchematic from '@/components/astro/ui/DocSchematic.astro';
 import SectionTitle from '@/components/astro/ui/SectionTitle.astro';
 
 interface Props {
@@ -10,89 +10,286 @@ interface Props {
 
 const { title, projects } = Astro.props;
 
-type CardConfig = { colSpanClass: string; heightClass: string };
-
-function getCardConfig(index: number, total: number): CardConfig {
-  // Lone final item in an odd-length list → full-width banner
-  if (index === total - 1 && total % 2 !== 0) {
-    return {
-      colSpanClass: 'md:col-span-12',
-      heightClass:  'h-[220px] md:h-[280px]',
-    };
-  }
-  // Alternating row rhythm: even rows → [large 7, small 5],  odd rows → [small 5, large 7]
-  const row       = Math.floor(index / 2);
-  const posInRow  = index % 2;
-  const isEvenRow = row % 2 === 0;
-  const isLarge   = isEvenRow ? posInRow === 0 : posInRow === 1;
-  return {
-    colSpanClass: isLarge ? 'md:col-span-7' : 'md:col-span-5',
-    heightClass:  'h-[300px] md:h-[380px]',
-  };
-}
+const featured = projects.filter((p) => p.featured);
+const others = projects.filter((p) => !p.featured);
 ---
 
 <section id="projects">
-  <div class="page-container section-shell section-stack">
+  <div class="page-container pt-(--space-section-y) max-md:pt-(--space-section-y-mobile)">
     <SectionTitle text={title} />
-    <div
-      id="projects-grid"
-      class="mx-auto grid w-full max-w-270 grid-cols-1 gap-4 md:grid-cols-12 md:gap-5"
-    >
-      {projects.map((project, i) => {
-        const { colSpanClass, heightClass } = getCardConfig(i, projects.length);
-        return (
-          <ProjectCard
-            project={project}
-            index={i}
-            colSpanClass={colSpanClass}
-            heightClass={heightClass}
-          />
-        );
-      })}
+  </div>
+
+  <!--
+    Recorrido de proyectos destacados.
+    Por defecto (sin JS, móvil o movimiento reducido) es una lista apilada.
+    En escritorio el script añade .is-pinned: la escena queda fija y el scroll pasa de un proyecto a otro.
+  -->
+  <div
+    class="showcase"
+    data-showcase
+    style={`--slides:${featured.length}`}
+  >
+    <div class="showcase__stage">
+      <div class="page-container showcase__slides">
+        {featured.map((project, i) => (
+          <article
+            class="showcase__slide group relative grid items-center gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-14"
+            data-slide
+            data-index={i}
+          >
+            <div class="showcase__text order-2 flex flex-col gap-4 md:order-1" data-slide-text>
+              <h3 class="m-0 text-[clamp(28px,3.4vw,44px)] leading-[1.08] font-semibold tracking-[-0.03em] text-foreground">
+                {project.githubUrl ? (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  >
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
+              </h3>
+              <p class="t-lead">
+                {project.description}
+              </p>
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex="-1"
+                  aria-hidden="true"
+                  class="link-arrow mt-1"
+                >
+                  Ver código en GitHub
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </a>
+              )}
+            </div>
+
+            <div
+              class="showcase__media surface relative order-1 aspect-[16/10] overflow-hidden md:order-2"
+              data-slide-media
+            >
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={`Captura de ${project.title}`}
+                  loading="lazy"
+                  decoding="async"
+                  onerror="this.onerror=null;this.src='/assets/project-placeholder.svg';"
+                  class="h-full w-full object-cover object-top"
+                />
+              ) : (
+                <DocSchematic label={project.documentLabel ?? project.title} />
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <ol class="showcase__progress m-0 list-none p-0" aria-hidden="true">
+        {featured.map((project, i) => (
+          <li data-progress={i}><span>{project.title}</span></li>
+        ))}
+      </ol>
     </div>
   </div>
+
+  {others.length > 0 && (
+    <div class="page-container pb-(--space-section-y) max-md:pb-(--space-section-y-mobile)">
+      <div>
+        <h3 class="t-sub">Otros proyectos</h3>
+        <ul class="rows mt-5">
+          {others.map((project) => (
+            <li class="group relative grid gap-1 transition-colors duration-200 has-[a:hover]:bg-white/[0.02] md:grid-cols-[14rem_1fr_auto] md:items-baseline md:gap-6">
+              <span class="t-sub text-[16px]">
+                {project.githubUrl ? (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="rounded-sm after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  >
+                    {project.title}
+                  </a>
+                ) : (
+                  project.title
+                )}
+                {project.team && <span class="chip ml-2 align-middle">En equipo</span>}
+              </span>
+              <span class="text-[15px] leading-[1.65] text-white/70">{project.description}</span>
+              {project.githubUrl && (
+                <span class="link-arrow group-has-[a:hover]:text-foreground" aria-hidden="true">
+                  GitHub
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25">
+                    <path d="M7 17L17 7M17 7H7M17 7v10" />
+                  </svg>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )}
 </section>
+
+<style>
+  /* ── Por defecto: lista apilada ─────────────────────────────── */
+  .showcase__slides {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(56px, 9vw, 112px);
+    padding-block: clamp(48px, 7vw, 88px);
+  }
+  .showcase__progress {
+    display: none;
+  }
+
+  /* ── Escritorio con animación: escena fija ──────────────────── */
+  .showcase.is-pinned {
+    /* Una pantalla de recorrido por proyecto + entrada y salida. */
+    height: calc(var(--slides) * 100vh + 60vh);
+  }
+  .is-pinned .showcase__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  .is-pinned .showcase__slides {
+    position: relative;
+    display: block;
+    height: min(66vh, 600px);
+    padding: 0;
+  }
+  .is-pinned .showcase__slide {
+    position: absolute;
+    inset: 0;
+    padding-inline: inherit;
+  }
+  .is-pinned .showcase__media {
+    will-change: transform, opacity;
+  }
+
+  .is-pinned .showcase__progress {
+    position: absolute;
+    bottom: clamp(28px, 6vh, 56px);
+    left: 50%;
+    translate: -50% 0;
+    display: flex;
+    gap: 10px;
+  }
+  .showcase__progress li {
+    width: 44px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+  }
+  .showcase__progress li span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .showcase__progress li.is-active {
+    width: 72px;
+    background: var(--color-primary);
+  }
+</style>
 
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const showcase = document.querySelector<HTMLElement>('[data-showcase]');
+  const mm = gsap.matchMedia();
 
-  if (!prefersReducedMotion) {
-    const cards = gsap.utils.toArray<HTMLElement>('[data-project-card]');
+  // Solo escritorio y con movimiento permitido; gsap.matchMedia deshace todo al cambiar de tamaño.
+  mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    if (!showcase) return;
+    const slides = gsap.utils.toArray<HTMLElement>('[data-slide]', showcase);
+    const dots = gsap.utils.toArray<HTMLElement>('[data-progress]', showcase);
+    if (slides.length < 2) return;
 
-    // ── Scroll entrance: staggered fade + rise ──────────────────────────
-    if (cards.length) {
-      gsap.from(cards, {
-        scrollTrigger: {
-          trigger: '#projects-grid',
-          start: 'top 82%',
+    showcase.classList.add('is-pinned');
+
+    const media = (s: HTMLElement) => s.querySelector('[data-slide-media]');
+    const text = (s: HTMLElement) => s.querySelector('[data-slide-text]');
+
+    // Estado inicial: solo el primero visible, con la captura más pequeña para la entrada.
+    gsap.set(slides.slice(1), { opacity: 0 });
+    gsap.set(media(slides[0]), { scale: 0.7, borderRadius: 40 });
+    gsap.set(text(slides[0]), { autoAlpha: 0, y: 40 });
+
+    // Solo el proyecto activo recibe clics; los demás siguen enfocables con teclado.
+    const setActive = (i: number) => {
+      dots.forEach((d, j) => d.classList.toggle('is-active', j === i));
+      slides.forEach((s, j) => (s.style.pointerEvents = j === i ? '' : 'none'));
+    };
+    setActive(0);
+
+    const tl = gsap.timeline({
+      defaults: { ease: 'power2.inOut' },
+      scrollTrigger: {
+        trigger: showcase,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.6,
+        onUpdate: (self) => {
+          const i = Math.min(slides.length - 1, Math.floor(self.progress * slides.length));
+          setActive(i);
         },
-        opacity: 0,
-        y: 42,
-        scale: 0.97,
-        duration: 0.82,
-        stagger: 0.1,
-        ease: 'power3.out',
-        clearProps: 'all',
-      });
-    }
-
-    // ── Magnetic lift: GSAP handles the overall card translateY ─────────
-    cards.forEach((card) => {
-      card.addEventListener('mouseenter', () =>
-        gsap.to(card, { y: -7, duration: 0.32, ease: 'power2.out',
-          boxShadow: '0 28px 60px rgba(4,10,24,0.72)' })
-      );
-      card.addEventListener('mouseleave', () =>
-        gsap.to(card, { y: 0, duration: 0.42, ease: 'power2.inOut',
-          boxShadow: '0 0px 0px rgba(4,10,24,0)' })
-      );
+      },
     });
-  }
+
+    // Entrada: la captura crece hasta su tamaño y aparece el texto.
+    tl.to(media(slides[0]), { scale: 1, borderRadius: 16, duration: 1, ease: 'power2.out' })
+      .to(text(slides[0]), { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+      .to({}, { duration: 0.6 });
+
+    // Transiciones: la actual retrocede y se apaga, la siguiente llega desde más cerca.
+    slides.slice(1).forEach((next, k) => {
+      const prev = slides[k];
+      // Las dos se cruzan: la siguiente empieza a llegar mientras la anterior sale.
+      const t = `swap${k}`;
+      tl.addLabel(t)
+        .to(media(prev), { scale: 0.86, autoAlpha: 0, duration: 0.8 }, t)
+        .to(text(prev), { autoAlpha: 0, y: -40, duration: 0.5 }, t)
+        .set(next, { opacity: 1 }, t)
+        .fromTo(media(next), { scale: 1.12, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.9, ease: 'power2.out' }, `${t}+=0.3`)
+        .fromTo(text(next), { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, `${t}+=0.55`)
+        .set(prev, { opacity: 0 })
+        .to({}, { duration: 0.6 });
+    });
+
+    // Teclado: al enfocar un enlace de otro proyecto, el scroll lleva hasta él.
+    const onFocus = (e: FocusEvent) => {
+      const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
+      const st = tl.scrollTrigger;
+      if (!slide || !st) return;
+      const i = slides.indexOf(slide);
+      const y = st.start + ((i + 0.5) / slides.length) * (st.end - st.start);
+      window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+    };
+    showcase.addEventListener('focusin', onFocus);
+
+    return () => {
+      showcase.removeEventListener('focusin', onFocus);
+      slides.forEach((s) => (s.style.pointerEvents = ''));
+      showcase.classList.remove('is-pinned');
+      dots.forEach((d) => d.classList.remove('is-active'));
+    };
+  });
 </script>

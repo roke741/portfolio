@@ -6,44 +6,39 @@ import HeroSection from '../components/astro/sections/HeroSection.astro';
 import JourneySection from '../components/astro/sections/JourneySection.astro';
 import ProjectsSection from '../components/astro/sections/ProjectsSection.astro';
 import SkillsSection from '../components/astro/sections/SkillsSection.astro';
-import { ShootingStars } from '../components/react/ui/shooting-stars';
 import { StarsBackground } from '../components/react/ui/stars-background';
-import TextRokeDevEffect from '../components/react/ui/text-roke-dev-effect';
-import Separator from '../components/astro/ui/Separator.astro';
 import { contact, footer, header, hero, journey, projects, sectionTitles, seo, skillColumns } from '../data/content';
 import MainLayout from '../layouts/MainLayout.astro';
 ---
 
 <MainLayout seo={seo}>
 	<Header brand={header.brand} navItems={header.navItems} />
-	<HeroSection hero={hero} />
-	<div class="stars-wrapper">
-		<StarsBackground client:load />
-		<ShootingStars client:load />
-		<div class="stars-wrapper__content">
-			<SkillsSection title={sectionTitles.skills} columns={skillColumns} />
-			<Separator />
-			<ProjectsSection title={sectionTitles.projects} projects={projects} />
-			<Separator />
-			<JourneySection journey={journey} />
-			<Separator />
-			<ContactSection
-				contact={contact}
-				email={footer.email}
-				githubUrl={footer.socialLinks.find(l => l.label === 'GitHub')?.href}
-				linkedinUrl={footer.socialLinks.find(l => l.label === 'LinkedIn')?.href}
-			/>
-			<TextRokeDevEffect client:load />
-			<FooterSection footer={footer} />
+	<main id="main">
+		<HeroSection hero={hero} />
+		<div class="stars-wrapper">
+			<StarsBackground client:load />
+			<div class="stars-wrapper__content">
+				<SkillsSection title={sectionTitles.skills} columns={skillColumns} />
+				<ProjectsSection title={sectionTitles.projects} projects={projects} />
+				<JourneySection journey={journey} />
+				<ContactSection
+					contact={contact}
+					email={footer.email}
+					githubUrl={footer.socialLinks.find(l => l.label === 'GitHub')?.href}
+					linkedinUrl={footer.socialLinks.find(l => l.label === 'LinkedIn')?.href}
+				/>
+			</div>
 		</div>
-	</div>
+	</main>
+	<FooterSection footer={footer} />
 </MainLayout>
 
 <style>
 	.stars-wrapper {
 		position: relative;
 		width: 100%;
-		overflow: hidden;
+		/* clip (no hidden): no crea contenedor de scroll, así position: sticky funciona dentro. */
+		overflow: clip;
 		background: var(--bg-color);
 	}
 

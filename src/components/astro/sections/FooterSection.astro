@@ -1,15 +1,6 @@
 ---
 import type { FooterContent } from "@/data/content";
-import { Meteors } from "@/components/react/ui/meteors";
-import {
-  Facebook,
-  Github,
-  Instagram,
-  Linkedin,
-  Mail,
-  MessageCircle,
-  Twitter,
-} from '@lucide/astro';
+import { Facebook, Github, Instagram, Linkedin } from '@lucide/astro';
 
 interface Props {
   footer: FooterContent;
@@ -21,90 +12,52 @@ const socialIconMap: Record<string, any> = {
   facebook: Facebook,
   github: Github,
   linkedin: Linkedin,
-  discord: MessageCircle,
-  twitter: Twitter,
   instagram: Instagram,
 };
 ---
 
-<footer class="border-t border-primary/10">
-  <div class="page-container section-shell">
-    <div class="mx-auto flex w-full max-w-270 flex-col gap-8">
-      <div
-        class="relative grid grid-cols-1 gap-7 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70 p-6 shadow-xl md:grid-cols-[1.2fr_1fr_1fr] md:gap-10 md:p-8"
-      >
-        <div class="absolute inset-0 h-full w-full scale-90 rounded-full bg-linear-to-r from-blue-500/20 to-teal-500/20 blur-3xl"></div>
-
-        <div class="relative z-10 flex flex-col gap-2">
-          <h3 class="m-0 text-xl font-bold tracking-tight text-foreground">
-            {footer.name}
-          </h3>
-          <div class="flex flex-col gap-0.5">
-            {
-              footer.roles.map((role) => (
-                <span class="text-sm text-white/50">{role}</span>
-              ))
-            }
-          </div>
-        </div>
-
-        <div class="relative z-10 flex flex-col gap-2">
-          <p
-            class="m-0 text-xs font-semibold uppercase tracking-wider text-white/35"
-          >
-            Correo
-          </p>
-          <a
-            href={`mailto:${footer.email}`}
-            class="btn-soft w-fit"
-          >
-            <Mail size={16} stroke-width={2} aria-hidden="true" />
-            {footer.email}
-          </a
-          >
-        </div>
-
-        <div class="relative z-10 flex flex-col gap-2">
-          <p
-            class="m-0 text-xs font-semibold uppercase tracking-wider text-white/35"
-          >
-            Social
-          </p>
-          <div class="flex flex-wrap gap-3">
-            {
-              footer.socialLinks.map((social) => {
-                const Icon = socialIconMap[social.label.toLowerCase()] ?? MessageCircle;
-                return (
-                  <a
-                    href={social.href}
-                    aria-label={social.label}
-                    title={social.label}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn-icon"
-                  >
-                    <Icon size={18} stroke-width={2} aria-hidden="true" />
-                  </a>
-                );
-              })
-            }
-          </div>
-        </div>
-
-        <Meteors client:load number={12} />
+<footer class="border-t border-white/8">
+  <div class="page-container py-12 md:py-16">
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div class="flex flex-col gap-2">
+        <p class="m-0 text-[17px] font-bold tracking-[-0.02em] text-foreground">{footer.name}</p>
+        <p class="m-0 text-[15px] text-white/70">{footer.roles.join(' · ')}</p>
+        <a href={`mailto:${footer.email}`} class="link-arrow mt-2 text-[15px]">{footer.email}</a>
       </div>
 
-      <div
-        class="h-px bg-linear-to-r from-transparent via-white/10 to-transparent"
-      >
-      </div>
+      <ul class="m-0 flex list-none flex-wrap gap-3 p-0" aria-label="Redes sociales">
+        {footer.socialLinks.map((social) => {
+          const key = social.label.toLowerCase();
+          const Icon = socialIconMap[key];
+          return (
+            <li>
+              <a
+                href={social.href}
+                aria-label={social.label}
+                title={social.label}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-icon"
+              >
+                {Icon ? (
+                  <Icon size={18} stroke-width={2} aria-hidden="true" />
+                ) : key === 'x' ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z" />
+                  </svg>
+                ) : (
+                  <span class="text-[13px] font-semibold">{social.label.slice(0, 2)}</span>
+                )}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
 
-      <div
-        class="flex flex-col items-center justify-between gap-2 text-center md:flex-row md:gap-4 md:text-left"
-      >
-        <p class="m-0 text-[13px] text-white/35">{footer.signature}</p>
-        <p class="m-0 text-[13px] text-white/35">{footer.copyright}</p>
-      </div>
+    <div class="mt-10 flex flex-col gap-2 border-t border-white/8 pt-6 text-[13px] text-white/55 md:flex-row md:justify-between">
+      <p class="m-0">{footer.signature}</p>
+      <p class="m-0">{footer.copyright}</p>
     </div>
   </div>
 </footer>

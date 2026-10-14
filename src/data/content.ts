@@ -19,19 +19,16 @@ export interface NavItem {
 
 export interface HeroContent {
   headingLine1: string;
-  headingLine2: string;
   subtitle: string;
   ctaPrimary: { label: string; href: string };
   ctaSecondary: { label: string; href: string };
-  dashboardImage: string;
-  dashboardImageAlt: string;
   videoSrc: string;
 }
 
 export interface SkillCard {
   title: string;
   content: string;
-  icon: string;
+  icon?: string;
 }
 
 export interface ProjectItem {
@@ -39,6 +36,12 @@ export interface ProjectItem {
   title: string;
   description: string;
   githubUrl?: string;
+  /** Destacado: se muestra como caso principal con descripción completa. */
+  featured?: boolean;
+  /** Tipo de documento para la ilustración esquemática cuando no hay captura. */
+  documentLabel?: string;
+  /** Proyecto hecho en equipo (el repositorio puede pertenecer a otra persona). */
+  team?: boolean;
 }
 
 export interface ContactContent {
@@ -70,7 +73,7 @@ export interface FooterContent {
   name: string;
   roles: string[];
   email: string;
-  socialLinks: { label: string; href: string; icon: string }[];
+  socialLinks: { label: string; href: string; icon?: string }[];
   signature: string;
   copyright: string;
 }
@@ -89,14 +92,13 @@ export const seo: SeoMetadata = {
   twitterHandle: '@roke741',
   sameAs: [
     'https://github.com/roke741',
-    'https://www.linkedin.com/in/jhordie-roque'
+    'https://www.linkedin.com/in/jordie-roke'
   ]
 };
 
 export const header = {
-  brand: 'Jhordie',
+  brand: 'Jhordie Roque',
   navItems: [
-    { label: 'Inicio', href: '/#presentation' },
     { label: 'Habilidades', href: '/#skills' },
     { label: 'Proyectos', href: '/#projects' },
     { label: 'Trayectoria', href: '/#journey' },
@@ -107,13 +109,10 @@ export const header = {
 
 export const hero: HeroContent = {
   headingLine1: 'Hola, soy Jhordie',
-  headingLine2: 'Desarrollador Full Stack',
   subtitle:
     'Orientado a resultados. Diseño y construyo productos web completos — desde la interfaz hasta la API — con foco en rendimiento, escalabilidad y código que otros puedan mantener.',
   ctaPrimary: { label: 'Ver proyectos', href: '#projects' },
   ctaSecondary: { label: 'Descargar CV', href: '/assets/CV-JORDIE-ROQUE-PROGRAMADOR-2026.pdf' },
-  dashboardImage: '/assets/img-principal.png',
-  dashboardImageAlt: 'Dashboard preview del portafolio',
   videoSrc: '/assets/space_nebula_loop_animation.mp4'
 };
 
@@ -184,25 +183,29 @@ export const journey: JourneyContent = {
 
 export const skillColumns: SkillCard[][] = [
   [
-    { title: 'Lenguajes', content: 'PHP · Python · Typescript · Javascript · Java · SQL', icon: '⟨/⟩' },
-    { title: 'Bases de datos', content: 'PostgreSQL · MySQL · MongoDB', icon: '◉' },
-    { title: 'DevOps', content: 'Linux · Docker · VPS · GitHub Actions', icon: '⚙' }
+    { title: 'Lenguajes', content: 'PHP · Python · Typescript · Javascript · Java · SQL' },
+    { title: 'Bases de datos', content: 'PostgreSQL · MySQL · MongoDB' },
+    { title: 'DevOps', content: 'Linux · Docker · VPS · GitHub Actions' }
   ],
   [
-    { title: 'Herramientas', content: 'VS Code · IntelliJ · Cursor · Git · GitHub · Postman · Figma · LLM', icon: '◈' },
-    { title: 'Frameworks', content: 'Laravel · React · NextJS · Astro · Spring Boot · NuxtJS', icon: '△' }
+    { title: 'Herramientas', content: 'VS Code · IntelliJ · Cursor · Git · GitHub · Postman · Figma · LLM' },
+    { title: 'Frameworks', content: 'Laravel · React · NextJS · Astro · Spring Boot · NuxtJS' }
   ]
 ];
 
 export const projects: ProjectItem[] = [
   {
     title: 'Facturación Electrónica',
+    featured: true,
+    documentLabel: 'Factura electrónica',
     description:
       'Sistema para emisión y validación de comprobantes electrónicos, orientado a cumplimiento SUNAT, trazabilidad y reducción de trabajo manual.',
     githubUrl: 'https://github.com/roke741/laravel-sire-sunat'
   },
   {
     title: 'Guías Electrónicas',
+    featured: true,
+    documentLabel: 'Guía de remisión',
     description:
       'Módulo para gestión de guías de remisión electrónicas con control de despacho, validación documental y flujo administrativo centralizado.',
     githubUrl: 'https://github.com/roke741/guias-sunat'
@@ -220,6 +223,7 @@ export const projects: ProjectItem[] = [
   {
     image: '/assets/peruzon.png',
     title: 'Peruzon',
+    featured: true,
     description: 'Sistema de facturación e inventario con gestión de productos, ventas y stock para operación comercial diaria.',
     githubUrl: 'https://github.com/roke741/Peruzon'
   },
@@ -232,12 +236,14 @@ export const projects: ProjectItem[] = [
   {
     image: '/assets/Sneakers.png',
     title: 'Sneakers',
+    team: true,
     description: 'E-commerce orientado a venta de zapatillas por temporada, con catálogo dinámico y foco en experiencia de usuario.',
     githubUrl: 'https://github.com/jorgeayaladev/Sneakers'
   },
   {
     image: '/assets/Factugo.png',
     title: 'FactuGo',
+    featured: true,
     description: 'Sistema de ventas y facturación desarrollado en Java y MySQL para gestión comercial de punta a punta.',
     githubUrl: 'https://github.com/roke741/FACTUGO'
   },
@@ -263,11 +269,11 @@ export const footer: FooterContent = {
   roles: ['Desarrollador Full Stack'],
   email: 'jordieroque741@gmail.com',
   socialLinks: [
-    { label: 'Facebook', href: 'https://www.facebook.com/jhordie.roke', icon: 'bi-facebook' },
-    { label: 'GitHub', href: 'https://github.com/roke741', icon: 'bi-github' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/jordie-roke', icon: 'bi-linkedin' },
-    { label: 'X', href: 'https://x.com/JhordieRoque', icon: 'bi-twitter' },
-    { label: 'Instagram', href: 'https://www.instagram.com/jhordie_roque/', icon: 'bi-instagram' }
+    { label: 'Facebook', href: 'https://www.facebook.com/jhordie.roke' },
+    { label: 'GitHub', href: 'https://github.com/roke741' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/jordie-roke' },
+    { label: 'X', href: 'https://x.com/JhordieRoque' },
+    { label: 'Instagram', href: 'https://www.instagram.com/jhordie_roque/' }
   ],
   signature: 'Diseñado y desarrollado por Jhordie Roque',
   copyright: '© Jhordie Roque 2026. Todos los derechos reservados.'

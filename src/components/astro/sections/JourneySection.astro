@@ -1,6 +1,5 @@
 ---
 import type { JourneyContent } from "@/data/content";
-import { Meteors } from "@/components/react/ui/meteors";
 import SectionTitle from "@/components/astro/ui/SectionTitle.astro";
 
 interface Props {
@@ -8,249 +7,195 @@ interface Props {
 }
 
 const { journey } = Astro.props;
+
+// En la línea horizontal se lee de izquierda a derecha: del más antiguo al actual.
+const experience = [...journey.experience].reverse();
+const yearOf = (period: string) => period.match(/\d{4}/)?.[0] ?? period;
+const untilOf = (period: string) => period.split(/—|-/)[1]?.trim() ?? '';
 ---
 
-<section id="journey" class="relative overflow-hidden" data-journey-section>
-
-  <!-- ── Parallax ambient blobs ──────────────────────────────────────── -->
-  <div
-    class="journey-parallax pointer-events-none absolute inset-0 z-0"
-    aria-hidden="true"
-  >
-    <div
-      class="journey-blob journey-blob-1 absolute -top-24 left-[8%] h-80 w-80 rounded-full blur-3xl"
-      style="background: radial-gradient(circle, rgba(123,142,200,0.07) 0%, transparent 68%);"
-    ></div>
-    <div
-      class="journey-blob journey-blob-2 absolute top-[35%] right-[4%] h-96 w-96 rounded-full blur-3xl"
-      style="background: radial-gradient(circle, rgba(52,199,89,0.05) 0%, transparent 68%);"
-    ></div>
-    <div
-      class="journey-blob journey-blob-3 absolute bottom-8 left-[22%] h-72 w-72 rounded-full blur-3xl"
-      style="background: radial-gradient(circle, rgba(100,80,180,0.06) 0%, transparent 68%);"
-    ></div>
+<section id="journey" class="relative">
+  <div class="page-container pt-(--space-section-y) max-md:pt-(--space-section-y-mobile)">
+    <SectionTitle text={journey.title} />
   </div>
 
-  <div class="page-container section-shell section-stack relative z-10">
+  <!--
+    Experiencia en horizontal.
+    Por defecto (sin JS, móvil o movimiento reducido) es una lista vertical.
+    En escritorio el script añade .is-pinned: la escena queda fija y el scroll vertical desplaza la línea.
+  -->
+  <div class="htrack" data-htrack>
+    <div class="htrack__stage">
+      <h3 class="htrack__label t-sub">
+        {journey.experienceTitle}
+      </h3>
 
-    <!-- Section header: animated in first -->
-    <div data-journey-title style="opacity:0; transform:translateY(22px);">
-      <SectionTitle text={journey.title} />
+      <div class="htrack__track" data-htrack-track>
+        <div class="htrack__rail" aria-hidden="true">
+          <span class="htrack__rail-fill" data-htrack-fill></span>
+        </div>
+
+        {experience.map((item) => (
+          <article class="htrack__card surface" data-htrack-card>
+            <span class="htrack__dot" aria-hidden="true"></span>
+            <p class="m-0 flex items-baseline gap-3 leading-none">
+              <span class="text-[clamp(56px,7vw,104px)] font-semibold tracking-[-0.04em] text-foreground">
+                {yearOf(item.period)}
+              </span>
+              {untilOf(item.period) && (
+                <span class="text-[15px] font-medium text-white/55">→ {untilOf(item.period)}</span>
+              )}
+            </p>
+            <div class="mt-6 flex flex-col gap-1">
+              <h4 class="m-0 text-[20px] leading-snug font-semibold tracking-[-0.02em] text-foreground md:text-[22px]">
+                {item.title}
+              </h4>
+              <p class="m-0 text-[15px] font-semibold text-primary">{item.organization}</p>
+            </div>
+            <p class="m-0 mt-4 max-w-[46ch] text-[16px] leading-[1.7] text-white/70">
+              {item.summary}
+            </p>
+            <ul class="m-0 mt-5 flex list-none flex-wrap gap-2 p-0">
+              {item.tags.map((tag) => (
+                <li class="chip">{tag}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+
+        <a href="#contact" class="htrack__next surface group" data-htrack-card>
+          <span class="text-[clamp(28px,3vw,40px)] leading-[1.15] font-medium tracking-[-0.03em] text-foreground">
+            El siguiente capítulo puede ser tu proyecto.
+          </span>
+          <span class="link-arrow mt-6 text-[15px] group-hover:text-foreground">
+            Hablemos
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </span>
+        </a>
+      </div>
     </div>
+  </div>
 
-    <div class="grid w-full max-w-270 grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-
-      <!-- ═══════════════ Experience column ═══════════════ -->
-      <div class="journey-col" data-journey-col>
-
-        <div
-          class="journey-col-heading mb-5 flex items-center gap-3"
-          style="opacity:0; transform:translateY(16px);"
-        >
-          <span class="h-[2px] w-10 shrink-0 rounded-full bg-primary/70"></span>
-          <h3 class="m-0 text-xl font-semibold tracking-tight md:text-2xl">
-            {journey.experienceTitle}
-          </h3>
-        </div>
-
-        <!-- Timeline track -->
-        <div class="journey-track relative pl-8">
-
-          <!-- Scrub-fill vertical line -->
-          <div
-            class="journey-v-line absolute left-[7px] top-2 bottom-2 w-[2px] origin-top rounded-full"
-            data-journey-line
-            style="background: linear-gradient(to bottom, rgba(123,142,200,0.75) 0%, rgba(123,142,200,0.35) 55%, rgba(123,142,200,0.08) 100%); transform: scaleY(0);"
-          ></div>
-
-          {journey.experience.map((item, i) => (
-            <div
-              class="journey-entry group relative pb-8 last:pb-0"
-              data-journey-entry
-              data-entry-side="left"
-              data-entry-index={String(i)}
-              style="opacity:0; transform:translateX(-40px);"
-            >
-
-              <!-- Dot + animated ring -->
-              <div
-                class="journey-dot absolute left-0 top-[28px] z-10 flex h-[14px] w-[14px] -translate-x-[7px] items-center justify-center rounded-full border-2 border-primary"
-                style="background: var(--bg-surface); box-shadow: 0 0 0 0 rgba(123,142,200,0);"
-              >
-                <span class="h-[5px] w-[5px] rounded-full bg-primary/90"></span>
-                <!-- Pulse ring: CSS animation starts after GSAP reveals the dot -->
-                <span class="journey-dot-ring absolute inset-[-4px] rounded-full border border-primary/0"></span>
-              </div>
-
-              <!-- Glass card -->
-              <article
-                class="journey-card relative w-full overflow-hidden rounded-2xl px-5 py-6 text-left md:px-6 md:py-7"
-                style="background: rgba(123,142,200,0.04); border: 1px solid rgba(123,142,200,0.1); box-shadow: 0 16px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);"
-                data-journey-card
-              >
-                <!-- Inner ambient glow -->
-                <div
-                  class="pointer-events-none absolute inset-0 scale-90 rounded-full opacity-50 blur-3xl"
-                  style="background: radial-gradient(ellipse at 30% 50%, rgba(123,142,200,0.12), transparent 65%);"
-                  aria-hidden="true"
-                ></div>
-
-                <div class="relative z-10">
-                  <!-- Period capsule -->
-                  <div class="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/22 bg-primary/8 px-3 py-1">
-                    <span class="h-[5px] w-[5px] rounded-full bg-primary/55"></span>
-                    <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.11em] text-primary/65">
-                      {item.period}
-                    </span>
-                  </div>
-
-                  <h3 class="m-0 text-[17px] font-semibold leading-snug text-white/90 transition-colors duration-300 group-hover:text-white md:text-[19px]">
-                    {item.title}
-                  </h3>
-                  <p class="m-0 mt-0.5 text-sm font-semibold text-accent">
-                    {item.organization}
-                  </p>
-                  <p class="mt-2.5 text-sm leading-[1.75] text-white/42 md:text-[14.5px]">
-                    {item.summary}
-                  </p>
-                  <div class="mt-3.5 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span class="chip border-white/12 bg-white/5 text-white/52 transition-[border-color,color] duration-200 hover:border-primary/32 hover:text-white/75">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <Meteors client:load number={8} />
-              </article>
-
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <!-- ═══════════════ Education column ═══════════════ -->
-      <div class="journey-col" data-journey-col>
-
-        <div
-          class="journey-col-heading mb-5 flex items-center gap-3"
-          style="opacity:0; transform:translateY(16px);"
-        >
-          <span class="h-[2px] w-10 shrink-0 rounded-full bg-accent/70"></span>
-          <h3 class="m-0 text-xl font-semibold tracking-tight md:text-2xl">
-            {journey.educationTitle}
-          </h3>
-        </div>
-
-        <!-- Timeline track -->
-        <div class="journey-track relative pl-8">
-
-          <!-- Scrub-fill vertical line (accent) -->
-          <div
-            class="journey-v-line absolute left-[7px] top-2 bottom-2 w-[2px] origin-top rounded-full"
-            data-journey-line
-            style="background: linear-gradient(to bottom, rgba(52,199,89,0.75) 0%, rgba(52,199,89,0.35) 55%, rgba(52,199,89,0.08) 100%); transform: scaleY(0);"
-          ></div>
-
-          {journey.education.map((item, i) => (
-            <div
-              class="journey-entry group relative pb-8 last:pb-0"
-              data-journey-entry
-              data-entry-side="right"
-              data-entry-index={String(i)}
-              style="opacity:0; transform:translateX(40px);"
-            >
-
-              <!-- Dot + animated ring -->
-              <div
-                class="journey-dot absolute left-0 top-[28px] z-10 flex h-[14px] w-[14px] -translate-x-[7px] items-center justify-center rounded-full border-2 border-accent"
-                style="background: var(--bg-surface); box-shadow: 0 0 0 0 rgba(52,199,89,0);"
-              >
-                <span class="h-[5px] w-[5px] rounded-full bg-accent/90"></span>
-                <span class="journey-dot-ring journey-dot-ring--edu absolute inset-[-4px] rounded-full border border-accent/0"></span>
-              </div>
-
-              <!-- Glass card -->
-              <article
-                class="journey-card relative w-full overflow-hidden rounded-2xl px-5 py-6 text-left md:px-6 md:py-7"
-                style="background: rgba(52,199,89,0.03); border: 1px solid rgba(52,199,89,0.1); box-shadow: 0 16px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);"
-                data-journey-card
-              >
-                <div
-                  class="pointer-events-none absolute inset-0 scale-90 rounded-full opacity-40 blur-3xl"
-                  style="background: radial-gradient(ellipse at 70% 50%, rgba(52,199,89,0.1), transparent 65%);"
-                  aria-hidden="true"
-                ></div>
-
-                <div class="relative z-10">
-                  <!-- Period capsule -->
-                  <div class="mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/22 bg-accent/8 px-3 py-1">
-                    <span class="h-[5px] w-[5px] rounded-full bg-accent/55"></span>
-                    <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.11em] text-accent/65">
-                      {item.period}
-                    </span>
-                  </div>
-
-                  <h3 class="m-0 text-[17px] font-semibold leading-snug text-white/90 transition-colors duration-300 group-hover:text-white md:text-[19px]">
-                    {item.title}
-                  </h3>
-                  <p class="m-0 mt-0.5 text-sm font-semibold text-accent">
-                    {item.organization}
-                  </p>
-                  <p class="mt-2.5 text-sm leading-[1.75] text-white/42 md:text-[14.5px]">
-                    {item.summary}
-                  </p>
-                  <div class="mt-3.5 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span class="chip border-white/12 bg-white/5 text-white/52 transition-[border-color,color] duration-200 hover:border-accent/32 hover:text-white/75">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <Meteors client:load number={8} />
-              </article>
-
-            </div>
-          ))}
-        </div>
-      </div>
-
+  <!-- Formación: lista compacta -->
+  <div class="page-container pt-16 pb-(--space-section-y) max-md:pb-(--space-section-y-mobile) md:pt-20">
+    <div>
+      <h3 class="t-sub">{journey.educationTitle}</h3>
+      <ul class="rows mt-5">
+        {journey.education.map((item) => (
+          <li class="grid gap-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_auto] md:items-baseline md:gap-6">
+            <span class="text-[15px] font-medium text-white/55 md:order-3">{item.period}</span>
+            <span class="t-sub text-[16px] md:order-1">{item.title}</span>
+            <span class="text-[15px] text-white/70 md:order-2">{item.organization}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
-  /* ── Dot pulse ring: runs only after GSAP adds .is-visible ─────────── */
-  @keyframes dot-ring-pulse {
-    0%   { transform: scale(1);   opacity: 0.7; border-color: rgba(123,142,200,0.55); }
-    70%  { transform: scale(2.1); opacity: 0;   border-color: rgba(123,142,200,0.15); }
-    100% { transform: scale(1);   opacity: 0;   border-color: rgba(123,142,200,0); }
+  /* ── Por defecto: lista vertical ────────────────────────────── */
+  .htrack__stage {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: 24px;
+    padding-top: 40px;
   }
-  @keyframes dot-ring-pulse-edu {
-    0%   { transform: scale(1);   opacity: 0.7; border-color: rgba(52,199,89,0.55); }
-    70%  { transform: scale(2.1); opacity: 0;   border-color: rgba(52,199,89,0.15); }
-    100% { transform: scale(1);   opacity: 0;   border-color: rgba(52,199,89,0); }
+  .htrack__track {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .htrack__rail,
+  .htrack__dot {
+    display: none;
+  }
+  .htrack__card,
+  .htrack__next {
+    position: relative;
+    padding: clamp(24px, 4vw, 40px);
+  }
+  .htrack__next {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-style: dashed;
+    border-color: rgba(123, 142, 200, 0.3);
+    background: transparent;
+    text-decoration: none;
+  }
+  .htrack__next:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
   }
 
-  .journey-dot-ring.is-pulsing {
-    animation: dot-ring-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  /* ── Escritorio con animación: escena fija y desplazamiento horizontal ── */
+  .htrack.is-pinned .htrack__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    max-width: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
   }
-  .journey-dot-ring--edu.is-pulsing {
-    animation: dot-ring-pulse-edu 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-    animation-delay: 0.3s;
+  .is-pinned .htrack__label {
+    padding-inline: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
   }
-
-  /* ── Journey card hover glow border handled via GSAP, smooth trans ─── */
-  .journey-card {
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  /* ── Parallax blobs ─────────────────────────────────────────────────── */
-  .journey-blob {
+  .is-pinned .htrack__track {
+    position: relative;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 40px;
+    width: max-content;
+    margin-top: 36px;
+    padding-inline: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
+    padding-top: 36px;
     will-change: transform;
+  }
+  .is-pinned .htrack__card {
+    width: min(600px, 62vw);
+    flex-shrink: 0;
+  }
+  .is-pinned .htrack__next {
+    width: min(440px, 40vw);
+    flex-shrink: 0;
+  }
+  /* Raíl superior que se rellena con el avance */
+  .is-pinned .htrack__rail {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+  }
+  .htrack__rail-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    transform-origin: left center;
+    transform: scaleX(0);
+    border-radius: inherit;
+  }
+  .is-pinned .htrack__dot {
+    display: block;
+    position: absolute;
+    top: -41px;
+    left: 40px;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 2px solid var(--color-primary);
+    background: var(--bg-color);
   }
 </style>
 
@@ -259,168 +204,57 @@ const { journey } = Astro.props;
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
+  const wrap = document.querySelector<HTMLElement>('[data-htrack]');
+  const track = document.querySelector<HTMLElement>('[data-htrack-track]');
+  const fill = document.querySelector<HTMLElement>('[data-htrack-fill]');
+  const mm = gsap.matchMedia();
 
-  if (prefersReducedMotion) {
-    // Show everything immediately
-    document
-      .querySelectorAll<HTMLElement>('[data-journey-title], .journey-col-heading, [data-journey-entry]')
-      .forEach((el) => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-    document.querySelectorAll<HTMLElement>('[data-journey-line]').forEach((l) => {
-      l.style.transform = 'scaleY(1)';
-    });
-    // Start dot rings right away
-    document.querySelectorAll<HTMLElement>('.journey-dot-ring').forEach((r) => {
-      r.classList.add('is-pulsing');
-    });
-  } else {
+  mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    if (!wrap || !track) return;
+    wrap.classList.add('is-pinned');
 
-    // ── 1. Section title entrance ──────────────────────────────────────
-    const titleEl = document.querySelector<HTMLElement>('[data-journey-title]');
-    if (titleEl) {
-      gsap.to(titleEl, {
-        scrollTrigger: { trigger: '#journey', start: 'top 78%' },
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        clearProps: 'will-change',
-      });
-    }
+    // Distancia horizontal a recorrer; la altura de la sección la convierte en scroll vertical.
+    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+    const setHeight = () => (wrap.style.height = `${distance() + window.innerHeight}px`);
+    setHeight();
+    ScrollTrigger.addEventListener('refreshInit', setHeight);
 
-    // ── 2. Column headings: stagger after title ────────────────────────
-    document.querySelectorAll<HTMLElement>('.journey-col-heading').forEach((h, i) => {
-      gsap.to(h, {
-        scrollTrigger: { trigger: '#journey', start: 'top 72%' },
-        opacity: 1,
-        y: 0,
-        duration: 0.72,
-        delay: 0.22 + i * 0.12,
-        ease: 'power2.out',
-        clearProps: 'will-change',
-      });
-    });
+    const scrollCfg = {
+      trigger: wrap,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.5,
+      invalidateOnRefresh: true,
+    };
 
-    // ── 3. Vertical lines: scrub scaleY ───────────────────────────────
-    document.querySelectorAll<HTMLElement>('[data-journey-line]').forEach((line) => {
-      const track = line.closest<HTMLElement>('.journey-track');
-      if (!track) return;
-      gsap.to(line, {
-        scrollTrigger: {
-          trigger: track,
-          start: 'top 75%',
-          end: 'bottom 25%',
-          scrub: 1.4,
-        },
-        scaleY: 1,
-        transformOrigin: 'top center',
-        ease: 'none',
-      });
-    });
+    const move = gsap.to(track, { x: () => -distance(), ease: 'none', scrollTrigger: scrollCfg });
+    if (fill) gsap.to(fill, { scaleX: 1, ease: 'none', scrollTrigger: { ...scrollCfg } });
 
-    // ── 4. Entry cards: alternating translateX + opacity ──────────────
-    document.querySelectorAll<HTMLElement>('[data-journey-entry]').forEach((entry) => {
-      const side  = entry.dataset.entrySide ?? 'left';
-      const idx   = parseInt(entry.dataset.entryIndex ?? '0', 10);
-      const xFrom = side === 'right' ? 40 : -40;
-
-      gsap.to(entry, {
-        scrollTrigger: {
-          trigger: entry,
-          start: 'top 88%',
-        },
-        opacity: 1,
-        x: 0,
-        duration: 0.75,
-        delay: idx * 0.12,
-        ease: 'power3.out',
-        clearProps: 'will-change',
-        onComplete() {
-          // Start dot ring pulsing once the card is visible
-          entry
-            .querySelectorAll<HTMLElement>('.journey-dot-ring')
-            .forEach((ring) => ring.classList.add('is-pulsing'));
-        },
-      });
-    });
-
-    // ── 5. Dot markers: pop in ─────────────────────────────────────────
-    document.querySelectorAll<HTMLElement>('.journey-dot').forEach((dot, i) => {
-      const entry = dot.closest<HTMLElement>('[data-journey-entry]');
-      const idx   = parseInt(entry?.dataset.entryIndex ?? '0', 10);
-      gsap.from(dot, {
-        scrollTrigger: {
-          trigger: dot.closest('[data-journey-entry]'),
-          start: 'top 90%',
-        },
-        scale: 0,
-        opacity: 0,
-        duration: 0.38,
-        delay: idx * 0.12 + 0.1,
-        ease: 'back.out(2.2)',
-        clearProps: 'all',
-      });
-    });
-
-    // ── 6. Card hover: magnetic lift + glow ───────────────────────────
-    document.querySelectorAll<HTMLElement>('[data-journey-card]').forEach((card) => {
-      const isPrimary = card.style.background.includes('123,142,200');
-      const glowColor = isPrimary
-        ? '0 20px 48px rgba(4,10,24,0.55), 0 0 24px rgba(123,142,200,0.14), inset 0 1px 0 rgba(255,255,255,0.06)'
-        : '0 20px 48px rgba(4,10,24,0.55), 0 0 24px rgba(52,199,89,0.10), inset 0 1px 0 rgba(255,255,255,0.06)';
-      const borderHover = isPrimary
-        ? 'rgba(123,142,200,0.28)'
-        : 'rgba(52,199,89,0.28)';
-      const borderIdle = card.style.borderColor || (isPrimary ? 'rgba(123,142,200,0.10)' : 'rgba(52,199,89,0.10)');
-
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card, {
-          y: -5,
-          boxShadow: glowColor,
-          borderColor: borderHover,
-          duration: 0.28,
-          ease: 'power2.out',
-        });
-      });
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-          y: 0,
-          boxShadow: '0 16px 48px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04)',
-          borderColor: borderIdle,
-          duration: 0.38,
-          ease: 'power2.inOut',
-        });
-      });
-    });
-
-    // ── 7. Parallax blobs on scroll ────────────────────────────────────
-    const blob1 = document.querySelector<HTMLElement>('.journey-blob-1');
-    const blob2 = document.querySelector<HTMLElement>('.journey-blob-2');
-    const blob3 = document.querySelector<HTMLElement>('.journey-blob-3');
-    const section = document.querySelector<HTMLElement>('#journey');
-
-    if (blob1 && blob2 && blob3 && section) {
-      [
-        { el: blob1, rate: -0.12 },
-        { el: blob2, rate:  0.08 },
-        { el: blob3, rate: -0.07 },
-      ].forEach(({ el, rate }) => {
-        gsap.to(el, {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 2,
-          },
-          y: () => section.offsetHeight * rate,
+    // Cada tarjeta se enciende al llegar al centro de la pantalla.
+    gsap.utils.toArray<HTMLElement>('[data-htrack-card]', wrap).forEach((card) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0.3 },
+        {
+          opacity: 1,
           ease: 'none',
-        });
-      });
-    }
-  }
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: move,
+            start: 'left 80%',
+            end: 'left 45%',
+            scrub: true,
+          },
+        }
+      );
+    });
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      ScrollTrigger.removeEventListener('refreshInit', setHeight);
+      wrap.classList.remove('is-pinned');
+      wrap.style.height = '';
+    };
+  });
 </script>

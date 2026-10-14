@@ -1,6 +1,5 @@
 ---
 import type { SkillCard } from "@/data/content";
-import SkillCards from "@/components/astro/ui/SkillCards.astro";
 import SectionTitle from "@/components/astro/ui/SectionTitle.astro";
 
 interface Props {
@@ -9,53 +8,24 @@ interface Props {
 }
 
 const { title, columns } = Astro.props;
+const groups = columns.flat().map((group) => ({
+  title: group.title,
+  items: group.content.split('·').map((s) => s.trim()).filter(Boolean),
+}));
 ---
 
-<section id="skills" class="relative overflow-hidden">
-  <div class="page-container section-shell section-stack relative z-10">
+<section id="skills" class="relative">
+  <div class="page-container section-shell">
     <SectionTitle text={title} />
-    <!-- <aside class="flex w-full flex-col items-center gap-3" aria-label="Modelo 3D">
-      <div class="h-[26rem] w-full max-w-[64rem] overflow-hidden md:h-[36rem]">
-        <spline-viewer
-          class="block h-full w-full bg-transparent"
-          url="https://prod.spline.design/MvRCS7fYtIif8uET/scene.splinecode"
-        ></spline-viewer>
-      </div>
-      <p class="m-0 text-center text-xs tracking-[0.05em] text-white/35 uppercase">
-        <span class="mr-1 inline-block h-1.5 w-1.5 rounded-full bg-primary/80 align-middle"></span>
-        Modelo 3D interactivo
-      </p>
-    </aside> -->
-
-    <!-- Skill cards below sphere -->
-    <SkillCards columns={columns} />
+    <ul class="rows">
+      {groups.map((group) => (
+        <li class="grid gap-3 md:grid-cols-[14rem_1fr] md:items-baseline md:gap-6">
+          <h3 class="t-sub">{group.title}</h3>
+          <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
+            {group.items.map((item) => <li class="chip">{item}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
-
-<script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
-
-  if (!prefersReducedMotion) {
-    const cards = document.querySelectorAll<HTMLElement>('[data-skill-card]');
-    if (cards.length) {
-      gsap.from(cards, {
-        scrollTrigger: {
-          trigger: '#skills',
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 22,
-        duration: 0.6,
-        stagger: 0.07,
-        ease: 'power2.out',
-        clearProps: 'all',
-      });
-    }
-  }
-</script>

@@ -10,49 +10,21 @@
   --color-foreground: #e8eaf0;
   --color-muted-foreground: #c8d0e0;
   --font-code: 'Fira Code', monospace;
-  --font-sans: 'Manrope', 'Inter', system-ui, sans-serif;
-}
-
-@theme inline {
-  --animate-meteor-effect: meteor 5s linear infinite;
-
-  @keyframes meteor {
-    0% {
-      transform: rotate(215deg) translateX(0);
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(215deg) translateX(-500px);
-      opacity: 0;
-    }
-  }
+  --font-sans: 'Manrope', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
 }
 
 :root {
   --font-code: 'Fira Code', monospace;
-  --font-sans: 'Manrope', 'Inter', system-ui, sans-serif;
-  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
   --font-heading-accent: 'Instrument Serif', Georgia, serif;
   --bg-color: #040a18;
   --bg-surface: #0a1228;
-  --bg-elevated: #101a35;
   --text-color: #e8eaf0;
-  --text-muted: rgba(255, 255, 255, 0.45);
-  --border-color: rgba(123, 142, 200, 0.08);
+  --text-muted: rgba(255, 255, 255, 0.7);
   --container-max: 1200px;
   --space-section-y: clamp(80px, 12vh, 150px);
   --space-section-y-mobile: clamp(48px, 8vh, 80px);
-  --glass-bg: rgba(123, 142, 200, 0.03);
-  --glass-border: rgba(123, 142, 200, 0.08);
-  --glass-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
-  --card-text-color: #dfe3ed;
-  --card-muted-color: rgba(255, 255, 255, 0.45);
-  --focus-ring: rgba(123, 142, 200, 0.5);
-  --accent-primary: #7b8ec8;
-  --accent-primary-muted: rgba(123, 142, 200, 0.12);
 }
 
 html {
@@ -77,6 +49,7 @@ body {
 
 
 @layer components {
+  /* ── Layout ─────────────────────────────────────────────── */
   .page-container {
     width: 100%;
     max-width: var(--container-max);
@@ -95,29 +68,75 @@ body {
     gap: clamp(24px, 4vw, 48px);
   }
 
-  .btn-base {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400;
+  /* Cabecera de sección: título a la izquierda, separación fija con el contenido. */
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: clamp(32px, 5vw, 56px);
   }
 
+  /* ── Tipografía por rol ─────────────────────────────────── */
+  .t-section {
+    @apply m-0 text-[clamp(36px,5.2vw,60px)] leading-[1.05] font-semibold tracking-[-0.035em] text-foreground;
+  }
+  .t-sub {
+    @apply m-0 text-[17px] font-semibold tracking-[-0.01em] text-foreground;
+  }
+  .t-lead {
+    @apply m-0 max-w-[52ch] text-[17px] leading-[1.7] text-white/70 md:text-[18px];
+  }
+  .t-accent {
+    font-family: var(--font-heading-accent);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Superficie única para tarjetas ─────────────────────── */
+  .surface {
+    @apply rounded-2xl border border-white/10 bg-[rgba(10,18,40,0.6)];
+  }
+
+  /* ── Listas en filas (Habilidades, Otros proyectos, Formación) ── */
+  .rows {
+    @apply m-0 list-none divide-y divide-white/8 border-y border-white/8 p-0;
+  }
+  .rows > li {
+    @apply py-5 md:px-2;
+  }
+
+  /* ── Acciones ───────────────────────────────────────────── */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-[linear-gradient(135deg,rgba(123,142,200,0.14),rgba(16,26,53,0.72))] px-5 py-2.5 text-sm font-semibold text-white/90 transition-all duration-200 hover:-translate-y-px hover:border-primary/45 hover:bg-[linear-gradient(135deg,rgba(123,142,200,0.2),rgba(16,26,53,0.82))] hover:shadow-[0_10px_24px_rgba(4,10,24,0.45)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/60;
+    @apply inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-[15px] font-semibold no-underline transition-[background-color,border-color,color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60 bg-foreground text-space-950 hover:bg-white;
   }
-
-  .btn-soft {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/6 px-5 py-2.5 text-sm font-semibold text-white/80 transition-all duration-200 hover:-translate-y-px hover:border-primary/35 hover:bg-primary/12 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50;
+  .btn-secondary {
+    @apply inline-flex h-12 items-center justify-center gap-2 rounded-xl px-6 text-[15px] font-semibold no-underline transition-[background-color,border-color,color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60 border border-white/15 text-foreground hover:border-white/35 hover:bg-white/5;
   }
-
   .btn-icon {
-    @apply inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/12 bg-white/6 text-white/75 transition-all duration-200 hover:-translate-y-px hover:border-primary/35 hover:bg-primary/12 hover:text-white;
+    @apply inline-flex size-11 items-center justify-center rounded-xl border border-white/12 text-white/75 transition-[border-color,color,background-color] duration-200 hover:border-white/35 hover:bg-white/5 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-primary;
+  }
+  .link-arrow {
+    @apply inline-flex w-fit items-center gap-1.5 text-[14px] font-semibold text-primary no-underline transition-colors duration-200 hover:text-foreground;
   }
 
   .chip {
-    @apply inline-flex items-center rounded-lg border border-white/14 bg-white/6 px-2.5 py-1 text-xs font-medium text-white/70;
+    @apply inline-flex items-center rounded-full border border-white/10 px-3 py-1 text-[12px] font-medium text-white/70;
   }
 
   .input-shell {
-    @apply rounded-xl border border-primary/20 bg-white/5 text-[rgba(255,255,255,0.94)] transition-[border-color,box-shadow,background-color] duration-200 placeholder:text-[rgba(232,234,240,0.42)] hover:border-primary/35 hover:bg-white/8 focus:border-primary/55 focus:bg-white/10 focus:shadow-[0_0_0_4px_rgba(123,142,200,0.14)] focus:outline-none;
+    @apply w-full rounded-xl border border-white/12 bg-white/[0.03] text-[15px] text-foreground transition-[border-color,background-color] duration-200 placeholder:text-white/40 hover:border-white/25 focus:border-primary focus:bg-white/[0.05] focus:outline-none;
   }
+}
+
+/* Superficies del navegador */
+::selection {
+  background: rgba(123, 142, 200, 0.4);
+  color: #fff;
+}
+html {
+  scrollbar-color: rgba(123, 142, 200, 0.35) var(--bg-color);
+  accent-color: var(--color-primary);
 }
 
 /* ── Cosmic Section Backgrounds ── */
@@ -140,32 +159,6 @@ section:not(.hero)::before {
   z-index: 0;
 }
 
-/* ── Animations ── */
-/* section-enter is now handled per-section by GSAP ScrollTrigger */
-@keyframes section-enter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.99);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .section-shell {
@@ -176,72 +169,28 @@ section:not(.hero)::before {
     gap: 20px;
   }
 
-  .tech-sphere {
-    max-width: 340px;
-  }
-
-  .tech-sphere__canvas {
-    min-height: 280px;
-  }
 }
 
-@keyframes meteor {
-  0% {
-    transform: rotate(45deg) translateX(0);
-    opacity: 1;
-  }
-
-  70% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: rotate(45deg) translateX(-500px);
-    opacity: 0;
-  }
-}
-
-.animate-meteor-effect {
-  animation-name: meteor;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
 
 /* ── Hero: scroll indicator ── */
 .hero-scroll-line {
   will-change: transform;
 }
 
-/* ── Contact ambient gradient animation ── */
-.contact-ambient {
-  will-change: opacity;
-}
 
-/* ── GPU hints for scroll-animated elements ── */
-[data-project-card],
-[data-skill-card],
-[data-journey-entry],
-[data-journey-line],
-[data-contact-el] {
-  will-change: transform, opacity;
+/* ── Estado inicial de las entradas animadas ──
+   Solo aplica con html.js-anim (ver MainLayout). Sin JS, o si GSAP falla,
+   el contenido queda visible. */
+.js-anim [data-hero-el] {
+  opacity: 0;
 }
 
 /* ── Reduced-motion: disable all GSAP-managed transforms ── */
 @media (prefers-reduced-motion: reduce) {
   [data-hero-el],
-  [data-project-card],
-  [data-skill-card],
-  [data-journey-entry],
-  [data-journey-title],
-  .journey-col-heading,
-  .hero-scroll-indicator,
-  [data-contact-el] {
+  .hero-scroll-indicator {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
-  }
-
-  [data-journey-line] {
-    transform: scaleY(1) !important;
   }
 }

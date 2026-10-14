@@ -71,13 +71,23 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossorigin="anonymous" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Instrument+Serif:ital@1&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <title>{seo.title}</title>
+    <script is:inline>
+      // El contenido es visible por defecto; solo se oculta para animarlo si hay JS y movimiento permitido.
+      // Si los scripts de GSAP no arrancan en 2.5 s, se quita la clase y todo se muestra.
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var root = document.documentElement;
+        root.classList.add('js-anim');
+        setTimeout(function () {
+          if (!window.__animReady) root.classList.remove('js-anim');
+        }, 2500);
+      })();
+    </script>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
-    <script is:inline src="/vendor/liquid-glass/displacement-utils.js"></script>
-    <script is:inline src="/vendor/liquid-glass/glass-element.js"></script>
   </head>
   <body>
     <slot />
